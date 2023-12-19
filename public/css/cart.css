@@ -1,0 +1,115 @@
+#cart{
+    margin-top: 100px;
+}
+
+#productPicture, .productInfos{
+    width: 120px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.productLink{
+    text-decoration: none;
+    color: black;
+}
+
+.ico{
+    width: 30px;
+    height: 30px;
+}
+
+#name{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin : 10px 0px;
+}
+
+#name:hover{
+    text-decoration: underline;
+}
+
+#product{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 100px;
+    width: 100%;
+}
+
+.productInfos{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background-color: #f2f3f5;
+    padding-right: 20px;
+    padding-left: 10px;
+    width: 600px;
+}
+
+.infosContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+#title, #msg, #goShop{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 70px;
+    font-size: 30px;
+}
+
+
+#goShop{
+    text-decoration: none;
+    color:black;
+}
+
+#item{
+    display: flex;
+    flex-direction: column;
+}
+
+#login{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 70px;
+    font-size: 30px;
+    text-decoration: none;
+}
+
+#deliveryInfosLinkBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#deliveryInfosLink{
+    margin-top: 30px;
+    border: none;
+    text-decoration: none;
+    color: black;
+    background-color: dodgerblue;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 30px;
+    margin-bottom: 100px;
+}
+
+#numberOfItems{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 70px;
+    font-size: 30px;
+}

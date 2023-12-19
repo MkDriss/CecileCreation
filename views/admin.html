@@ -1,0 +1,38 @@
+{{>header}}
+
+<link rel="stylesheet" href="admin.css">
+
+
+{{#admin}}
+
+    <div id="container">
+        <div>
+            Admin
+        </div>
+
+        <div>
+            <a href="/productList" class="button">Product List</a>
+            <a href="/allOrderList" class="button">Order List</a>
+        </div>
+
+        <a href="/account" class="button">Back</a>
+    </div>
+
+{{/admin}}
+
+
+
+
+
+
+
+
+
+
+{{^admin}}
+    <div>
+        <h1>You don't have the access to this page</h1>
+    </div>
+{{/admin}}
+
+{{>footer}}

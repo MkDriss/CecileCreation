@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="/header.css">
+      <title>Cecile Creation</title>
+</head>
+<body>
+            <nav id="navBar">
+                  <div id="leftSide">
+                        <a href="/home" id="home">Cecile Creation</a>
+                        <a href="/shop" id="shop">Shop</a>
+                  </div>
+                  
+
+                  <div id="rightSide">
+                        <a href="/cart"><img class="icoHeader" src="/shopping-cart.png" id="shoppingCartImg" alt="shopping-cart"></a>
+
+                        {{#authenticated}}
+                              <a href="/account"><img class="icoHeader" src="/account.png" id="accountimg" alt="accountimg"></a>
+                        {{/authenticated}}
+
+                        {{^authenticated}}
+                              <a href="/login"><img class="icoHeader" src="/account.png" id="accountimg" alt="accountimg"></a>
+                        {{/authenticated}}
+                  </div>
+            </nav>

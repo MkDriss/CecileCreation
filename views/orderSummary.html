@@ -1,0 +1,63 @@
+{{>header}}
+<link rel="stylesheet" href="orderSummary.css">
+
+<div id="title">Order Summary</div>
+
+
+<div id="summaryBox">
+      
+      <div id="leftSideSummary">
+            <div id="nbItems">
+                  number of items: {{cartLength}}
+            </div>
+            {{#cartProducts}}
+            <div id="item">
+                  <div id="product">
+                        <a href="/readProduct/{{productId}}" class="productLink">
+                              <img src="{{picture}}" alt="ProductPicture" id="productPicture">
+                        </a>
+                        <div class="productInfos">
+                              <div class="infosContainer">
+                                    <a href="/readProduct/{{productId}}" class="productLink">
+                                          <div id="name">{{name}}</div>
+                                          <div id="price">{{price}} €</div>
+                                          
+                                    </a>
+                                    <div class="removeLink">
+                                          <a href="/removeFromSummary/{{productId}}"><img src="bouton-fermer.png" class="ico" alt="delete"></a>
+                                    </div>
+                              </div>
+                              
+                        </div>           
+                  </div>
+            </div>
+            {{/cartProducts}}
+
+      </div>
+
+      <div id="rightSideSummary">
+
+            <div id="orderSummary">
+                  <h2>Delivery Informations</h2>
+                  <span>{{name}}</span>
+                  <span>{{lastName}}</span>
+                  <span>{{email}}</span>
+                  <span>{{adress}}</span>
+                  <span>{{city}}</span>
+                  <span>{{postCode}}</span>
+                  <span>{{phoneNumber}}</span>
+
+            </div>
+
+            <div>Total Price : {{totalPrice}} €</div>        
+            <a id="continue" href="/payment">Finaliser</a>
+
+
+      </div>
+      
+</div>
+
+<div>
+      
+</div>
+{{>footer}}

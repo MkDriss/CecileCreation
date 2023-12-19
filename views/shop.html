@@ -1,0 +1,27 @@
+{{>header}}
+<link rel="stylesheet" href="shop.css">
+<div id="shop">
+      <span id="title">Shop / Créations</span>
+      <div id="shopContent">
+            <div id="productsList">
+                  {{#products}}
+                  <div id="product">
+                        <a href="/readProduct/{{productId}}" id="productLink">
+                              <img src="{{picture}}" alt="ProductPicture" id="productPicture">
+                              <div class="productInfos">
+                                    <div id="name">{{name}}</div>
+                                    <div id="price">{{price}} €</div>
+                              </div>
+                        </a>
+                  </div>
+                  {{/products}}
+            
+                  </div>
+                   {{#admin}}
+                        <a class="button" href="/addProduct">addProduct</a>
+                        {{/admin}}
+                  </div>
+            
+</div>
+
+{{>footer}}

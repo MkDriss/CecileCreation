@@ -1,0 +1,60 @@
+{{>header}}
+
+<link rel="stylesheet" href="CheckOut.css">
+    <div id="title">Check Out</div>
+
+    <div id="infos">
+            <form action="getInfos" method="POST" id="infoForm">
+                <div id="nameInfos">
+                    <input type="text" name="name" id="name" class="nameInput"placeholder="Name" required>
+                    <input type="text" name="lastName" id="lastName" class="nameInput" placeholder="Last Name" required>
+                </div>
+                    <input type="text" name="adress" id="adress" class="input" placeholder="Adress" required>
+                    <input type="text" name="city" id="city" class="input" placeholder="City" required>
+                    <input type="text" name="postCode" id="postCode" class="input" placeholder="Zip Code" required>
+                    <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number" required>
+                <div>
+                    <input type="submit" id="submitbutton" class="input" value="Continue">
+                </div>
+            </form>
+
+            <div id="OrderSummary">
+                <div id="summaryTitle">Order Summary</div>
+                <div id="total">
+                    <div id="subtotalPrice" class="price">
+                        <span>Subtotal </span>
+                        <span>{{totalPrice}} €</span>
+                    </div>
+                    <div id="shippingCostTotal" class="price">
+                        <span>Shipping Cost </span>
+                        <span>Free</span>
+                    </div>
+                    <div id="totalPrice" class="price">
+                        <span>Total Price</span>
+                        <span>{{totalPrice}} €</span>
+                    </div>
+                </div>
+                <div id="cart">
+                    <div id="cartTitle">Cart</div>
+                    <div id="cartItems">
+                        {{#cartItems}}
+                        <div class="cartItem">
+                            <a href="/readProduct/{{productId}}" class="productLink">
+                                <img src="{{picture}}" alt="productPicture" class="productPicture">
+                            </a>
+                                <div class="itemInfos">
+                                    <a href="/readProduct/{{productId}}" class="productLink">
+                                        <div class="itemName">{{name}}</div>
+                                    </a>
+                                        <div class="itemPrice">{{price}} €</div>
+                                </div>
+                          
+                        </div>
+                        {{/cartItems}}
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    
+{{>footer}}

@@ -1,0 +1,82 @@
+{{>header}}
+
+<link rel="stylesheet" href="/readProduct.css">
+      
+{{#products}}
+<div id="product">
+      <img src=/{{picture}} alt="ProductPicture" id="picture">
+      <div id="productInfos">
+            <div id="productBox">
+                  <div id="productName">{{name}}</div>
+                  <div id="price">{{price}} €</div>
+                  <div id="description">{{description}}
+                  </div>
+            </div>
+
+            
+
+            <div>
+                  <a class="button" id="addToCart" href="/addToCart/{{productId}}">Add to cart</a>
+            </div>
+      </div>
+</div>
+
+<div id="otherProducts">
+      <h1 id="otherProductsTitle">Autres produits</h1>
+      <div id="otherProductsContainer">
+            {{#otherProducts}}
+            <div id="otherProduct">
+                  <a href="/readProduct/{{productId}}" class="productLink">
+                        <img src="/{{picture}}" alt="ProductPicture" id="otherProductPicture">
+                  </a>
+                  <div class="otherProductInfos">
+                        <div class="otherProductInfosContainer">
+                              <a href="/readProduct/{{productId}}" class="otherProductLink">
+                                    <div id="otherProductName">{{name}}</div>
+                                    <div id="otherProductPrice">{{price}} €</div>
+                              </a>
+                        </div>
+                  </div>           
+            </div>
+            {{/otherProducts}}
+      </div>
+</div>
+
+<div id="commentSection">
+      <h1 id="commentTitle">Avis</h1>
+
+      <div>
+            <form action="/addComment" method="POST" id="commentForm">
+                  <textarea name="content" id="content" cols="110" rows="10"></textarea>
+                  <input type="hidden" name="productId" value="{{productId}}"> 
+                  <input id="commentInput" type="submit" value="Add comment">
+            </form>
+      </div>
+
+      <div id="commentContainer">
+            {{#comments}}
+            <div id="commentBox">
+                  <div class="commentContent">
+                        <div class="commentHeader">
+                              <img src="/{{profilePicture}}" id="accountIco" alt="profilePicture">
+                              <div class="commentAuthor">{{author}}</div>
+                              <div class="commentDate">{{date}}</div>
+                        </div>
+                        <div class="commentContent">{{content}}</div>
+                  </div>
+            {{#admin}}
+                  <a href="/deleteComment/{{commentId}}" class="button">Delete</a>
+            {{/admin}}
+            </div>
+            {{/comments}}
+            {{^comments}}
+            <div id="msg">
+                  No comments yet
+            {{/comments}}
+            </div>
+
+      </div>
+</div>
+{{/products}}
+
+{{>footer}}

@@ -1,0 +1,28 @@
+{{>header}}
+<link rel="stylesheet" href="home.css">
+
+      <div id="title">Welcome !</div>
+
+      <div id="p2">
+            <span id="text">Creations faites main, un gage de qualité blablabla</span>
+      </div>
+      <div id="trend">
+            Produit du moment
+      </div>
+      {{#products}}
+      <div id="product">
+            <a  href="/readProduct/{{productId}}">
+                  <img src=/{{picture}} alt="ProductPicture" id="picture">
+            </a>
+
+            <div id="productInfos">
+                  <a href="/readProduct/{{productId}}" id="productName">{{name}}</a>
+                  <div id="price">{{price}} €</div>
+                  <div id="description">{{description}}</div>
+                  <a class="button" id="addToCart" href="/readProduct/{{productId}}">Details</a>
+            </div>
+      </div>
+      {{/products}}
+</div>
+
+{{>footer}}

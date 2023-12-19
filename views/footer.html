@@ -1,0 +1,29 @@
+
+<footer>
+      <div>
+            <h3 class="text">About</h3>
+            <a href="/aboutUs" class="text">About us</a>
+      </div>
+      <div>
+            <h3 class="text">Account</h3>
+                  {{#authenticated}}
+                  <ul>
+                        <li><a href="/account" class="text">Account</a></li>
+                        <li><a href="/logout" class="text">Logout</a></li>
+                  </ul>
+                  {{/authenticated}}
+
+                  {{^authenticated}}
+                        <a href="/login" class="text">Login</a>
+                  {{/authenticated}}
+      </div>
+      <div>
+                  <a href="instagram"><img class="icoFooter" src="/instagram.png" alt="instagram"></a>
+                  <a href="facebook"><img class="icoFooter" src="/facebook.png" alt="facebook"></a>
+                  <a href="tiktok"><img class="icoFooter" src="/tiktok.png" alt="tiktok"></a>
+      </div>
+</footer>
+
+
+</body>
+</html>

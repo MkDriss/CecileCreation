@@ -1,0 +1,176 @@
+
+#commentTitle{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding-top: 30px;
+    border-top: 2px solid black;
+}
+
+#product{
+    display: flex;
+    justify-content: center;
+    margin-top: 200px;
+    
+}
+
+#picture{
+    width: 500px;
+    height: 600px;
+    margin-right: 100px;
+    padding-right: 100px;
+    border-right: 2px solid black;
+    object-fit: cover;
+}
+
+#productInfos{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 200px;
+    height: 500px;
+}
+
+#productName{
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+
+#description{
+    margin: 40px 0px;
+    width: 450px;
+    text-align: justify;
+    text-justify: inter-character;
+}
+
+#addToCart{
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+    background-color: black;
+    color: white;
+    padding: 10px 0px;
+}
+
+#addToCart:hover{
+    background-color: rgb(49, 49, 49);
+}
+
+.textarea{
+    width: 800px;
+}
+
+#commentForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+
+#commentInput{
+    margin-top: 30px;
+    width: 300px;
+    border: none;
+    background-color: black;
+    color: white;
+    padding: 10px 0px;
+}
+
+#commentInput:hover{
+    background-color: rgb(49, 49, 49);
+}
+
+#commentContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+#commentBox{
+    display: flex;
+    width: 800px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.commentContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.commentHeader{
+    display: flex;
+    flex-direction: column;
+}
+
+#productId{
+    display: none;
+}
+
+#price{
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+#accountIco{
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+#otherProducts{
+    display: grid;
+    justify-items: center;
+    width: 100%;
+    border-top: 2px solid black;
+}
+
+#otherProductsContainer{
+    display: grid;
+    grid-template-columns: repeat(4, 300px);
+    margin-top:50px;
+    margin-bottom: 100px;
+}
+
+#otherProductPicture{
+    width: 230px;
+    height: 300px;
+    margin-right: 50px;
+    transition: transform .2s;
+    object-fit: cover;
+}
+
+#otherProductPicture:hover{
+    transform: scale(1.1);
+} 
+
+#otherProductInfos{
+    width: 200px;
+}
+
+.otherProductLink{
+    text-decoration: none;
+    color: black;
+}
+
+#otherProductName{
+    width: 200px;
+    margin : 20px 0px;
+    text-align: justify;
+}
+
+#otherProductName:hover{
+    text-decoration: underline;
+}

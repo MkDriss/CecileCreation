@@ -1,0 +1,25 @@
+{{>header}}
+{{#authenticated}}
+<link rel="stylesheet" href="myOrders.css">
+        <div class="container">
+                <div id="box">
+                    <h1>My Orders</h1>
+                            <div id="orderList">
+                                {{#orders}}
+                                <a href="/orderDetails/{{id}}" class="order">
+                                            <p>Order Id: {{id}}</p>
+                                            <p>Order Total: {{price}}€</p>
+                                            <p>Order Status: {{state}}</p>
+                                            <p>Order Date: {{date}}</p>                                            
+                                </a>
+                                {{/orders}}
+                                </div>
+                                {{^orders}}	
+                                        <h2>You have no orders</h2>
+                                {{/orders}}
+                            
+                </div>
+        </div>
+
+{{/authenticated}}
+{{>footer}}

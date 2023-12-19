@@ -1,0 +1,38 @@
+{{>header}}
+<link rel="stylesheet" href="addProduct.css">
+
+
+{{#admin}}
+<div id="container">
+      <div id="title">Add Product</div>
+      <form id="form" action="/addProduct" method="POST" enctype="multipart/form-data">
+            <div>
+                  <input type="text" id="name" name="name" placeholder="Name" required>
+            </div>
+            <div>
+                  <input type="number" id="price" name="price" step=".01" placeholder="Price" required>
+            </div>
+            <div>
+                  <textarea name="description" id="description" cols="60" rows="5" placeholder="Enter a description" required></textarea>
+            </div>
+            <div>
+                  <input type="file" id="picture" name="picture" accept='image/png, image/jpg, image/jpeg' required>
+            </div>
+            <div>
+                  <button type="submit">Add Product</button>
+            </div>
+      </form>
+      <div>
+            <div>{{msg}}</div>
+      </div>
+</div>
+{{/admin}}
+
+{{^admin}}
+<div id="container">
+      <div id="title">You don't have the privilege to add a product</div>
+      <a href="/home" class="button">Go back</a>
+</div>
+{{/admin}}
+
+{{>footer}}

@@ -1,0 +1,37 @@
+{{>header}}
+{{#authenticated}}
+
+<link rel="stylesheet" href="account.css">
+      <div class="container">
+            
+            <div id="box">
+                  <h1>Account</h1>
+                  <div id="content">
+                        <div id="userInfos">
+                              {{#accountsInfos}}
+                              <img src="{{profilePicture}}" id="accountico" alt="accountImg">
+                              <input type="text" placeholder="Username" value="{{username}}" readonly>
+                              <input type="text" placeholder="Email" value="{{email}}" readonly>
+                              <input type="text" placeholder="Adress" value="{{adress}}" readonly>
+                              <input type="text" placeholder="zipCode" value="{{zipCode}}" readonly>
+                              <input type="text" placeholder="Phone Number" value="{{phone}}" readonly>
+                              <a href="/updateAccount" id="editButton">Edit</a>
+                              {{/accountsInfos}}
+                        </div>
+                        <div id="MiddleBar"></div>
+                        <div id="containerButtons">
+                              
+                              <a href="/myOrders" class="button" id="orderList">My Orders</a>
+                              {{#admin}}
+                              <a href="/admin" class="button" id="admin">Admin</a>
+                              {{/admin}}
+                              <a id="logout" href="/logout" class="button" id="logout" >Logout</a>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+{{/authenticated}}
+{{>footer}}
+
+
