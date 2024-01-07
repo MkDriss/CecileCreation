@@ -24,7 +24,7 @@ exports.listOrders = function () {
 }
 
 exports.getOrderFromId = function(id){
-    return db.prepare('SELECT * FROM orderList WHERE id = ?' .get(id));
+    return db.prepare('SELECT * FROM orderList WHERE id = ?').get(id);
 }
 
 exports.getOrdersFromUserId = function(userId){

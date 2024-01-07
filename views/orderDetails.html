@@ -1,6 +1,34 @@
 {{>header}}
 {{#authenticated}}
+<link rel="stylesheet" href="orderDetails.html">
 
+<div class="container">
+    <div id="box">
+        <h1>Order Details</h1>
+        <div id="content">
+            <div id="orderInfos">
+                {{#order}}
+                <p>Order Id: {{id}}</p>
+                <p>Order Total: {{price}}€</p>
+                <p>Order Status: {{state}}</p>
+                <p>Order Date: {{date}}</p>
+                <p>Order Items:</p>
+                <div id="orderItems">
+                    {{#items}}
+                    <div class="item">
+                        <img src="{{image}}" alt="itemImg">
+                        <p>{{name}}</p>
+                        <p>{{price}}€</p>
+                    </div>
+                    {{/items}}
+                {{/order}}
+            </div>
+            <div id="MiddleBar"></div>
+            <div id="containerButtons">
+                <a href="/orders" class="button" id="orderList">Back</a>
+            </div>
+        </div>
+    </div>
 
 {{/authenticated}}
 {{>footer}}

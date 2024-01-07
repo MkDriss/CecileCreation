@@ -152,14 +152,14 @@ app.get('/logout', (req, res) => {
     res.redirect('/home');
 });
 
-app.get('/myOrders', (req, res) => {
+app.get('/orders', (req, res) => {
 
     if(!req.session.authenticated){
         res.redirect('/login');
     }
 
     else{
-        res.render('myOrders', {orders: orderList.getOrdersFromUserId(req.session.id)});
+        res.render('orders', {orders: orderList.getOrdersFromUserId(req.session.id)});
     }
 });
 
@@ -378,14 +378,22 @@ app.get('/payment', async (req, res) => {
       */
     createOrder(req, res);
     cart.clearAll(req.session.id);
-    res.redirect('/myOrders');
+    res.redirect('/orders');
 });
 
 function getDateOrder(){
     let date = new Date();
     let day = date.getDate();
-    let month = date.getMonth();
+    let month = date.getMonth() + 1;
     let year = date.getFullYear();
+    
+    if(day < 10){
+        day = "0" + day;
+    }
+    if(month < 10){
+        month = "0" + month;
+    }
+
     let dateOrder = day + "/" + month + "/" + year;
     return dateOrder;
 }
@@ -402,6 +410,12 @@ function createOrder(req, res){
     console.log("Order created");
 }
 
+
+app.get('/orderDetails/:id', (req, res) => {
+    let id = req.params.id;
+    let order = orderList.getOrderFromId(id);
+    res.render('orderDetails', {order: order});
+});
 
 
 
