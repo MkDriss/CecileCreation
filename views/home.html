@@ -12,13 +12,13 @@
       {{#products}}
       <div id="product">
             <a  href="/readProduct/{{productId}}">
-                  <img src=/{{picture}} alt="ProductPicture" id="picture">
+                  <img src=/{{productPicture}} alt="ProductPicture" id="picture">
             </a>
 
             <div id="productInfos">
-                  <a href="/readProduct/{{productId}}" id="productName">{{name}}</a>
-                  <div id="price">{{price}} €</div>
-                  <div id="description">{{description}}</div>
+                  <a href="/readProduct/{{productId}}" id="productName">{{productName}}</a>
+                  <div id="price">{{productPrice}} €</div>
+                  <div id="description">{{productDescription}}</div>
                   <a class="button" id="addToCart" href="/readProduct/{{productId}}">Details</a>
             </div>
       </div>

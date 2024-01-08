@@ -26,7 +26,7 @@ exports.getTotalPrice = function(id){
       let productsList = db.prepare('SELECT products FROM cart WHERE id = ?').all(id);
       for(let i = 0; i < productsList.length; i++){
             let product = JSON.parse(productsList[i].products);
-            totalPrice += product.price;
+            totalPrice += product.productPrice;
       }
       return totalPrice;
 }

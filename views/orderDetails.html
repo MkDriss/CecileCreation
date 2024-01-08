@@ -14,13 +14,15 @@
                 <p>Order Date: {{date}}</p>
                 <p>Order Items:</p>
                 <div id="orderItems">
-                    {{#items}}
-                    <div class="item">
-                        <img src="{{image}}" alt="itemImg">
-                        <p>{{name}}</p>
-                        <p>{{price}}€</p>
+                    {{#products}}
+                    <div class="orderItem">
+                        <a href="/readProduct/{{productId}}" class="productLink">
+                        <p>{{productName}}</p>
+                        <img src="{{productPicture}}" alt="ProductPicture" id="productPicture">
+                        <p>Price: {{productPrice}}€</p>
+                        </a>
                     </div>
-                    {{/items}}
+                    {{/products}}
                 {{/order}}
             </div>
             <div id="MiddleBar"></div>

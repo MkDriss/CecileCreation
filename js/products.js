@@ -11,7 +11,7 @@ let loadProduct = function(filename) {
       
       db.prepare ('DROP TABLE IF EXISTS product').run();
       console.log('product table dropped');
-      db.prepare('CREATE TABLE IF NOT EXISTS product (productId TEXT PRIMARY KEY, name TEXT, price INTEGER, description TEXT, picture TEXT)').run();
+      db.prepare('CREATE TABLE IF NOT EXISTS product (productId TEXT PRIMARY KEY, productName TEXT, productPrice INTEGER, productDescription TEXT, productPicture TEXT)').run();
       let insertProduct = db.prepare('INSERT INTO product VALUES (?, ?, ?, ?, ?)');
 
       let transaction = db.transaction((products) => {
@@ -19,7 +19,7 @@ let loadProduct = function(filename) {
                   for(let tempProduct = 0;tempProduct < products.length; tempProduct++) {
                         let product = products[tempProduct];
                         //console.log(product);
-                        insertProduct.run(product.productId, product.name, product.price, product.description, product.picture);
+                        insertProduct.run(product.productId, product.productName, product.productPrice, product.productDescription, product.productPicture);
                   }     
             });
 
@@ -29,18 +29,18 @@ let loadProduct = function(filename) {
 loadProduct('./json/products.json');
 
 
-exports.create = function (productId, name, price, description, picture) {
-      let pictureName = name + '_' + productId + '.png';
+exports.create = function (productId, productName, productPrice, productDescription, productPicture) {
+      let pictureName = productName + '_' + productId + '.png';
       console.log(pictureName);
 
-      db.prepare('INSERT INTO product (productId, name, price, description, picture) VALUES (?, ?, ?, ?, ?)').run(productId, name, price, description, pictureName);
+      db.prepare('INSERT INTO product (productId, productName, productPrice, productDescription, productPicture) VALUES (?, ?, ?, ?, ?)').run(productId, productName, productPrice, productDescription, productPicture);
       
       let newProduct = {
             "productId": productId,
-            "name": name,
-            "price": price,
-            "description": description, 
-            "picture": pictureName 
+            "productName": productName,
+            "productPrice": productPrice,
+            "productDescription": productDescription, 
+            "productPicture": productPicture 
       };
             
       let productList = JSON.parse(fs.readFileSync('./json/products.json'));
@@ -56,8 +56,8 @@ exports.read = function (productId) {
       return db.prepare('SELECT * FROM product WHERE productId = ?').get(productId);
 }
 
-exports.update = function (productId, name, price, description) {
-      db.prepare('UPDATE product SET name = ?, price = ?, description = ? WHERE productId = ?').run(name, price, description, productId);
+exports.update = function (productId, productName, productPrice, description) {
+      db.prepare('UPDATE product SET productName = ?, productPrice = ?, productDescription = ? WHERE productId = ?').run(productName, productPrice, productDescription, productId);
 }
 
 exports.delete = function (productId) {

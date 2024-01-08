@@ -63,6 +63,7 @@ var products = require('./js/products');
 var cart = require('./js/cart');
 var comments = require('./js/comments');
 var orderList = require('./js/orderList');
+const { SourceTextModule } = require("vm");
 
 
 //SEND MAILS
@@ -118,7 +119,7 @@ app.get('/', (req, res) => {
 app.get('/home', (req, res) => {
     let product = products.read("0");
     //console.log(product);
-    res.render('home', {products: product});
+    res.render('home', {products: product}); 
     //res.render('home', {products: products.list()});
 });
 
@@ -285,7 +286,6 @@ app.get('/readProduct/:productId', (req, res) => {
                 ListId.splice(randomId, 1);
             }
         }
-
         return res.render('readProduct', {products: product, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin});
     }
 });
@@ -324,12 +324,10 @@ app.get('/Checkout', (req, res) => {
         res.redirect('/login');
     }
 
-    let cartId = req.session.id;
     let totalPrice = cart.getTotalPrice(req.session.id);
     let cartProductsInfos = []
 
     for (let i = 0; i < cartuser.length; i++){
-        console.log(cartuser[i].products)
         cartProductsInfos.push(JSON.parse(cartuser[i].products));
     }
     res.render('Checkout', {cartItems: cartProductsInfos, totalPrice: totalPrice});
@@ -354,6 +352,7 @@ app.get('/orderSummary', (req, res) => {
                 for (let i = 0; i < cartuser.length; i++){
                     cartProductsInfos.push(JSON.parse(cartuser[i].products));
                 }
+
                 let totalPrice = cart.getTotalPrice(req.session.id);
                 res.render('orderSummary', {cartLength : cartuser.length, cartId: req.session.id, cartProducts: cartProductsInfos, totalPrice : totalPrice, name: req.session.userName, lastName: req.session.userLastName, adress: req.session.userAdress, city: req.session.userCity, postCode: req.session.userPostCode, phoneNumber: req.session.userPhoneNumber});
             }
@@ -399,14 +398,20 @@ function getDateOrder(){
 }
 
 function createOrder(req, res){
-    let products = JSON.stringify(cart.listProducts(req.session.id));
+    let orderProducts = [];
+    let cartuser = cart.listProducts(req.session.id);
+    for (let i = 0; i < cartuser.length; i++){
+        let product = JSON.parse(cartuser[i].products);
+        orderProducts.push(product.productId);
+    }
     let state = "En cours de traitement";
     let date = getDateOrder();
     let price = cart.getTotalPrice(req.session.id);
-    console.log(date);
+    console.log("createOrder");
+    console.log(orderProducts.toString());
     orderList.createOrder(req.session.id, req.session.email, req.session.userName, req.session.userLastName, 
     req.session.userAdress, req.session.userCity, req.session.userPostCode, req.session.userPhoneNumber, 
-    products, price, req.session.commentary, date, state);
+    orderList.toString(), price, req.session.commentary, date, state);
     console.log("Order created");
 }
 
@@ -414,7 +419,9 @@ function createOrder(req, res){
 app.get('/orderDetails/:id', (req, res) => {
     let id = req.params.id;
     let order = orderList.getOrderFromId(id);
-    res.render('orderDetails', {order: order});
+    let orderProduct = orderList.getProductsFromId(id);
+    console.log(orderProduct);
+    res.render('orderDetails', {order: order, products: orderProduct});
 });
 
 

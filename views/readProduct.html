@@ -4,12 +4,12 @@
       
 {{#products}}
 <div id="product">
-      <img src=/{{picture}} alt="ProductPicture" id="picture">
+      <img src=/{{productPicture}} alt="ProductPicture" id="picture">
       <div id="productInfos">
             <div id="productBox">
-                  <div id="productName">{{name}}</div>
-                  <div id="price">{{price}} €</div>
-                  <div id="description">{{description}}
+                  <div id="productName">{{productName}}</div>
+                  <div id="price">{{productPrice}} €</div>
+                  <div id="description">{{productDescription}}
                   </div>
             </div>
 
@@ -27,13 +27,13 @@
             {{#otherProducts}}
             <div id="otherProduct">
                   <a href="/readProduct/{{productId}}" class="productLink">
-                        <img src="/{{picture}}" alt="ProductPicture" id="otherProductPicture">
+                        <img src="/{{productPicture}}" alt="ProductPicture" id="otherProductPicture">
                   </a>
                   <div class="otherProductInfos">
                         <div class="otherProductInfosContainer">
                               <a href="/readProduct/{{productId}}" class="otherProductLink">
-                                    <div id="otherProductName">{{name}}</div>
-                                    <div id="otherProductPrice">{{price}} €</div>
+                                    <div id="otherProductName">{{productName}}</div>
+                                    <div id="otherProductPrice">{{productPrice}} €</div>
                               </a>
                         </div>
                   </div>           
