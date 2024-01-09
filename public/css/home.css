@@ -49,6 +49,7 @@
     width: 400px;
     height: 500px;
     transition: transform .5s;
+    object-fit: cover;
 }
 
 #picture:hover{

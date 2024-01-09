@@ -56,7 +56,7 @@ exports.read = function (productId) {
       return db.prepare('SELECT * FROM product WHERE productId = ?').get(productId);
 }
 
-exports.update = function (productId, productName, productPrice, description) {
+exports.update = function (productId, productName, productPrice, productDescription) {
       db.prepare('UPDATE product SET productName = ?, productPrice = ?, productDescription = ? WHERE productId = ?').run(productName, productPrice, productDescription, productId);
 }
 

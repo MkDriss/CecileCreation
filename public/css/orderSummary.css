@@ -1,6 +1,7 @@
 #productPicture, .productInfos, #productLink{
     width: 300px;
     height: 400px;
+    object-fit: cover;
 }
 
 #name{

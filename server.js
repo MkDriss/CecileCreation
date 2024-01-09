@@ -110,16 +110,15 @@ const getbill = (req, res) => {
 
 
 app.get('/', (req, res) => {
-    let product = products.read("0");
-    console.log(product);
+    let randomId = Math.floor(Math.random() * products.list().length);
+    let productsList = products.list();
+    let product = products.read(productsList[randomId].productId);
     account.test();
     res.render('home', {products: product});
 });
 
 app.get('/home', (req, res) => {
-    let product = products.read("0");
-    //console.log(product);
-    res.render('home', {products: product}); 
+    res.redirect('/');
     //res.render('home', {products: products.list()});
 });
 
@@ -133,7 +132,6 @@ app.get('/register', (req, res) => {
 
 app.get('/account', (req, res) => {
     let user = account.read(req.session.id);
-    console.log(user);
     res.render('account', {accountsInfos: user, admin: req.session.admin});
 });
 
@@ -270,6 +268,7 @@ app.get('/readProduct/:productId', (req, res) => {
     }
     else{
         let product = products.read(productId);
+        console.log(product);
         let commentsList = comments.list(productId);
 
         let otherProducts = [];
@@ -398,30 +397,28 @@ function getDateOrder(){
 }
 
 function createOrder(req, res){
-    let orderProducts = [];
+    let orderProducts = '[';
     let cartuser = cart.listProducts(req.session.id);
     for (let i = 0; i < cartuser.length; i++){
         let product = JSON.parse(cartuser[i].products);
-        orderProducts.push(product.productId);
+        orderProducts += product.productId
+        if(i < cartuser.length - 1){
+            orderProducts += ',';
+        }
     }
+    orderProducts += ']';
     let state = "En cours de traitement";
     let date = getDateOrder();
     let price = cart.getTotalPrice(req.session.id);
-    console.log("createOrder");
-    console.log(orderProducts.toString());
     orderList.createOrder(req.session.id, req.session.email, req.session.userName, req.session.userLastName, 
     req.session.userAdress, req.session.userCity, req.session.userPostCode, req.session.userPhoneNumber, 
-    orderList.toString(), price, req.session.commentary, date, state);
-    console.log("Order created");
+    orderProducts, price, req.session.commentary, date, state);
 }
-
 
 app.get('/orderDetails/:id', (req, res) => {
     let id = req.params.id;
     let order = orderList.getOrderFromId(id);
-    let orderProduct = orderList.getProductsFromId(id);
-    console.log(orderProduct);
-    res.render('orderDetails', {order: order, products: orderProduct});
+    res.render('orderDetails', {order: order});
 });
 
 

@@ -34,7 +34,6 @@ loadAccount('json/accounts.json');
 //CREATE
 
 exports.test = function () {
-      console.log(db.prepare('SELECT * FROM user').all());
 }
 
 exports.create = function (id, email, username, password) {
