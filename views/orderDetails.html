@@ -1,5 +1,49 @@
 {{>header}}
 {{#authenticated}}
-<link rel="stylesheet" href="orderDetails.css">
+    <div>
+        <h1>Order Details</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Order Information</h3>
+                <p><strong>Order ID:</strong> {{order.id}}</p>
+                <p><strong>Order Date:</strong> {{order.date}}</p>
+                <p><strong>Order Status:</strong> {{order.state}}</p>
+                <p><strong>Order Total:</strong> ${{order.price}}</p>
+            </div>
+            <div class="col-md-6">
+                <h3>Shipping Information</h3>
+                <p><strong>Shipping Address:</strong> {{order.shippingAddress}}</p>
+                <p><strong>Shipping City:</strong> {{order.shippingCity}}</p>
+                <p><strong>Shipping State:</strong> {{order.shippingState}}</p>
+                <p><strong>Shipping Zip:</strong> {{order.shippingZip}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Order Items</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#order.items}}
+                            <tr>
+                                <td>{{id}}</td>
+                                <td>{{name}}</td>
+                                <td>{{quantity}}</td>
+                                <td>${{price}}</td>
+                            </tr>
+                        {{/order.items}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 {{/authenticated}}
 {{>footer}}

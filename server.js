@@ -158,7 +158,7 @@ app.get('/orders', (req, res) => {
     }
 
     else{
-        res.render('orders', {orders: orderList.getOrdersFromUserId(req.session.id)});
+        res.render('orders', {orders: orderList.getOrdersFromUserId(req.session.id), css : 'orders.css'});
     }
 });
 
@@ -268,7 +268,6 @@ app.get('/readProduct/:productId', (req, res) => {
     }
     else{
         let product = products.read(productId);
-        console.log(product);
         let commentsList = comments.list(productId);
 
         let otherProducts = [];
@@ -360,24 +359,7 @@ app.get('/orderSummary', (req, res) => {
     });
 
 
-app.get('/payment', async (req, res) => {
-    
-    /*
-    let totalPrice = cart.getTotalPrice(req.session.id);
-    const paymentIntent = await stripe.paymentIntents.create({
-        amount: totalPrice,
-        currency: 'eur',
-        description:cartProductsInfos,
-        statement_descriptor: 'Custom descriptor',
-        metadata: {integration_check: 'accept_a_payment'},
-      });
 
-      res.render('payment', {client_secret: paymentIntent.client_secret, publishable_key: STRIPE_SECRET_KEY});
-      */
-    createOrder(req, res);
-    cart.clearAll(req.session.id);
-    res.redirect('/orders');
-});
 
 function getDateOrder(){
     let date = new Date();
@@ -403,7 +385,7 @@ function createOrder(req, res){
         let product = JSON.parse(cartuser[i].products);
         orderProducts += product.productId
         if(i < cartuser.length - 1){
-            orderProducts += ',';
+            orderProducts += ', ';
         }
     }
     orderProducts += ']';
@@ -416,8 +398,9 @@ function createOrder(req, res){
 }
 
 app.get('/orderDetails/:id', (req, res) => {
-    let id = req.params.id;
-    let order = orderList.getOrderFromId(id);
+    let orderId = req.params.id;
+    let order = orderList.getOrderFromId(orderId);
+    console.log(orderId);
     res.render('orderDetails', {order: order});
 });
 
@@ -650,6 +633,24 @@ app.post('/getInfos', (req, res)=> {
     //console.log(userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, commentary);
 
     res.redirect('/orderSummary');
+});
+
+app.post('/payment', async (req, res) => {
+    /*
+    let totalPrice = cart.getTotalPrice(req.session.id);
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: totalPrice,
+        currency: 'eur',
+        description:cartProductsInfos,
+        statement_descriptor: 'Custom descriptor',
+        metadata: {integration_check: 'accept_a_payment'},
+      });
+
+      res.render('payment', {client_secret: paymentIntent.client_secret, publishable_key: STRIPE_SECRET_KEY});
+      */
+    createOrder(req, res);
+    cart.clearAll(req.session.id);
+    res.redirect('/orders');
 });
 
 

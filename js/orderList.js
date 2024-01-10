@@ -83,7 +83,3 @@ exports.getOrdersFromUserId = function(userId){
 exports.deleteOrderFromId = function(id){
     db.prepare('DELETE FROM orderList WHERE id = ?').run(id);
 }
-
-exports.getProductsFromId = function(id){
-    return db.prepare('SELECT products FROM orderList WHERE id = ?').get(id);
-}
