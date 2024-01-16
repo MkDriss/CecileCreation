@@ -25,7 +25,7 @@ app.use(express.static('public/profiles_pictures/'));
 
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
-    secret: 'mot-de-passe-du-cookie',
+    secret: 'mot-de-passe-du-cookie', //TODO: change this
 }));
 
 
@@ -400,8 +400,8 @@ function createOrder(req, res){
 app.get('/orderDetails/:id', (req, res) => {
     let orderId = req.params.id;
     let order = orderList.getOrderFromId(orderId);
-    console.log(orderId);
-    res.render('orderDetails', {order: order});
+    console.log("o", orderId);   
+    res.render('orderDetails', {order: order, css : '/orderDetails.css'});
 });
 
 
