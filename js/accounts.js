@@ -106,7 +106,6 @@ exports.checkPassword = function (email, password) {
       }
       let pass = db.prepare('SELECT password FROM user WHERE email = ?').get(email).password;
       if (pass == password) {
-            console.log('password true')
             return 'true';
       }
       return 'false';
@@ -117,8 +116,6 @@ exports.checkAdmin = function (id) {
 
       for(let i = 0;i < admins.length; i++) {
             let adminsId = admins[i].id;
-            console.log(adminsId)
-            console.log(id)
             if (adminsId == id) {
                   return true;
             }

@@ -268,7 +268,6 @@ app.get('/readProduct/:productId', (req, res) => {
     }
     else{
         let product = products.read(productId);
-        console.log(product);
         let commentsList = comments.list(productId);
 
         let otherProducts = [];
