@@ -1,5 +1,32 @@
-{{>header}}
 {{#authenticated}}
-<link rel="stylesheet" href="orderDetails.css">
+{{>header}}
+    <div id="title">Order n°{{order.id}}</div>
+            <div id="Order Informations">
+                <h1>Order Informations</h1>
+                <div id="total">
+                    <div id="totalPrice" class="price">
+                        <span>Total Price</span>
+                        <span>{{order.price}} €</span>
+                    </div>
+                </div>
+                <div id="orderItem">
+                    <h3>Products</h3>
+                        {{#products}}
+                        <div class="containerProduct">
+                            <div class="itemInfos">
+                                <a href="/readProduct/{{productId}}" class="productLink">
+                                    <div class="itemName">{{productName}}</div>
+                                </a>
+                                    <div class="itemPrice">{{productPrice}} €</div>
+                            </div>
+                            <a href="/readProduct/{{productId}}" class="productLink">
+                                <img src="/{{productPicture}}" alt="productPicture" class="productPicture">
+                            </a>
+                        </div>
+                        {{/products}}
+                </div>
+            </div>
+    </div>
+
 {{/authenticated}}
 {{>footer}}

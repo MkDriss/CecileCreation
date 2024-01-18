@@ -25,7 +25,7 @@ app.use(express.static('public/profiles_pictures/'));
 
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
-    secret: 'mot-de-passe-du-cookie',
+    secret: 'mot-de-passe-du-cookie', //TODO: change this
 }));
 
 
@@ -158,12 +158,11 @@ app.get('/orders', (req, res) => {
     }
 
     else{
-        res.render('orders', {orders: orderList.getOrdersFromUserId(req.session.id)});
+        res.render('orders', {orders: orderList.getOrdersFromUserId(req.session.id), css : '/orders.css'});
     }
 });
 
 app.get('/shop', (req, res) => {
-    //console.log(products.list());
     res.render('shop', {products: products.list()});
 });
 
@@ -183,6 +182,18 @@ app.get('/updateProduct', (req, res) => {
 
 app.get('/deleteProduct', (req, res) => {
     res.render('deleteProduct');
+});
+
+app.get('/updateOrder/:id', (req, res) => {
+    let orderId = req.params.id;
+    let order = orderList.getOrderFromId(orderId);
+    res.render('updateOrder',  {admin: req.session.admin, order: order, css : '/updateOrder.css'});
+});
+
+app.get('/deleteOrder/:id', (req, res) => {
+    let orderId = req.params.id;
+    let order = orderList.getOrderFromId(orderId);
+    res.render('deleteOrder',  {admin: req.session.admin, order: order});
 });
 
 app.get('/cart', (req, res) => {
@@ -359,24 +370,7 @@ app.get('/orderSummary', (req, res) => {
     });
 
 
-app.get('/payment', async (req, res) => {
-    
-    /*
-    let totalPrice = cart.getTotalPrice(req.session.id);
-    const paymentIntent = await stripe.paymentIntents.create({
-        amount: totalPrice,
-        currency: 'eur',
-        description:cartProductsInfos,
-        statement_descriptor: 'Custom descriptor',
-        metadata: {integration_check: 'accept_a_payment'},
-      });
 
-      res.render('payment', {client_secret: paymentIntent.client_secret, publishable_key: STRIPE_SECRET_KEY});
-      */
-    createOrder(req, res);
-    cart.clearAll(req.session.id);
-    res.redirect('/orders');
-});
 
 function getDateOrder(){
     let date = new Date();
@@ -395,31 +389,42 @@ function getDateOrder(){
     return dateOrder;
 }
 
-function createOrder(req, res){
-    let orderProducts = '[';
+function createOrder(req){
+    let orderProducts ="";
     let cartuser = cart.listProducts(req.session.id);
     for (let i = 0; i < cartuser.length; i++){
         let product = JSON.parse(cartuser[i].products);
-        orderProducts += product.productId
+        orderProducts += product.productId;
+        
         if(i < cartuser.length - 1){
-            orderProducts += ',';
+            orderProducts += ', ';
         }
     }
-    orderProducts += ']';
     let state = "En cours de traitement";
     let date = getDateOrder();
     let price = cart.getTotalPrice(req.session.id);
+
     orderList.createOrder(req.session.id, req.session.email, req.session.userName, req.session.userLastName, 
     req.session.userAdress, req.session.userCity, req.session.userPostCode, req.session.userPhoneNumber, 
     orderProducts, price, req.session.commentary, date, state);
 }
 
 app.get('/orderDetails/:id', (req, res) => {
-    let id = req.params.id;
-    let order = orderList.getOrderFromId(id);
-    res.render('orderDetails', {order: order});
+    let orderId = req.params.id;
+    let order = orderList.getOrderFromId(orderId);
+    let orderProductsId = order.products.split(', ');
+    let productsList = [];
+    for(let i = 0; i < orderProductsId.length; i++){
+        productsList.push(products.read(orderProductsId[i]));
+    }
+    res.render('orderDetails', {order: order, css : '/orderDetails.css', products: productsList});
 });
 
+app.get('/allOrders', (req, res) => {
+    if(req.session.admin === true){
+        res.render('allOrders', {admin: req.session.admin, orders: orderList.listOrders(), css : '/allOrders.css'});
+    }
+});
 
 
 //POST METHODS
@@ -541,8 +546,6 @@ app.post('/updateAccount', uploadProfilePicture.single('profilePicture'), (req, 
     } else {
         profilePictureName = convertInAlphabet(req.file.originalname) + '_' + id + '.png';
     }
-    
-    console.log(profilePictureName);
 
     if(email == undefined || username == undefined){
         console.log("Invalid username or password")
@@ -651,6 +654,30 @@ app.post('/getInfos', (req, res)=> {
     res.redirect('/orderSummary');
 });
 
+app.post('/payment', async (req, res) => {
+    /*
+    let totalPrice = cart.getTotalPrice(req.session.id);
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: totalPrice,
+        currency: 'eur',
+        description:cartProductsInfos,
+        statement_descriptor: 'Custom descriptor',
+        metadata: {integration_check: 'accept_a_payment'},
+      });
+
+      res.render('payment', {client_secret: paymentIntent.client_secret, publishable_key: STRIPE_SECRET_KEY});
+      */
+    createOrder(req, res);
+    cart.clearAll(req.session.id);
+    res.redirect('/orders');
+});
+
+app.post('/updateOrder', (req, res) => {
+    let newState = req.body.state;
+    let orderId = req.body.orderId;
+    orderList.updateOrderState(orderId, newState);
+    res.redirect('/allOrders');
+});
 
 //LISTENING
 

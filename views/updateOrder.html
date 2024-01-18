@@ -1,0 +1,60 @@
+{{>header}}
+{{#authenticated}}
+{{#admin}}
+<div id="title">Update Order</div>
+<div id="box">
+    <div id="container">
+        <form action="/updateOrder/{{id}}" id="updateOrder" method="POST">
+            <div id="order">
+                {{#order}}
+                
+                <div id="orderInfos">
+                    <h2>Order Infos</h2>
+                    <div>Order Id : {{id}}</div>
+                    <input type="text" name="orderId" id="orderId" value="{{id}}" readonly style="display: none;">
+                    <div id="orderPrice">Order Price : {{price}} €</div>
+                    <div id="orderDate">Date : {{date}}</div>
+                    <div>
+                    <textarea name="commentary" id="orderCommentary" cols="30" rows="5" readonly>{{commentary}}</textarea>
+                    </div>
+                    <select name="state" id="orderState" value="{{state}}">
+                        <option value="En cours de traitement">En cours de traitement</option>
+                        <option value="Expédiée">Expédiée</option>
+                        <option value="Livrée">Livrée</option>
+                    </select>
+                    
+                </div>
+                
+                <div id="userInfos">
+                    <h2>User Infos</h2>
+                    <div id="userEmail">Email : {{userEmail}}</div>
+                    <div id="userName">Name : {{userName}}</div>
+                    <div id="userLastName">Last Name : {{userLastName}}</div>
+                    <div id="userPhoneNumber">Phone Number : {{userPhoneNumber}}</div>
+                </div>
+                <div id="shippingInfos">
+                    <h2>Shipping Infos</h2>
+                    <div id="userAdress">Adress : {{userAdress}}</div>
+                    <div id="City">City : {{userCity}}</div>
+                    <div id="postalCode">Postal Code : {{userPostCode}}</div>
+                </div>
+                
+                
+                
+                {{/order}}
+            </div>
+            <input type="submit" class="button" value="Save">
+        </form>
+    </div>
+            <a href="/allOrders">Back</a>
+    
+</div>
+{{/admin}}
+{{^admin}}
+<div>You don't have access to this page</div>
+{{/admin}}
+{{/authenticated}}
+{{^authenticated}}
+<div>Please log in and retry...</div>
+{{/authenticated}}
+{{>footer}}

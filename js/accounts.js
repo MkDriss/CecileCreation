@@ -154,7 +154,7 @@ exports.updateAccount = function (id, username, email, adress, zipCode, phone, p
             let accountsList = JSON.parse(data);
             for(let i = 0;i < accountsList.length; i++) {
                   let account = accountsList[i];
-                  if (account.id == id) {
+                  if (account.id === id) {
                         account.username = username;
                         account.email = email;
                         account.adress = adress;

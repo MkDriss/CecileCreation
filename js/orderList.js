@@ -19,7 +19,6 @@ let loadProduct = function(filename) {
                 
                 for(let tempOrder = 0; tempOrder < orders.length; tempOrder++) {
                       let order = orders[tempOrder];
-                      //console.log(product);
                       insertOrder.run(order.id, order.userId, order.userEmail, order.userName, order.userLastName, order.userAdress, order.userCity, order.userPostCode, order.userPhoneNumber, order.products, order.price, order.commentary, order.date, order.state);
                 }     
           });
@@ -64,7 +63,19 @@ exports.updateOrderCommentary = function(id, commentary){
     db.prepare('UPDATE orderList SET commentary = ? where id = ?').run(commentary, id);
 }
 
-exports.updateOrderSate = function(id, state){
+exports.updateOrderState = function(id, state){
+    fs.readFile('./json/orders.json', (err, data) => {
+        if (err) throw err;
+        let orders = JSON.parse(data);
+        console.log(id);
+        console.log(state);
+        orders[id-1].state = state;
+        fs.writeFile('./json/orders.json', JSON.stringify(orders, null, 2), function (err) {
+            if (err) throw err;
+            console.log(err);
+        });
+    });
+    
     db.prepare('UPDATE orderList SET state = ? WHERE id = ?').run(state, id);
 }
 
@@ -82,8 +93,4 @@ exports.getOrdersFromUserId = function(userId){
 
 exports.deleteOrderFromId = function(id){
     db.prepare('DELETE FROM orderList WHERE id = ?').run(id);
-}
-
-exports.getProductsFromId = function(id){
-    return db.prepare('SELECT products FROM orderList WHERE id = ?').get(id);
 }

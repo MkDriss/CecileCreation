@@ -1,0 +1,33 @@
+{{>header}}
+{{#authenticated}}
+{{#admin}}
+
+    <div id="title">All Orders</div>
+    <div id="box">
+        <div id="container">
+        {{#orders}}
+            <div class="orders">
+                <div>Order Id : {{id}}</div>
+                <div>Order Price : {{price}} €</div>
+                <div>Date : {{date}}</div>
+                <div>State : {{state}}</div>
+                <div>
+                    <a href="/updateOrder/{{id}}" class="UpdateOrderLink">Update</a>
+                    <a href="/DeleteOrder/{{id}}" class="DeleteOrderLink">Delete</a>
+                </div>
+            </div>
+            {{/orders}}
+        </div>
+    </div>
+    
+</div>
+
+{{/admin}}
+{{^admin}}
+<div>You don't have access to this page</div>
+{{/admin}}
+{{/authenticated}}
+{{^authenticated}}
+<div>Please log in and retry...</div>
+{{/authenticated}}
+{{>footer}}

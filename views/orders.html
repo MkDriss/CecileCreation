@@ -1,12 +1,11 @@
 {{>header}}
 {{#authenticated}}
-<link rel="stylesheet" href="orders.css">
         <div class="container">
                 <div id="box">
                     <h1>My Orders</h1>
                             <div id="orderList">
                                 {{#orders}}
-                                <a href="/orderDetails/{{id}}" class="order">
+                                <a href="/orderDetails/{{id}}" class="orders">
                                             <p>Order Id: {{id}}</p>
                                             <p>Order Total: {{price}}€</p>
                                             <p>Order Status: {{state}}</p>

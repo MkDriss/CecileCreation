@@ -1,0 +1,20 @@
+#title{
+    display: flex;
+    justify-content: center;
+    margin-top: 150px;
+    margin-bottom: 100px;
+    font-size: 30px;
+}
+
+.productPicture{
+    width: 200px;
+    height: 200px;
+    margin-left: 50px;
+    object-fit: cover;
+}
+
+.containerProduct{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}

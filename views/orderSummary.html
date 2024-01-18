@@ -49,8 +49,15 @@
 
             </div>
 
-            <div>Total Price : {{totalPrice}} €</div>        
-            <a id="continue" href="/payment">Finaliser</a>
+            <div>Total Price : {{totalPrice}} €</div>  
+            <form action="/payment" method="post">
+                  <input type="submit" id="payment" value="Finalise">
+                  <div>
+                        <textarea name="comment" id="orderCommentary" cols="30" rows="10" placeholder="Add a comment"></textarea>
+                  </div>
+            </form>      
+
+            
 
 
       </div>
