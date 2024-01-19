@@ -163,7 +163,7 @@ app.get('/orders', (req, res) => {
 });
 
 app.get('/shop', (req, res) => {
-    res.render('shop', {products: products.list()});
+    res.render('shop', {products: products.list(), css : '/shop.css'});
 });
 
 app.get('/addProduct', (req, res) => {
@@ -190,10 +190,11 @@ app.get('/updateOrder/:id', (req, res) => {
     res.render('updateOrder',  {admin: req.session.admin, order: order, css : '/updateOrder.css'});
 });
 
+
 app.get('/deleteOrder/:id', (req, res) => {
     let orderId = req.params.id;
     let order = orderList.getOrderFromId(orderId);
-    res.render('deleteOrder',  {admin: req.session.admin, order: order});
+    res.render('deleteOrder',  {admin: req.session.admin, order: order, css : '/deleteOrder.css'});
 });
 
 app.get('/cart', (req, res) => {
@@ -406,7 +407,7 @@ function createOrder(req){
 
     orderList.createOrder(req.session.id, req.session.email, req.session.userName, req.session.userLastName, 
     req.session.userAdress, req.session.userCity, req.session.userPostCode, req.session.userPhoneNumber, 
-    orderProducts, price, req.session.commentary, date, state);
+    orderProducts, price, req.body.orderCommentary, date, state);
 }
 
 app.get('/orderDetails/:id', (req, res) => {
@@ -425,6 +426,7 @@ app.get('/allOrders', (req, res) => {
         res.render('allOrders', {admin: req.session.admin, orders: orderList.listOrders(), css : '/allOrders.css'});
     }
 });
+
 
 
 //POST METHODS
@@ -677,6 +679,14 @@ app.post('/updateOrder', (req, res) => {
     let orderId = req.body.orderId;
     orderList.updateOrderState(orderId, newState);
     res.redirect('/allOrders');
+});
+
+app.post('/deleteOrder', (req, res) => {
+    if(req.session.admin === true){
+        let orderId = req.body.orderId;
+        orderList.deleteOrderFromId(orderId);
+        res.redirect('/allOrders');
+    }
 });
 
 //LISTENING

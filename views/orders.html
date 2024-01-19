@@ -1,24 +1,28 @@
 {{>header}}
 {{#authenticated}}
-        <div class="container">
-                <div id="box">
-                    <h1>My Orders</h1>
-                            <div id="orderList">
-                                {{#orders}}
-                                <a href="/orderDetails/{{id}}" class="orders">
-                                            <p>Order Id: {{id}}</p>
-                                            <p>Order Total: {{price}}€</p>
-                                            <p>Order Status: {{state}}</p>
-                                            <p>Order Date: {{date}}</p>                                            
-                                </a>
-                                {{/orders}}
-                                </div>
-                                {{^orders}}	
-                                        <h2>You have no orders</h2>
-                                {{/orders}}
-                            
-                </div>
-        </div>
 
+    <div id="title">Orders</div>
+    <div id="box">
+        <div id="container">
+        {{#orders}}
+        <a href="/orderDetails/{{id}}" class="orderDetailsLink">
+            <div class="orders">
+                <div>Order Id : {{id}}</div>
+                <div>Order Price : {{price}} €</div>
+                <div>Date : {{date}}</div>
+                <div>State : {{state}}</div>
+            </div>
+        </a>
+        {{/orders}}
+        {{^orders}}
+            <div id="noOrderFound">No orders found</div>
+        {{/orders}}
+        </div>
+    </div>
+    
+</div>
+{{/authenticated}}
+{{^authenticated}}
+<div>Please log in and retry...</div>
 {{/authenticated}}
 {{>footer}}

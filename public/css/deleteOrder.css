@@ -30,7 +30,7 @@
     margin-left: 100px;
 }
 
-input[type="text"], select{
+input[type="text"]{
     width: 80%;
     height: 30px;
     margin-bottom: 20px;
@@ -38,10 +38,8 @@ input[type="text"], select{
 
 textarea{
     width: 80%;
+    height: 100px;
     margin-bottom: 20px;
-    height: 60px;
-    margin-left: 100px;
 }
-
 
 

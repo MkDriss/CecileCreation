@@ -16,7 +16,10 @@
                     <a href="/DeleteOrder/{{id}}" class="DeleteOrderLink">Delete</a>
                 </div>
             </div>
-            {{/orders}}
+        {{/orders}}
+        {{^orders}}
+            <div id="noOrderFound">No orders found</div>
+        {{/orders}}
         </div>
     </div>
     

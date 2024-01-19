@@ -92,5 +92,16 @@ exports.getOrdersFromUserId = function(userId){
 }
 
 exports.deleteOrderFromId = function(id){
+    fs.readFile('./json/orders.json', (err, data) => {
+        if (err) throw err;
+        let orders = JSON.parse(data);
+        orders.splice(id-1, 1);
+        fs.writeFile('./json/orders.json', JSON.stringify(orders, null, 2), function (err) {
+            if (err) throw err;
+            console.log(err);
+        });
+    
+    });
     db.prepare('DELETE FROM orderList WHERE id = ?').run(id);
+    console.log('Order deleted');
 }
