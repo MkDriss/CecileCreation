@@ -176,6 +176,7 @@ app.get('/updateAccount', (req, res) => {
     res.render('updateAccount', {accountsInfos: user});
 });
 
+
 app.get('/updateProduct', (req, res) => {
     res.render('updateProduct');
 });
