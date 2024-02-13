@@ -54,7 +54,7 @@ exports.create = function (id, email, username, password) {
       accountsList.push(newAccount);
       //console.log(JSON.stringify(accountsList));
 
-      fs.writeFile('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
+      fs.writeFileSync('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
             if (err) throw err;
             console.log(err);
       });

@@ -63,8 +63,6 @@ var products = require('./js/products');
 var cart = require('./js/cart');
 var comments = require('./js/comments');
 var orderList = require('./js/orderList');
-const { SourceTextModule } = require("vm");
-
 
 //SEND MAILS
 

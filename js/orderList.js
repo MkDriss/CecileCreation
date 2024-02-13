@@ -7,8 +7,8 @@ let db = new Sqlite('db.sqlite');
 
 
 let loadProduct = function(filename) {
-
-    const orders= JSON.parse(fs.readFileSync(filename));
+    
+    const orders = JSON.parse(fs.readFileSync(filename));
     
     db.prepare('DROP TABLE IF EXISTS orderList').run();
     console.log('orderList table dropped');
@@ -29,7 +29,7 @@ let loadProduct = function(filename) {
 loadProduct('./json/orders.json');
 
 
-exports.createOrder= function(userId, userEmail, userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, products, price, commentary, date, state){
+exports.createOrder= function(userId, userEmail, userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, products, price, commentary, date, state) {
     let newOrder = {"userId": userId,
                     "userEmail": userEmail,
                     "userName": userName,
@@ -44,19 +44,23 @@ exports.createOrder= function(userId, userEmail, userName, userLastName, userAdr
                     "date": date,
                     "state": state
             };
-            let orderList = JSON.parse(fs.readFileSync('json/orders.json'));
-            orderList.push(newOrder);
-            fs.writeFile('json/orders.json', JSON.stringify(orderList, null, 2), function (err) {
+    try{
+        fs.readFile('./json/orders.json', (err, data) => {
+            if (err) throw err;
+            let orders = JSON.parse(data);
+            orders.push(newOrder)
+            fs.writeFileSync('./json/orders.json', JSON.stringify(orders, null, 2), function (err) {
                 if (err) throw err;
-                console.log(err);
-          });
-          try {
-            db.prepare('INSERT INTO orderList (userId, userEmail, userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, products, price, commentary, date,  state) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(userId, userEmail, userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, products, price, commentary, date, state);
-      } catch(err) {
-            console.log(err);
-      }
-      console.log('Order created');
-    
+                    console.log(err);
+            });
+                
+        });
+        db.prepare('INSERT INTO orderList (userId, userEmail, userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, products, price, commentary, date,  state) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(userId, userEmail, userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, products, price, commentary, date, state);
+        console.log('Order created');
+    } catch(err) {
+        console.log(err);
+    }
+      
 }
 
 exports.updateOrderCommentary = function(id, commentary){
@@ -70,7 +74,7 @@ exports.updateOrderState = function(id, state){
         console.log(id);
         console.log(state);
         orders[id-1].state = state;
-        fs.writeFile('./json/orders.json', JSON.stringify(orders, null, 2), function (err) {
+        fs.writeFileSync('./json/orders.json', JSON.stringify(orders, null, 2), function (err) {
             if (err) throw err;
             console.log(err);
         });
@@ -96,7 +100,7 @@ exports.deleteOrderFromId = function(id){
         if (err) throw err;
         let orders = JSON.parse(data);
         orders.splice(id-1, 1);
-        fs.writeFile('./json/orders.json', JSON.stringify(orders, null, 2), function (err) {
+        fs.writeFileSync('./json/orders.json', JSON.stringify(orders, null, 2), function (err) {
             if (err) throw err;
             console.log(err);
         });

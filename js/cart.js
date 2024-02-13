@@ -1,7 +1,6 @@
 'use strict';
 
 const Sqlite = require('better-sqlite3');
-const fs = require('fs');
 let db = new Sqlite('db.sqlite');
 
 db.prepare('DROP TABLE IF EXISTS cart').run();
