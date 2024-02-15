@@ -8,67 +8,56 @@
                 
                 <div id="orderInfos">
                     <h2>Order Infos</h2>
-                        <span>Order Id : </span>
-                        <input type="text" name="id" id="id" value="{{id}}" readonly>
+                        <span>Order Id : {{id}}</span>
                     </div>
                         <input type="text" name="orderId" id="orderId" value="{{id}}" readonly style="display: none;">
                     <div>
-                        <span>Order Price :</span>
-                        <input type="text" name="price" id="price" value="{{price}} €" readonly>
+                        <span>Order Price : {{price}}</span>
                     </div>
                     <div>
-                        <span>Date : </span>
-                        <input type="text" name="date" id="date" value="{{date}}" readonly>
+                        <span>Date : {{date}}</span>
                     </div>
                     <div>
                         <textarea name="commentary" id="orderCommentary" cols="30" rows="5" placeholder="commentary" readonly>{{commentary}}</textarea>
                     </div>
                     <div>
-                        <span>State : </span>
-                        <input type="text" name="state" id="state" value="{{state}}" readonly>
+                        <span>State : {{state}}</span>
                     </div>
                 </div>
                 
+
                 <div id="userInfos">
                     <h2>User Infos</h2>
                     <div>
-                        <span>Email : </span>
-                        <input type="text" name="userEmail" id="userEmail" value="{{userEmail}}" readonly>
+                        <span>Email : {{userEmail}}</span>
                     </div>
                     <div>
-                        <span>Name : </span>
-                        <input type="text" name="userName" id="userName" value="{{userName}}" readonly>
+                        <span>Name : {{userName}}</span>
                     </div>
                     <div>
-                        <span>Last Name : </span>
-                        <input type="text" name="userLastName" id="userLastName" value="{{userLastName}}" readonly>
+                        <span>Last Name : {{userLastName}}</span>
                     </div>
                     <div>
-                        <span>Phone Number : </span>
-                        <input type="text" name="userPhoneNumber" id="userPhoneNumber" value="{{userPhoneNumber}}" readonly>
+                        <span>Phone Number : {{userPhoneNumber}}</span>
                     </div>
                 </div>
                 <div id="shippingInfos">
                     <h2>Shipping Infos</h2>
                     <div>
-                        <span>Adress : </span>
-                        <input type="text" name="userAdress" id="userAdress" value="{{userAdress}}" readonly>
+                        <span>Adress : {{userAdress}}</span>
                     </div>
                     <div>
-                        <span>City : </span>
-                        <input type="text" name="userCity" id="userCity" value="{{userCity}}" readonly>
+                        <span>City : {{userCity}}</span>
                     </div>
                     <div>
-                        <span>Postal Code : </span>
-                        <input type="text" name="postalCode" id="postalCode" value="{{userPostCode}}" readonly>
+                        <span>Postal Code : {{userPostCode}}</span>
                     </div>
                 </div>
 
                 {{/order}}
             </div>
-
-            <div id="middlebar"></div>
-
+            
+    
             <div id="right_container">
                 {{#products}}
                 <div class="items">
@@ -86,8 +75,7 @@
                 {{/products}}
             </div>
     </div>
-            <a href="/allOrders">Back</a>
-    
+    <a href="/allOrders">Back</a>
 </div>
 {{/authenticated}}
 {{^authenticated}}

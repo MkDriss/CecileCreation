@@ -1,0 +1,79 @@
+#product{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+#updateProductForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 200px;
+}
+
+#picture{
+    width: 500px;
+    height: 600px;
+    margin-right: 100px;
+    padding-right: 100px;
+    border-right: 2px solid black;
+    object-fit: cover;
+}
+
+
+#productInfos{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 500px;
+}
+
+#productBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 500px;
+}
+
+#productName, #productPrice{
+    margin-bottom: 20px;
+    width: 600px;
+    height: 50px;
+    font-size: 17px;
+}
+
+textarea{
+    font-size: 17px;
+    width: 600px;
+}
+
+#buttons{
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#deleteProductButton, #updateProductButton{
+    width: 400px;
+    height: 50px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+#updateProductButton{
+    background-color: black;
+    border: 0px;
+    color: white;
+}
+
+#deleteProductButton{
+    background-color: red;
+    border: 0px;
+    color: white;
+}
+
+#deleteProductButton:hover, #updateProductButton:hover{
+    cursor: pointer;
+}

@@ -1,0 +1,29 @@
+{{>header}}
+{{#admin}}
+<div id="adminProductList">
+      <span id="title">All of your Products</span>
+      <div id="shopContent">
+            <div id="productsList">
+                  {{#products}}
+                  <div id="product">
+                        <a href="/updateProduct/{{productId}}" id="productLink">
+                              <img src="{{productPicture}}" alt="ProductPicture" id="productPicture">
+                              <div class="productInfos">
+                                    <div id="name">{{productName}}</div>
+                                    <div id="price">{{productPrice}} €</div>
+                              </div>
+                        </a>
+                  </div>
+                  {{/products}}
+                  <div id="addProductDiv">
+                        <a class="button" href="/addProduct" id="addProductLink">
+                            <img src="/icons/plus.png" alt="addProduct" id="addProductPicture">
+                        </a>
+                        
+                  </div>
+            </div>
+        </div>
+</div>
+{{/admin}}
+
+{{>footer}}

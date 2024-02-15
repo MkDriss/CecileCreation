@@ -18,7 +18,6 @@ let loadProduct = function(filename) {
                   
                   for(let tempProduct = 0;tempProduct < products.length; tempProduct++) {
                         let product = products[tempProduct];
-                        //console.log(product);
                         insertProduct.run(product.productId, product.productName, product.productPrice, product.productDescription, product.productPicture);
                   }     
             });
@@ -31,24 +30,30 @@ loadProduct('./json/products.json');
 
 exports.create = function (productId, productName, productPrice, productDescription, productPicture) {
       let pictureName = productName + '_' + productId + '.png';
-      console.log(pictureName);
+      console.log(productName);
 
-      db.prepare('INSERT INTO product (productId, productName, productPrice, productDescription, productPicture) VALUES (?, ?, ?, ?, ?)').run(productId, productName, productPrice, productDescription, productPicture);
-      
       let newProduct = {
             "productId": productId,
             "productName": productName,
             "productPrice": productPrice,
             "productDescription": productDescription, 
-            "productPicture": productPicture 
+            "productPicture": pictureName 
       };
-            
-      let productList = JSON.parse(fs.readFileSync('./json/products.json'));
-      productList.push(newProduct);
-      fs.writeFile('json/products.json', JSON.stringify(productList, null, 2), function (err) {
-            if (err) console.log(err);
-            console.log('product Added!');
-      });
+      try{
+            fs.readFile('./json/products.json', (err, data) => {
+                  if (err) throw err;
+                  let productList = JSON.parse(data);
+                  productList.push(newProduct);
+                  fs.writeFileSync('json/products.json', JSON.stringify(productList, null, 2), function (err) {
+                        if (err) console.log(err);
+                        console.log('product Added!');
+                  });
+            });
+            db.prepare('INSERT INTO product(productId, productName, productPrice, productDescription, productPicture) VALUES (?, ?, ?, ?, ?)').run(productId, productName, productPrice, productDescription, pictureName);
+      } catch(err) {
+            console.log(err);
+      }
+      
       
 }
 

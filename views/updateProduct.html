@@ -1,2 +1,61 @@
 {{>header}}
+
+{{#admin}}
+    {{#products}}
+    <div id="product">
+        <form action="updateProduct" method="post" id="updateProductForm">
+            <div class="productPictures">
+            {{#productPictures}}
+                    <img src=/{{productPicture}} alt="ProductPicture" id="picture">
+            {{/productPictures}}
+                    <input type="file" >
+            </div>
+            <div id="productInfos">
+                <div id="productBox">
+                    <input type="text" name="productName" id="productName" value="{{productName}}">
+                    <input type="number" name="productPrice" id="productPrice" value="{{productPrice}}">
+                    <textarea name="description" id="productDescription" cols="30" rows="10">{{productDescription}}</textarea>
+                </div>
+                <div id="buttons">
+                    <input type="submit" value="Update Product" id="updateProductButton">
+                    <form action="deleteProduct" method="post">
+                        <input type="submit" value="Delete Product" id="deleteProductButton">
+                    </form>
+                </div>
+            </div>
+        </form>
+    </div>
+    {{/products}}
+{{/admin}}
+<script>
+    var selDiv = "";
+    var storedFiles = [];
+    $(document).ready(function () {
+      $("#img").on("change", handleFileSelect);
+      selDiv = $("#selectedBanner");
+    });
+
+    function handleFileSelect(e) {
+      var files = e.target.files;
+      var filesArr = Array.prototype.slice.call(files);
+      filesArr.forEach(function (f) {
+        if (!f.type.match("image.*")) {
+          return;
+        }
+        storedFiles.push(f);
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var html =
+            '<img src="' +
+            e.target.result +
+            "\" data-file='" +
+            f.name +
+            "alt='Category Image' height='200px' width='200px'>";
+          selDiv.html(html);
+        };
+        reader.readAsDataURL(f);
+      });
+    }
+  </script>
 {{>footer}}

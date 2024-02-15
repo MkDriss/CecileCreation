@@ -63,6 +63,7 @@ var products = require('./js/products');
 var cart = require('./js/cart');
 var comments = require('./js/comments');
 var orderList = require('./js/orderList');
+const { setMaxIdleHTTPParsers } = require("http");
 
 //SEND MAILS
 
@@ -133,9 +134,9 @@ app.get('/account', (req, res) => {
     res.render('account', {accountsInfos: user, admin: req.session.admin});
 });
 
-app.get('/admin', (req, res) => {
+app.get('/adminPanel', (req, res) => {
     if(req.session.admin === true){
-        res.render('admin', {admin:req.session.admin});
+        res.render('adminPanel', {admin:req.session.admin});
     }
 });
 
@@ -175,8 +176,9 @@ app.get('/updateAccount', (req, res) => {
 });
 
 
-app.get('/updateProduct', (req, res) => {
-    res.render('updateProduct');
+app.get('/updateProduct/:id', (req, res) => {
+    let product = products.read(req.params.id)
+    res.render('updateProduct', {products : product, css : '/updateProduct.css', admin: req.session.admin, productPictures : product.productPicture});
 });
 
 app.get('/deleteProduct', (req, res) => {
@@ -427,6 +429,12 @@ app.get('/allOrders', (req, res) => {
 });
 
 
+app.get('/adminProductList', (req, res) => {
+    if(req.session.admin === true){
+        res.render('adminProductList',{products: products.list(), css : '/adminProductList.css', admin : req.session.admin})
+    }
+});
+
 
 //POST METHODS
 
@@ -579,11 +587,10 @@ app.post('/updateAccount', uploadProfilePicture.single('profilePicture'), (req, 
 
 
 app.post('/addProduct', uploadProduct.single('picture'), (req, res) => {
-    let name = convertInAlphabet(req.body.name);
+    let name = req.body.name;
     let price = req.body.price;
     let description = req.body.description;
     let pictureData = req.file;
-    console.log(pictureData, req.body);
         if(name == undefined || price == undefined || description == undefined || pictureData == undefined){
             console.log("Invalid product")
             return res.redirect('/addProduct');
@@ -604,7 +611,6 @@ app.post('/addProduct', uploadProduct.single('picture'), (req, res) => {
             let src = fs.createReadStream(tmp_path);
             let dest = fs.createWriteStream(target_path);
             src.pipe(dest);
-
             
             return res.redirect('/shop');
         }
