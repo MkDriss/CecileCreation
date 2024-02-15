@@ -5,12 +5,13 @@ const nodemailer = require('nodemailer');
 const mailgen = require('mailgen');
 const crypto = require('crypto');
 const multer  = require('multer');
-//const stripe = require('stripe');
+const stripe = require("stripe")('sk_test_51OMEETGF7IQAGntn5p16sLHI3Jz92k6Q6WWsNkNoFBoLo5oFyE9RbJejiiAzLMdeiBogLGG0MUg9o6EfCdFHEBew00wh9XPDqU');
+const path = require('path');
+
 const uploadProduct = multer({ dest: 'public/products_pictures/BackPack/' });
 const uploadProfilePicture = multer({ dest: 'public/profiles_pictures/' });
 const fs = require('fs');
 const app = express();
-const STRIPE_SECRET_KEY = 'pk_test_51OMEETGF7IQAGntn9phq1sQHndX2W3bOtsnbeAarfUmLyJFRgRbC8tBs3pHmBkgNZAPXkuIhfdVPi1fyz6n7zxX200B1eL9l7W';
 
 app.engine('html', mustache());
 app.set('view engine', 'html');
@@ -22,10 +23,11 @@ app.use(express.static('public/products_pictures/BackPack'));
 app.use(express.static('public/icons'));
 app.use(express.static('public/css'));
 app.use(express.static('public/profiles_pictures/'));
+app.use(express.static('js'));
 
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
-    secret: 'mot-de-passe-du-cookie', //TODO: change this
+    secret: 'j7G!wA4t&L,_T9kq5}M(NBF'
 }));
 
 
@@ -328,7 +330,7 @@ app.get('/aboutUs', (req, res) => {
 });
 
 
-app.get('/Checkout', (req, res) => {
+app.get('/deliveryInfos', (req, res) => {
     let cartuser = cart.listProducts(req.session.id);
 
     if(req.session.id == undefined || req.session.id == null){
@@ -341,7 +343,7 @@ app.get('/Checkout', (req, res) => {
     for (let i = 0; i < cartuser.length; i++){
         cartProductsInfos.push(JSON.parse(cartuser[i].products));
     }
-    res.render('Checkout', {cartItems: cartProductsInfos, totalPrice: totalPrice});
+    res.render('deliveryInfos', {cartItems: cartProductsInfos, totalPrice: totalPrice});
 });
 
 
@@ -433,6 +435,11 @@ app.get('/adminProductList', (req, res) => {
     if(req.session.admin === true){
         res.render('adminProductList',{products: products.list(), css : '/adminProductList.css', admin : req.session.admin})
     }
+});
+
+app.get('/checkout', (req, res) => {
+    console.log(req.session.id);
+    res.render('checkout', {css : '/checkout.css'});
 });
 
 
@@ -534,7 +541,6 @@ app.post('/forgotPassword', (req, res) => {
         }).catch(err => {
             console.log(err);
         });
-
     }
 });
 
@@ -648,36 +654,35 @@ app.post('/addComment', (req, res) => {
 });
 
 
-app.post('/getInfos', (req, res)=> {
+app.post('/deliveryInfos', (req, res)=> {
     req.session.userName = req.body.name;
     req.session.userLastName = req.body.lastName;
     req.session.userAdress = req.body.adress;
     req.session.userCity = req.body.city;
     req.session.userPostCode = req.body.postCode;
     req.session.userPhoneNumber = req.body.phoneNumber;
-    
     //console.log(userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, commentary);
-
-    res.redirect('/orderSummary');
+    res.redirect('/checkout');
 });
 
-app.post('/payment', async (req, res) => {
-    /*
-    let totalPrice = cart.getTotalPrice(req.session.id);
+app.post("/create-payment-intent", async (req, res) => {
+    let tolalPrice = cart.getTotalPrice(req.session.id) * 100; 
+    console.log(tolalPrice);
+    // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: totalPrice,
-        currency: 'eur',
-        description:cartProductsInfos,
-        statement_descriptor: 'Custom descriptor',
-        metadata: {integration_check: 'accept_a_payment'},
-      });
-
-      res.render('payment', {client_secret: paymentIntent.client_secret, publishable_key: STRIPE_SECRET_KEY});
-      */
+      amount:tolalPrice,
+      currency: "eur",
+      // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
     createOrder(req, res);
     cart.clearAll(req.session.id);
-    res.redirect('/orders');
-});
+  });
 
 app.post('/updateOrder', (req, res) => {
     let newState = req.body.state;
