@@ -6,7 +6,6 @@ const mailgen = require('mailgen');
 const crypto = require('crypto');
 const multer  = require('multer');
 const stripe = require("stripe")('sk_test_51OMEETGF7IQAGntn5p16sLHI3Jz92k6Q6WWsNkNoFBoLo5oFyE9RbJejiiAzLMdeiBogLGG0MUg9o6EfCdFHEBew00wh9XPDqU');
-const path = require('path');
 
 const uploadProduct = multer({ dest: 'public/products_pictures/BackPack/' });
 const uploadProfilePicture = multer({ dest: 'public/profiles_pictures/' });
@@ -180,11 +179,8 @@ app.get('/updateAccount', (req, res) => {
 
 app.get('/updateProduct/:id', (req, res) => {
     let product = products.read(req.params.id)
+    console.log(product.productPicture)
     res.render('updateProduct', {products : product, css : '/updateProduct.css', admin: req.session.admin, productPictures : product.productPicture});
-});
-
-app.get('/deleteProduct', (req, res) => {
-    res.render('deleteProduct');
 });
 
 app.get('/updateOrder/:id', (req, res) => {
@@ -198,6 +194,13 @@ app.get('/deleteOrder/:id', (req, res) => {
     let orderId = req.params.id;
     let order = orderList.getOrderFromId(orderId);
     res.render('deleteOrder',  {admin: req.session.admin, order: order, css : '/deleteOrder.css'});
+});
+
+
+app.get('/deleteProduct/:id', (req, res) => {
+    let productId = req.params.id;
+    let product = products.read(productId);
+    res.render('deleteProduct', {product : product, css : '/deleteProduct.css', admin: req.session.admin});
 });
 
 app.get('/cart', (req, res) => {
@@ -585,7 +588,6 @@ app.post('/updateAccount', uploadProfilePicture.single('profilePicture'), (req, 
         console.log("adress : " + adress);
         console.log("phone : " + phone);
         console.log("profilePicture : " + profilePictureName);
-
         console.log(account.read(id));
         return res.redirect('/account');
     }
@@ -597,6 +599,7 @@ app.post('/addProduct', uploadProduct.single('picture'), (req, res) => {
     let price = req.body.price;
     let description = req.body.description;
     let pictureData = req.file;
+    console.log(pictureData)
         if(name == undefined || price == undefined || description == undefined || pictureData == undefined){
             console.log("Invalid product")
             return res.redirect('/addProduct');
@@ -623,6 +626,35 @@ app.post('/addProduct', uploadProduct.single('picture'), (req, res) => {
 
         return res.redirect('/addProduct');
     });
+
+app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) => {
+    let productId = req.params.id;
+    let name = req.body.productName;
+    let price = req.body.productPrice;
+    let description = req.body.productDescription;
+    let pictureData = req.file;
+        if(name == undefined || price == undefined || description == undefined){
+            console.log("Invalid product")
+            return res.redirect('/updateProduct/' + productId);
+        }
+
+        else if(products.read(productId) != undefined){
+            products.update(productId, name, price, description);
+            if(!(pictureData === undefined)){
+                let tmp_path = req.file.path;
+                let target_path = 'public/products_pictures/BackPack/' + name + '_' + productId + '.png';
+                let src = fs.createReadStream(tmp_path);
+                let dest = fs.createWriteStream(target_path);
+                src.pipe(dest);
+            }
+
+            return res.redirect('/shop');
+        }
+
+        return res.redirect('/shop');
+});
+
+
 
 app.post('/addComment', (req, res) => {
     if (req.session.authenticated === false || req.session.authenticated === undefined){
@@ -697,6 +729,12 @@ app.post('/deleteOrder', (req, res) => {
         orderList.deleteOrderFromId(orderId);
         res.redirect('/allOrders');
     }
+});
+
+app.post('/deleteProduct/:id', (req, res) => {
+    let productId = req.params.id;
+    products.delete(productId);
+    res.redirect('/adminProductList');
 });
 
 //LISTENING

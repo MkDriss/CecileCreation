@@ -1,3 +1,15 @@
 {{>header}}
 
+<div>
+    <h1>Delete Product</h1> 
+    {{#product}}
+    <form action="/deleteProduct/{{productId}}" method="POST">
+        <span>Do you really want to delete this product ?</span>
+        <input type="submit" value="Delete Product">
+        <a href="/shop">Back</a>
+    </form>
+    {{/product}}
+    
+</div>
+
 {{>footer}}

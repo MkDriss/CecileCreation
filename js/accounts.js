@@ -142,7 +142,7 @@ exports.updateAccount = function (id, username, email, adress, zipCode, phone, p
                               admin.profilePicture = pictureName;
                         }
                   }
-                  fs.writeFile('json/admin.json', JSON.stringify(adminsList, null, 2), function (err) {
+                  fs.writeFileSync('json/admin.json', JSON.stringify(adminsList, null, 2), function (err) {
                         if (err) throw err;
                         console.log(err);
                   });
@@ -163,7 +163,7 @@ exports.updateAccount = function (id, username, email, adress, zipCode, phone, p
                         account.profilePicture = pictureName;
                   }
             }
-            fs.writeFile('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
+            fs.writeFileSync('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
                   if (err) throw err;
                   console.log(err);
             });

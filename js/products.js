@@ -28,7 +28,7 @@ let loadProduct = function(filename) {
 loadProduct('./json/products.json');
 
 
-exports.create = function (productId, productName, productPrice, productDescription, productPicture) {
+exports.create = function (productId, productName, productPrice, productDescription) {
       let pictureName = productName + '_' + productId + '.png';
       console.log(productName);
 
@@ -44,7 +44,7 @@ exports.create = function (productId, productName, productPrice, productDescript
                   if (err) throw err;
                   let productList = JSON.parse(data);
                   productList.push(newProduct);
-                  fs.writeFileSync('json/products.json', JSON.stringify(productList, null, 2), function (err) {
+                  fs.writeFile('json/products.json', JSON.stringify(productList, null, 2), function (err) {
                         if (err) console.log(err);
                         console.log('product Added!');
                   });
@@ -62,11 +62,44 @@ exports.read = function (productId) {
 }
 
 exports.update = function (productId, productName, productPrice, productDescription) {
+      fs.readFile('json/products.json', function (err, data) {
+            if (err) throw err;
+            let productsList = JSON.parse(data);
+            for(let i = 0;i < productsList.length; i++) {
+                  let product = productsList[i];
+                  if (product.productId === productId) {
+                        product.productName = productName;
+                        product.productPrice = productPrice;
+                        product.productDescription = productDescription;
+                  }
+            }
+            fs.writeFileSync('json/products.json', JSON.stringify(productsList, null, 2), function (err) {
+                  if (err) throw err;
+                  console.log(err);
+            });
+      });
+      
       db.prepare('UPDATE product SET productName = ?, productPrice = ?, productDescription = ? WHERE productId = ?').run(productName, productPrice, productDescription, productId);
+
 }
 
 exports.delete = function (productId) {
+      fs.readFile('json/products.json', function (err, data) {
+            if (err) throw err;
+            let productsList = JSON.parse(data);
+            for(let i = 0;i < productsList.length; i++) {
+                  let product = productsList[i];
+                  if (product.productId === productId) {
+                        productsList.splice(i, 1);
+                  }
+            }
+            fs.writeFileSync('json/products.json', JSON.stringify(productsList, null, 2), function (err) {
+                  if (err) throw err;
+                  console.log(err);
+            });
+      });
       db.prepare('DELETE FROM product WHERE productId = ?').run(productId);
+      console.log('product ' + productId + ' deleted');
 }
 
 exports.list = function () {
