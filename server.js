@@ -664,7 +664,6 @@ app.post('/addComment', (req, res) => {
 
     let productId = req.body.productId;
     let commentContent = req.body.content;
-    //let rating = req.body.rating;
     let user = req.session.username;
     let profilePicture = account.read(req.session.id).profilePicture;
     let date = new Date();
@@ -693,18 +692,15 @@ app.post('/deliveryInfos', (req, res)=> {
     req.session.userCity = req.body.city;
     req.session.userPostCode = req.body.postCode;
     req.session.userPhoneNumber = req.body.phoneNumber;
-    //console.log(userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, commentary);
     res.redirect('/checkout');
 });
 
 app.post("/create-payment-intent", async (req, res) => {
     let tolalPrice = cart.getTotalPrice(req.session.id) * 100; 
     console.log(tolalPrice);
-    // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
       amount:tolalPrice,
       currency: "eur",
-      // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
       automatic_payment_methods: {
         enabled: true,
       },
