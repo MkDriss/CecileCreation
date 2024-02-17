@@ -2,6 +2,7 @@
   {
     "productId": "0",
     "productName": "Cartable maternelle fille tissu les Aristochats",
+    "productCategory": "Backpack",
     "productPrice": "40",
     "productDescription": "Ce cartable a été confectionné dans un tissu coton épais rose et un tissu coton au ravissant motif les Aristochats. Son rabat est accessoirisé de rubans de satin et d'organza coordonnés et fini d'un liseré coordonné pour une finition parfaite.\nIl est entièrement doublé dans une toile écrue épaisse qui lui apporte beaucoup de tenue.\nUne petite poche plaquée devant accueille un fermoir cartable facilement manipulable par les petites mains.\n\nSes dimensions sont adaptées à la morphologie des touts petits (28 cm x 24 cm x 5cm).\nSes anses sont ajustables de 50 à 60 cm\n\nCe cartable est une création unique Cicilounette. Il a été confectionné avec le plus grand soin dans des tissus choisis pour leur beauté et leur qualité.\nLe prénom peut être inscrit sur simple demande",
     "productPicture": "il_794xN.4114713909_6ngb.jpg"
@@ -9,6 +10,7 @@
   {
     "productId": "1",
     "productName": "Cartable maternelle petite section personnalisé",
+    "productCategory": "Backpack",
     "productPrice": "70",
     "productDescription": "cartable confectionné dans un tissu épais. Rabat travaillé dans un tissu coton enduit motifs écolier et fini d’un liseré coordonné.",
     "productPicture": "il_794xN.2635023791_n9p1.jpg"
@@ -16,6 +18,7 @@
   {
     "productId": "4",
     "productName": "Sac à dos enfant tissu petits bolides",
+    "productCategory": "Backpack",
     "productPrice": "45",
     "productDescription": "Ce ravissant petit sac à dos forme pochon a été confectionné dans une association de tissus coordonnées : le rabat est réalisé dans un coton au motif petits bolides. Le sac est cousu dans un tissu épais marron. Il est entièrement doublé dans un tissu écru épais, qui lui confère une tenue irréprochable. Sa petite poche devant accueille un velcro. Fermeture intérieure par une cordelette.",
     "productPicture": "il_794xN.3232783213_9mim.jpg"
@@ -23,71 +26,9 @@
   {
     "productId": "5",
     "productName": " Sac à dos enfant le petit prince",
+    "productCategory": "Backpack",
     "productPrice": "45",
     "description": "Ce ravissant petit sac à dos forme pochon a été confectionné dans une association de tissus coordonnées : le rabat est réalisé dans un coton au motif petits bolides. Le sac est cousu dans un tissu épais marron. Il est entièrement doublé dans un tissu écru épais, qui lui confère une tenue irréprochable. Sa petite poche devant accueille un velcro. Fermeture intérieure par une cordelette.",
     "productPicture": "il_794xN.3443932700_onzs.jpg"
-  },
-  {
-    "productId": "5445313a09f0a03b784d",
-    "productName": "Jaune",
-    "productPrice": "15",
-    "productDescription": "JAUNE",
-    "productPicture": "Jaune_5445313a09f0a03b784d.png"
-  },
-  {
-    "productId": "34da5bd680a092a5239d",
-    "productName": "ahmed",
-    "productPrice": "0.01",
-    "description": "BENAKOL",
-    "productPicture": "ahmed_34da5bd680a092a5239d.png"
-  },
-  {
-    "productId": "c135d0b0e4c10ceee9c5",
-    "productName": "giroud",
-    "productPrice": "15",
-    "productDescription": "gdfsegez",
-    "productPicture": "giroud_c135d0b0e4c10ceee9c5.png"
-  },
-  {
-    "productId": "699d9b59be28ca94594c",
-    "productName": "Cyril",
-    "productPrice": "4.99",
-    "productDescription": "Le C",
-    "productPicture": "Cyril_699d9b59be28ca94594c.png"
-  },
-  {
-    "productId": "b9d36fd4bf69242e8cfa",
-    "productName": "Leheroquelemondea",
-    "productPrice": "150",
-    "productDescription": "I'am not the hero that's the world need, I'm not the hero that's the world want, but I'm a the hero that's world gets",
-    "productPicture": "Leheroquelemondea_b9d36fd4bf69242e8cfa.png"
-  },
-  {
-    "productId": "04917f0977836329108d",
-    "productName": "Cyrilmachallah",
-    "productPrice": "30",
-    "productDescription": "Le C 2.0",
-    "productPicture": "Cyrilmachallah_04917f0977836329108d.png"
-  },
-  {
-    "productId": "8734a1ec6ac6c4593959",
-    "productName": "hjjk",
-    "productPrice": "78",
-    "productDescription": "fgh",
-    "productPicture": "hjjk_8734a1ec6ac6c4593959.png"
-  },
-  {
-    "productId": "eaf386b9b7276348dc51",
-    "productName": "JKLl",
-    "productPrice": "678",
-    "productDescription": "UI",
-    "productPicture": "JKLl_eaf386b9b7276348dc51.png"
-  },
-  {
-    "productId": "1b3482e401855a5ed896",
-    "productName": "Cyril le bg",
-    "productPrice": "245",
-    "productDescription": "desc",
-    "productPicture": "Cyril le bg_1b3482e401855a5ed896.png"
   }
 ]

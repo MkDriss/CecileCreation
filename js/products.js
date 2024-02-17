@@ -7,18 +7,17 @@ let db = new Sqlite('db.sqlite');
 let loadProduct = function(filename) {
 
       const products= JSON.parse(fs.readFileSync(filename));
-
       
-      db.prepare ('DROP TABLE IF EXISTS product').run();
-      console.log('product table dropped');
-      db.prepare('CREATE TABLE IF NOT EXISTS product (productId TEXT PRIMARY KEY, productName TEXT, productPrice INTEGER, productDescription TEXT, productPicture TEXT)').run();
-      let insertProduct = db.prepare('INSERT INTO product VALUES (?, ?, ?, ?, ?)');
+      db.prepare ('DROP TABLE IF EXISTS products').run();
+      console.log('products table dropped');
+      db.prepare('CREATE TABLE IF NOT EXISTS products (productId TEXT PRIMARY KEY, productName TEXT, productCategory TEXT,productPrice INTEGER, productDescription TEXT, productPicture TEXT)').run();
+      let insertProduct = db.prepare('INSERT INTO products VALUES (?, ?, ?, ?, ?, ?)');
 
       let transaction = db.transaction((products) => {
                   
                   for(let tempProduct = 0;tempProduct < products.length; tempProduct++) {
                         let product = products[tempProduct];
-                        insertProduct.run(product.productId, product.productName, product.productPrice, product.productDescription, product.productPicture);
+                        insertProduct.run(product.productId, product.productName, product.productCategory, product.productPrice, product.productDescription, product.productPicture);
                   }     
             });
 
@@ -28,13 +27,14 @@ let loadProduct = function(filename) {
 loadProduct('./json/products.json');
 
 
-exports.create = function (productId, productName, productPrice, productDescription) {
+exports.create = function (productId, productName, productCategory, productPrice, productDescription) {
       let pictureName = productName + '_' + productId + '.png';
       console.log(productName);
 
       let newProduct = {
             "productId": productId,
             "productName": productName,
+            "productCategory": productCategory,
             "productPrice": productPrice,
             "productDescription": productDescription, 
             "productPicture": pictureName 
@@ -49,19 +49,17 @@ exports.create = function (productId, productName, productPrice, productDescript
                         console.log('product Added!');
                   });
             });
-            db.prepare('INSERT INTO product(productId, productName, productPrice, productDescription, productPicture) VALUES (?, ?, ?, ?, ?)').run(productId, productName, productPrice, productDescription, pictureName);
+            db.prepare('INSERT INTO products(productId, productName, productPrice, productDescription, productPicture) VALUES (?, ?, ?, ?, ?)').run(productId, productName, productPrice, productDescription, pictureName);
       } catch(err) {
             console.log(err);
-      }
-      
-      
+      }  
 }
 
 exports.read = function (productId) {
-      return db.prepare('SELECT * FROM product WHERE productId = ?').get(productId);
+      return db.prepare('SELECT * FROM products WHERE productId = ?').get(productId);
 }
 
-exports.update = function (productId, productName, productPrice, productDescription) {
+exports.update = function (productId, productName, productCategory, productPrice, productDescription) {
       fs.readFile('json/products.json', function (err, data) {
             if (err) throw err;
             let productsList = JSON.parse(data);
@@ -69,6 +67,7 @@ exports.update = function (productId, productName, productPrice, productDescript
                   let product = productsList[i];
                   if (product.productId === productId) {
                         product.productName = productName;
+                        product.productCategory = productCategory;
                         product.productPrice = productPrice;
                         product.productDescription = productDescription;
                   }
@@ -79,7 +78,7 @@ exports.update = function (productId, productName, productPrice, productDescript
             });
       });
       
-      db.prepare('UPDATE product SET productName = ?, productPrice = ?, productDescription = ? WHERE productId = ?').run(productName, productPrice, productDescription, productId);
+      db.prepare('UPDATE products SET productName = ?, productCategory = ?, productPrice = ?, productDescription = ? WHERE productId = ?').run(productName, productCategory, productPrice, productDescription, productId);
 
 }
 
@@ -98,12 +97,14 @@ exports.delete = function (productId) {
                   console.log(err);
             });
       });
-      db.prepare('DELETE FROM product WHERE productId = ?').run(productId);
+      db.prepare('DELETE FROM products WHERE productId = ?').run(productId);
       console.log('product ' + productId + ' deleted');
 }
 
 exports.list = function () {
-      return db.prepare('SELECT * FROM product').all();
+      return db.prepare('SELECT * FROM products').all();
 }
 
-
+exports.getCategory = function (){
+      return db.prepare('SELECT productCategory FROM products')
+}

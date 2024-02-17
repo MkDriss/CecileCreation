@@ -287,21 +287,19 @@ app.get('/readProduct/:productId', (req, res) => {
     else{
         let product = products.read(productId);
         let commentsList = comments.list(productId);
-
+        let prod = products.list();
         let otherProducts = [];
-
-        ListId = [];
-        for(let i = 0; i < products.list().length; i++){
-            ListId.push(products.list()[i]);
-        }
-
-        while(otherProducts.length < 4){
-            let randomId = Math.floor(Math.random() * ListId.length);
-            if(ListId[randomId].productId != productId){
-                otherProducts.push(ListId[randomId]);
-                ListId.splice(randomId, 1);
+        
+        for(let i = 0; i < prod.length; i++){
+            if(prod[i].productId != productId && !otherProducts.includes(prod[i])){
+                otherProducts.push(prod[i]);
+            }
+            if(otherProducts.length == 4){
+                break;
             }
         }
+
+        console.log(otherProducts);
         return res.render('readProduct', {products: product, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin});
     }
 });
@@ -736,7 +734,7 @@ app.post('/deleteProduct/:id', (req, res) => {
 //LISTENING
 
 
-app.listen(3001, () => {
+app.listen(3000, () => {
     console.log("Server listening ");
     console.log("http://localhost:3001");
 });

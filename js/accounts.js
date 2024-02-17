@@ -10,7 +10,6 @@ let loadAccount = function(filename) {
 
       const accounts = JSON.parse(fs.readFileSync(filename));
       //console.log(accounts);
-
       db.prepare('DROP TABLE IF EXISTS user').run();
       console.log('Account table dropped');
       db.prepare('CREATE TABLE IF NOT EXISTS user (id TEXT PRIMARY KEY,'+
