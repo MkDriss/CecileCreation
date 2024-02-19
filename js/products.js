@@ -105,6 +105,14 @@ exports.list = function () {
       return db.prepare('SELECT * FROM products').all();
 }
 
-exports.getCategory = function (){
-      return db.prepare('SELECT productCategory FROM products')
+exports.getProductFromCategory = function (category){
+      return db.prepare('SELECT * FROM products WHERE productCategory = ?').all(category);
+}
+
+exports.getCategories = function () {
+      let categories = db.prepare('SELECT DISTINCT productCategory FROM products').all();
+      for (let i = 0; i < categories.length; i++) {
+            categories[i] = categories[i].productCategory;
+        }
+      return categories;
 }

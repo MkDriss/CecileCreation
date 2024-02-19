@@ -1,8 +1,7 @@
-// This is your test publishable API key.
-const stripe = Stripe("pk_test_51OMEETGF7IQAGntn9phq1sQHndX2W3bOtsnbeAarfUmLyJFRgRbC8tBs3pHmBkgNZAPXkuIhfdVPi1fyz6n7zxX200B1eL9l7W");
 
-// The items the customer wants to buy
+const stripe = Stripe("pk_test_51NZ9oPGoMv8PfBnKrgWhHe2qx1zu7rhuxrwSSvIownLpLnYtXuYXCKKFHaP4EamfqE5rCJHZKooOGVE3rkDkHxbi00ll37cadh");
 
+let returnUrl;
 initialize();
 checkStatus();
 
@@ -10,12 +9,13 @@ document
   .querySelector("#payment-form")
   .addEventListener("submit", handleSubmit);
 
-// Fetches a payment intent and captures the client secret
 async function initialize() {
+  console.log("initialize")
   const response = await fetch("/create-payment-intent", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
   });
+  console.log(response);
   const { clientSecret } = await response.json();
 
   const appearance = {
@@ -39,16 +39,10 @@ async function handleSubmit(e) {
   const { error } = await stripe.confirmPayment({
     elements,
     confirmParams: {
-      // Make sure to change this to your payment completion page
-      return_url: "http://localhost:3001/orders",
+      return_url: "http://localhost:3000/orders",
     },
   });
 
-  // This point will only be reached if there is an immediate error when
-  // confirming the payment. Otherwise, your customer will be redirected to
-  // your `return_url`. For some payment methods like iDEAL, your customer will
-  // be redirected to an intermediate site first to authorize the payment, then
-  // redirected to the `return_url`.
   if (error.type === "card_error" || error.type === "validation_error") {
     showMessage(error.message);
   } else {
@@ -58,7 +52,6 @@ async function handleSubmit(e) {
   setLoading(false);
 }
 
-// Fetches the payment intent status after payment submission
 async function checkStatus() {
   const clientSecret = new URLSearchParams(window.location.search).get(
     "payment_intent_client_secret"

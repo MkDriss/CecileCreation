@@ -1,21 +1,22 @@
 {{>header}}
 
-<link rel="stylesheet" href="deliveryInfos.css">
     <div id="title">Delivery Informations</div>
 
     <div id="infos">
             <form action="deliveryInfos" method="POST" id="infoForm">
+                {{#userAccountInfos}}
                 <div id="nameInfos">
-                    <input type="text" name="name" id="name" class="nameInput"placeholder="Name" required>
-                    <input type="text" name="lastName" id="lastName" class="nameInput" placeholder="Last Name" required>
+                    <input type="text" name="name" id="name" class="nameInput"placeholder="Name" value="{{username}}" required>
+                    <input type="text" name="lastName" id="lastName" class="nameInput" placeholder="Last Name" value="{{userLastName}}" required>
                 </div>
-                    <input type="text" name="adress" id="adress" class="input" placeholder="Adress" required>
-                    <input type="text" name="city" id="city" class="input" placeholder="City" required>
-                    <input type="text" name="postCode" id="postCode" class="input" placeholder="Zip Code" required>
-                    <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number" required>
+                    <input type="text" name="adress" id="adress" class="input" placeholder="Adress" value="{{adress}}" required>
+                    <input type="text" name="city" id="city" class="input" placeholder="City" value="{{city}}" required>
+                    <input type="text" name="postCode" id="postCode" class="input" placeholder="Zip Code" value="{{zipCode}}" required>
+                    <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number" value="{{phone}}" required>
                 <div>
                     <input type="submit" id="submitbutton" class="input" value="Continue">
                 </div>
+                {{/userAccountInfos}}
             </form>
 
             <div id="OrderSummary">

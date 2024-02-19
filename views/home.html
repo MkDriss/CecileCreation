@@ -1,28 +1,44 @@
 {{>header}}
-<link rel="stylesheet" href="home.css">
-
-      <div id="title">Welcome !</div>
-
-      <div id="p2">
-            <span id="text">Creations faites main, un gage de qualité blablabla</span>
-      </div>
-      <div id="trend">
-            Produit du moment
-      </div>
-      {{#products}}
-      <div id="product">
-            <a  href="/readProduct/{{productId}}">
-                  <img src=/{{productPicture}} alt="ProductPicture" id="picture">
+<div id="trend">
+      Produit du moment
+</div>
+{{#trendProduct}}
+<div id="trendProduct">
+      <div>
+            <a href="/readProduct/{{productId}}">
+                  <img src=/{{productPicture}} alt="ProductPicture" id="trendProductPicture">
             </a>
-
-            <div id="productInfos">
-                  <a href="/readProduct/{{productId}}" id="productName">{{productName}}</a>
-                  <div id="price">{{productPrice}} €</div>
-                  <div id="description">{{productDescription}}</div>
-                  <a class="button" id="addToCart" href="/readProduct/{{productId}}">Details</a>
+            <div id="trendProductInfo">
+                  <a href="/readProduct/{{productId}}" id="trendProductName">{{productName}}</a>
+                  <div id="trendProductPrice">{{productPrice}} €</div>
+                  <div id="trendProductDescription">{{productDescription}}</div>
             </div>
       </div>
-      {{/products}}
+      <a class="button" id="addToCartLink" href="/addToCart/{{productId}}">Add to Cart</a>
+</div>
+{{/trendProduct}}
+
+<div id="shop">
+      <span id="title">Shop</span>
+      <div id="shopContent">
+            <div id="productsList">
+                  {{#products}}
+                  <div id="product">
+                        <a href="/readProduct/{{productId}}" id="productLink">
+                              <img src="{{productPicture}}" alt="ProductPicture" id="productPicture">
+                              <div class="productInfos">
+                                    <div id="name">{{productName}}</div>
+                                    <div id="price">{{productPrice}} €</div>
+                              </div>
+                        </a>
+                  </div>
+                  {{/products}}
+
+            </div>
+            {{#admin}}
+            <a class="button" href="/addProduct">addProduct</a>
+            {{/admin}}
+      </div>
 </div>
 
 {{>footer}}

@@ -1,7 +1,7 @@
 {{>header}}
 
 <link rel="stylesheet" href="/readProduct.css">
-      
+
 {{#products}}
 <div id="product">
       <img src=/{{productPicture}} alt="ProductPicture" id="picture">
@@ -12,9 +12,6 @@
                   <div id="description">{{productDescription}}
                   </div>
             </div>
-
-            
-
             <div>
                   <a class="button" id="addToCart" href="/addToCart/{{productId}}">Add to cart</a>
             </div>
@@ -23,22 +20,24 @@
 
 <div id="otherProducts">
       <h1 id="otherProductsTitle">Autres produits</h1>
-      <div id="otherProductsContainer">
-            {{#otherProducts}}
-            <div id="otherProduct">
-                  <a href="/readProduct/{{productId}}" class="productLink">
-                        <img src="/{{productPicture}}" alt="ProductPicture" id="otherProductPicture">
-                  </a>
-                  <div class="otherProductInfos">
-                        <div class="otherProductInfosContainer">
-                              <a href="/readProduct/{{productId}}" class="otherProductLink">
-                                    <div id="otherProductName">{{productName}}</div>
-                                    <div id="otherProductPrice">{{productPrice}} €</div>
-                              </a>
+      <div id="otherProductBox">
+            <div id="otherProductsContainer">
+                  {{#otherProducts}}
+                  <div id="otherProduct">
+                        <a href="/readProduct/{{productId}}" class="productLink">
+                              <img src="/{{productPicture}}" alt="ProductPicture" id="otherProductPicture">
+                        </a>
+                        <div class="otherProductInfos">
+                              <div class="otherProductInfosContainer">
+                                    <a href="/readProduct/{{productId}}" class="otherProductLink">
+                                          <div id="otherProductName">{{productName}}</div>
+                                          <div id="otherProductPrice">{{productPrice}} €</div>
+                                    </a>
+                              </div>
                         </div>
-                  </div>           
+                  </div>
+                  {{/otherProducts}}
             </div>
-            {{/otherProducts}}
       </div>
 </div>
 
@@ -48,7 +47,7 @@
       <div>
             <form action="/addComment" method="POST" id="commentForm">
                   <textarea name="content" id="content" cols="110" rows="10"></textarea>
-                  <input type="hidden" name="productId" value="{{productId}}"> 
+                  <input type="hidden" name="productId" value="{{productId}}">
                   <input id="commentInput" type="submit" value="Add comment">
             </form>
       </div>
@@ -64,15 +63,15 @@
                         </div>
                         <div class="commentContent">{{content}}</div>
                   </div>
-            {{#admin}}
+                  {{#admin}}
                   <a href="/deleteComment/{{commentId}}" class="button">Delete</a>
-            {{/admin}}
+                  {{/admin}}
             </div>
             {{/comments}}
             {{^comments}}
             <div id="msg">
                   No comments yet
-            {{/comments}}
+                  {{/comments}}
             </div>
 
       </div>

@@ -4,9 +4,11 @@
     "username": "SuperDri",
     "email": "meskinidrisspro@gmail.com",
     "password": "marie",
-    "adress": "22 boulevard Georges Guynemer",
+    "adress": "22 Boulevard Georges Guynemer",
     "phone": "06 52 18 73 05",
-    "zipCode": "13009 ",
-    "profilePicture": "mejpg_88da387777280b6e67d7085899a0b26689caf1af41d6df96f427bc3ba4ecd614.png"
+    "zipCode": "13009",
+    "userLastName": "MESKINI",
+    "city": "Marseille",
+    "profilePicture": null
   }
 ]

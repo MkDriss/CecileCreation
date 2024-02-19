@@ -3,6 +3,17 @@
 <div id="shop">
       <span id="title">Shop / Créations</span>
       <div id="shopContent">
+            <form action="/searchProduct" method="POST">
+                  <input type="text" name="search" id="search" placeholder="Rechercher un produit">
+                  <select name="Categories id=" Categories">
+                        <option id="defaultCategory" value="default">Select a Category</option>
+                        {{#categories}}
+                        <option id="category" value="{{category}}">{{categories}}</option>
+                        {{/categories}}
+                  </select>
+                  <input type="submit" value="Rechercher" id="submit">
+            </form>
+            
             <div id="productsList">
                   {{#products}}
                   <div id="product">
@@ -15,13 +26,16 @@
                         </a>
                   </div>
                   {{/products}}
-            
-                  </div>
-                   {{#admin}}
-                        <a class="button" href="/addProduct">addProduct</a>
-                        {{/admin}}
-                  </div>
-            
+                  {{^products}}
+                  <div id="noProduct">No Products Found</div>
+                  {{/products}}
+
+            </div>
+            {{#admin}}
+            <a class="button" href="/addProduct">addProduct</a>
+            {{/admin}}
+      </div>
+
 </div>
 
 {{>footer}}

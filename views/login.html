@@ -1,9 +1,11 @@
 {{>header}}
 
-<link rel="stylesheet" href="login.css">     
+      <link rel="stylesheet" href="login.css">     
       <div id="loginBox">
             <form action="/login" method="POST" id="form">
                   <div id="title">Login</div>
+                  <div>{{msg}}</div>
+                  <input type="hidden" value="{{productId}}" name="productId">
                   <div>
                         <input type="email" id="email" name="email" placeholder="Email" required>
                   </div>
@@ -17,7 +19,7 @@
             </form>
 
             <div id="other">
-                  <div>{{msg}}</div>
+                  
                   <a href="/forgotPassword">Forgot your password ?</a>
                   <a href="/register">Register</a>
             </div>

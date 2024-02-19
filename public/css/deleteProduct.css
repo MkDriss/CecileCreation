@@ -7,13 +7,13 @@
     height: 100%;
 }
 
-#title{
+#title {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 20px;
 }
 
-#deleteProductForm{
+#deleteProductForm {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,11 +21,11 @@
     width: 100%;
 }
 
-#deleteProductForm input{
+#deleteProductForm input {
     margin-bottom: 20px;
 }
 
-#deleteProductButton{
+#deleteProductButton {
     width: 100px;
     height: 30px;
     background-color: #ff0000;
@@ -35,7 +35,7 @@
     cursor: pointer;
 }
 
-#cancelLink{
+#cancelLink {
     width: 100px;
     height: 30px;
     background-color: black;
