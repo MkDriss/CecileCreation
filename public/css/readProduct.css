@@ -12,12 +12,11 @@
     display: flex;
     justify-content: center;
     margin-top: 200px;
-    
 }
 
 #picture{
-    width: 500px;
-    height: 600px;
+    width: 480px;
+    height: 620px;
     margin-right: 100px;
     padding-right: 100px;
     border-right: 2px solid black;

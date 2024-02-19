@@ -163,7 +163,6 @@ app.get('/orders', (req, res) => {
 
 app.get('/shop', (req, res) => {
     let categories = products.getCategories();
-    console.log(categories);
     res.render('shop', { products: products.list(), css: '/shop.css', categories: categories });
 });
 
@@ -693,7 +692,6 @@ app.post('/searchProduct', (req, res) => {
     }
 
     else if (search != undefined) {
-        console.log("searching for " + search);
         for (let i = 0; i < productsList.length; i++) {
             if ((productsList[i].productName).toLowerCase().includes(search.toLowerCase())) {
                 productsFoundbySearch.push(productsList[i]);
@@ -727,7 +725,6 @@ app.post('/addComment', (req, res) => {
 
     else {
         comments.create(user, dateComment, commentContent, productId, profilePicture);
-        console.log(profilePicture)
         return res.redirect('/readProduct/' + productId);
     }
 });
