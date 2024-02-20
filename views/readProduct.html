@@ -3,17 +3,22 @@
 <link rel="stylesheet" href="/readProduct.css">
 
 {{#products}}
-<div id="product">
-      <img src=/{{productPicture}} alt="ProductPicture" id="picture">
-      <div id="productInfos">
-            <div id="productBox">
-                  <div id="productName">{{productName}}</div>
-                  <div id="price">{{productPrice}} €</div>
-                  <div id="description">{{productDescription}}
+<div id="container">
+      <div id="product">
+            <img src=/{{productPicture}} alt="ProductPicture" id="picture">
+            <div id="productInfos">
+                  <div id="productBox">
+                        <div>
+                              <div id="productName">{{productName}}</div>
+                              <div id="productCategory">{{category}}</div>
+                        </div>
+                        <div id="price">{{productPrice}} €</div>
+                        <div id="description">{{productDescription}}
+                        </div>
                   </div>
-            </div>
-            <div>
-                  <a class="button" id="addToCart" href="/addToCart/{{productId}}">Add to cart</a>
+                  <div>
+                        <a class="button" id="addToCart" href="/addToCart/{{productId}}">Add to cart</a>
+                  </div>
             </div>
       </div>
 </div>
@@ -21,21 +26,21 @@
       <div id="otherProducts">
             <a href="#otherProductsBox" id="otherProductsLink">Other Products</a>
             <div id="otherProductsBox">
-                        {{#otherProducts}}
-                        <div id="otherProduct">
-                              <a href="/readProduct/{{productId}}" class="productLink">
-                                    <img src="/{{productPicture}}" alt="ProductPicture" id="otherProductPicture">
-                              </a>
-                              <div class="otherProductInfos">
-                                    <div class="otherProductInfosContainer">
-                                          <a href="/readProduct/{{productId}}" class="otherProductLink">
-                                                <div id="otherProductName">{{productName}}</div>
-                                                <div id="otherProductPrice">{{productPrice}} €</div>
-                                          </a>
-                                    </div>
+                  {{#otherProducts}}
+                  <div id="otherProduct">
+                        <a href="/readProduct/{{productId}}" class="productLink">
+                              <img src="/{{productPicture}}" alt="ProductPicture" id="otherProductPicture">
+                        </a>
+                        <div class="otherProductInfos">
+                              <div class="otherProductInfosContainer">
+                                    <a href="/readProduct/{{productId}}" class="otherProductLink">
+                                          <div id="otherProductName">{{productName}}</div>
+                                          <div id="otherProductPrice">{{productPrice}} €</div>
+                                    </a>
                               </div>
                         </div>
-                        {{/otherProducts}}
+                  </div>
+                  {{/otherProducts}}
             </div>
       </div>
 </div>

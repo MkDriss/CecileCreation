@@ -1,6 +1,6 @@
 {{>header}}
 
-<div id="cart"> 
+<div id="cart">
 
       <div>
             <span id="title">Cart</span>
@@ -10,7 +10,7 @@
             </div>
             {{/passOrder}}
             {{#cartProducts}}
-            
+
             <div id="item">
                   <div id="product">
                         <a href="/readProduct/{{productId}}" class="productLink">
@@ -23,20 +23,21 @@
                                           <div id="price">{{productPrice}} €</div>
                                     </a>
                                     <div class="removeLink">
-                                          <a href="/removeFromCart/{{productId}}"><img src="bouton-fermer.png" class="ico" alt="delete"></a>
+                                          <a href="/removeFromCart/{{productId}}"><img src="bouton-fermer.png"
+                                                      class="ico" alt="delete"></a>
                                     </div>
                               </div>
-                              
-                        </div>           
+
+                        </div>
                   </div>
             </div>
 
             {{/cartProducts}}
             {{^cartProducts}}
-                  <div id="msg">
-                        Your cart is Empty
-                  </div>
-                  <a href="/shop" id="goShop">Go shop</a>
+            <div id="msg">
+                  Your cart is Empty
+            </div>
+            <a href="/shop" id="goShop">Go shop</a>
             {{/cartProducts}}
       </div>
 

@@ -5,7 +5,7 @@
 
 
 <div id="summaryBox">
-      
+
       <div id="leftSideSummary">
             <div id="nbItems">
                   number of items: {{cartLength}}
@@ -21,14 +21,15 @@
                                     <a href="/readProduct/{{productId}}" class="productLink">
                                           <div id="name">{{productName}}</div>
                                           <div id="price">{{productPrice}} €</div>
-                                          
+
                                     </a>
                                     <div class="removeLink">
-                                          <a href="/removeFromSummary/{{productId}}"><img src="bouton-fermer.png" class="ico" alt="delete"></a>
+                                          <a href="/removeFromSummary/{{productId}}"><img src="bouton-fermer.png"
+                                                      class="ico" alt="delete"></a>
                                     </div>
                               </div>
-                              
-                        </div>           
+
+                        </div>
                   </div>
             </div>
             {{/cartProducts}}
@@ -49,20 +50,21 @@
 
             </div>
 
-            <div>Total Price : {{totalPrice}} €</div>  
+            <div>Total Price : {{totalPrice}} €</div>
             <form action="/payment" method="post">
                   <input type="submit" id="payment" value="Finalise">
-                  <textarea name="orderCommentary" id="orderCommentary" cols="30" rows="10" placeholder="Add a comment"></textarea>
-            </form>      
+                  <textarea name="orderCommentary" id="orderCommentary" cols="30" rows="10"
+                        placeholder="Add a comment"></textarea>
+            </form>
 
-            
+
 
 
       </div>
-      
+
 </div>
 
 <div>
-      
+
 </div>
 {{>footer}}

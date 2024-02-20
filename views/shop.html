@@ -1,5 +1,4 @@
 {{>header}}
-<link rel="stylesheet" href="shop.css">
 <div id="shop">
       <span id="title">Shop</span>
       <div id="shopContent">
@@ -8,12 +7,13 @@
                   <select name="productCategory" id="productCategory">
                         <option name="productCategory" id="defaultCategory" value="default">Select a Category</option>
                         {{#categories}}
-                              <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">{{productCategory}}</option>
+                        <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">
+                              {{productCategory}}</option>
                         {{/categories}}
                   </select>
                   <input type="submit" value="Search" id="submit">
             </form>
-            
+
             <div id="productsList">
                   {{#products}}
                   <div id="product">

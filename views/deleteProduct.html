@@ -1,24 +1,24 @@
 {{>header}}
 {{#authenticated}}
-    {{#admin}}
-    <div id="deleteProductBox">
-        <span id="title">Delete Product</span> 
-        {{#product}}
-        <form action="/deleteProduct/{{productId}}" method="POST" id="deleteProductForm">
-            <span id="msg">Do you really want to delete this product ?</span>
-            <div>
-                <input type="submit" value="Delete Product" id="deleteProductButton">
-                <a href="/shop" id="cancelLink">Cancel</a>
-            </div>
-        </form>
-        {{/product}}
-        
-    </div>
-    {{/admin}}
+{{#admin}}
+<div id="deleteProductBox">
+    <span id="title">Delete Product</span>
+    {{#product}}
+    <form action="/deleteProduct/{{productId}}" method="POST" id="deleteProductForm">
+        <span id="msg">Do you really want to delete this product ?</span>
+        <div>
+            <input type="submit" value="Delete Product" id="deleteProductButton">
+            <a href="/shop" id="cancelLink">Cancel</a>
+        </div>
+    </form>
+    {{/product}}
 
-    {{^admin}}
-        <span id="msg">You are not authorized to view this page</span>
-    {{/admin}}
+</div>
+{{/admin}}
+
+{{^admin}}
+<span id="msg">You are not authorized to view this page</span>
+{{/admin}}
 {{/authenticated}}
 
 {{>footer}}

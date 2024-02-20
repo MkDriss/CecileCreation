@@ -15,19 +15,26 @@
                               <img src="/icons/account.png" id="profilePicture" alt="accountImg">
                               {{/profilePicture}}
                               <label for="updateProfilePicture" id="editPicture" class="button">Edit Picture</label>
-                              <input type="file" id="updateProfilePicture" name="updateProfilePicture" accept='image/png, image/jpg, image/jpeg' value="Edit Picture">
+                              <input type="file" id="updateProfilePicture" name="updateProfilePicture"
+                                    accept='image/png, image/jpg, image/jpeg' value="Edit Picture">
                         </div>
                         <div id="nameInfos">
-                              <input type="text" name="name" id="name" class="nameInput"placeholder="Name" value="{{username}}" required>
-                              <input type="text" name="lastName" id="lastName" class="nameInput" placeholder="Last Name" value="{{userLastName}}" required>
+                              <input type="text" name="name" id="name" class="nameInput" placeholder="Name"
+                                    value="{{username}}" required>
+                              <input type="text" name="lastName" id="lastName" class="nameInput" placeholder="Last Name"
+                                    value="{{userLastName}}" required>
                         </div>
-                        <input type="email" id="email" name="email" class="input" placeholder="Email" value="{{email}}" required>
+                        <input type="email" id="email" name="email" class="input" placeholder="Email" value="{{email}}"
+                              required>
                         <div id="addressInfos">
-                              <input type="text" name="adress" id="adress" class="input" placeholder="Adress" value="{{adress}}">
-                              <input type="text" name="postCode" id="postCode" class="input" placeholder="Zip Code" value="{{zipCode}}">
+                              <input type="text" name="adress" id="adress" class="input" placeholder="Adress"
+                                    value="{{adress}}">
+                              <input type="text" name="postCode" id="postCode" class="input" placeholder="Zip Code"
+                                    value="{{zipCode}}">
                         </div>
-                              <input type="text" name="city" id="city" class="input" placeholder="City" value="{{city}}">
-                              <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number" value="{{phone}}">
+                        <input type="text" name="city" id="city" class="input" placeholder="City" value="{{city}}">
+                        <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number"
+                              value="{{phone}}">
                         <div>
                               <input type="submit" name="save" class="button" value="Save">
                         </div>

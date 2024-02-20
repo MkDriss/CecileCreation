@@ -1,9 +1,9 @@
 {{>header}}
 {{#authenticated}}
 
-    <div id="title">Orders</div>
-    <div id="box">
-        <div id="container">
+<div id="title">Orders</div>
+<div id="box">
+    <div id="container">
         {{#orders}}
         <a href="/orderDetails/{{id}}" class="orderDetailsLink">
             <div class="orders">
@@ -15,11 +15,11 @@
         </a>
         {{/orders}}
         {{^orders}}
-            <div id="noOrderFound">No orders found</div>
+        <div id="noOrderFound">No orders found</div>
         {{/orders}}
-        </div>
     </div>
-    
+</div>
+
 </div>
 {{/authenticated}}
 {{^authenticated}}

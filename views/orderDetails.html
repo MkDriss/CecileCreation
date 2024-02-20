@@ -3,79 +3,80 @@
 <div id="title">Order Details</div>
 <div id="box">
     <div id="left_container">
-            <div id="order">
-                {{#order}}
-                
-                <div id="orderInfos">
-                    <h2>Order Infos</h2>
-                        <span>Order Id : {{id}}</span>
-                    </div>
-                        <input type="text" name="orderId" id="orderId" value="{{id}}" readonly style="display: none;">
-                    <div>
-                        <span>Order Price : {{price}}</span>
-                    </div>
-                    <div>
-                        <span>Date : {{date}}</span>
-                    </div>
-                    <div>
-                        <textarea name="commentary" id="orderCommentary" cols="30" rows="5" placeholder="commentary" readonly>{{commentary}}</textarea>
-                    </div>
-                    <div>
-                        <span>State : {{state}}</span>
-                    </div>
-                </div>
-                
+        <div id="order">
+            {{#order}}
 
-                <div id="userInfos">
-                    <h2>User Infos</h2>
-                    <div>
-                        <span>Email : {{userEmail}}</span>
-                    </div>
-                    <div>
-                        <span>Name : {{userName}}</span>
-                    </div>
-                    <div>
-                        <span>Last Name : {{userLastName}}</span>
-                    </div>
-                    <div>
-                        <span>Phone Number : {{userPhoneNumber}}</span>
-                    </div>
-                </div>
-                <div id="shippingInfos">
-                    <h2>Shipping Infos</h2>
-                    <div>
-                        <span>Adress : {{userAdress}}</span>
-                    </div>
-                    <div>
-                        <span>City : {{userCity}}</span>
-                    </div>
-                    <div>
-                        <span>Postal Code : {{userPostCode}}</span>
-                    </div>
-                </div>
+            <div id="orderInfos">
+                <h2>Order Infos</h2>
+                <span>Order Id : {{id}}</span>
+            </div>
+            <input type="text" name="orderId" id="orderId" value="{{id}}" readonly style="display: none;">
+            <div>
+                <span>Order Price : {{price}}</span>
+            </div>
+            <div>
+                <span>Date : {{date}}</span>
+            </div>
+            <div>
+                <textarea name="commentary" id="orderCommentary" cols="30" rows="5" placeholder="commentary"
+                    readonly>{{commentary}}</textarea>
+            </div>
+            <div>
+                <span>State : {{state}}</span>
+            </div>
+        </div>
 
-                {{/order}}
+
+        <div id="userInfos">
+            <h2>User Infos</h2>
+            <div>
+                <span>Email : {{userEmail}}</span>
             </div>
-            
-    
-            <div id="right_container">
-                {{#products}}
-                <div class="items">
-                    <a href="/readProduct/{{productId}}" class="productLink">
-                        <img src="/{{productPicture}}" alt="productPicture" class="productPicture">
-                    </a>
-                        <div class="itemInfos">
-                            <a href="/readProduct/{{productId}}" class="productLink">
-                                <div class="itemName">{{productName}}</div>
-                            </a>
-                                <div class="itemPrice">{{productPrice}} €</div>
-                        </div>
-                  
-                </div>
-                {{/products}}
+            <div>
+                <span>Name : {{userName}}</span>
             </div>
+            <div>
+                <span>Last Name : {{userLastName}}</span>
+            </div>
+            <div>
+                <span>Phone Number : {{userPhoneNumber}}</span>
+            </div>
+        </div>
+        <div id="shippingInfos">
+            <h2>Shipping Infos</h2>
+            <div>
+                <span>Adress : {{userAdress}}</span>
+            </div>
+            <div>
+                <span>City : {{userCity}}</span>
+            </div>
+            <div>
+                <span>Postal Code : {{userPostCode}}</span>
+            </div>
+        </div>
+
+        {{/order}}
     </div>
-    <a href="/orders">Back</a>
+
+
+    <div id="right_container">
+        {{#products}}
+        <div class="items">
+            <a href="/readProduct/{{productId}}" class="productLink">
+                <img src="/{{productPicture}}" alt="productPicture" class="productPicture">
+            </a>
+            <div class="itemInfos">
+                <a href="/readProduct/{{productId}}" class="productLink">
+                    <div class="itemName">{{productName}}</div>
+                </a>
+                <div class="itemPrice">{{productPrice}} €</div>
+            </div>
+
+        </div>
+        {{/products}}
+    </div>
+</div>
+<a href="/orders">Back</a>
 </div>
 {{/authenticated}}
 {{^authenticated}}

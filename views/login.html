@@ -1,28 +1,28 @@
-{{>header}} 
-      <div id="loginBox">
-            <form action="/login" method="POST" id="form">
-                  <div id="title">Login</div>
-                  <div>{{msg}}</div>
-                  {{#productId}}
-                  <input type="hidden" value="{{productId}}" name="productId">
-                  {{/productId}}
-                  <div>
-                        <input type="email" id="email" name="email" placeholder="Email" required>
-                  </div>
-                  <div>
-                        <input type="password" id="password" name="password" placeholder="Password" required>
-                  </div>
-                  
-                  <div>
-                        <input type="submit" id="loginInput" value="Login">
-                  </div>
-            </form>
-
-            <div id="other">
-                  
-                  <a href="/forgotPassword">Forgot your password ?</a>
-                  <a href="/register">Register</a>
+{{>header}}
+<div id="loginBox">
+      <form action="/login" method="POST" id="form">
+            <div id="title">Login</div>
+            <div>{{msg}}</div>
+            {{#productId}}
+            <input type="hidden" value="{{productId}}" name="productId">
+            {{/productId}}
+            <div>
+                  <input type="email" id="email" name="email" placeholder="Email" required>
             </div>
+            <div>
+                  <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+
+            <div>
+                  <input type="submit" id="loginInput" value="Login">
+            </div>
+      </form>
+
+      <div id="other">
+
+            <a href="/forgotPassword">Forgot your password ?</a>
+            <a href="/register">Register</a>
       </div>
+</div>
 
 {{>footer}}

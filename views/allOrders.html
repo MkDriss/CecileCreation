@@ -2,27 +2,27 @@
 {{#authenticated}}
 {{#admin}}
 
-    <div id="title">All Orders</div>
-    <div id="box">
-        <div id="container">
+<div id="title">All Orders</div>
+<div id="box">
+    <div id="container">
         {{#orders}}
-            <div class="orders">
-                <div>Order Id : {{id}}</div>
-                <div>Order Price : {{price}} €</div>
-                <div>Date : {{date}}</div>
-                <div>State : {{state}}</div>
-                <div>
-                    <a href="/updateOrder/{{id}}" class="UpdateOrderLink">Update</a>
-                    <a href="/DeleteOrder/{{id}}" class="DeleteOrderLink">Delete</a>
-                </div>
+        <div class="orders">
+            <div>Order Id : {{id}}</div>
+            <div>Order Price : {{price}} €</div>
+            <div>Date : {{date}}</div>
+            <div>State : {{state}}</div>
+            <div>
+                <a href="/updateOrder/{{id}}" class="UpdateOrderLink">Update</a>
+                <a href="/DeleteOrder/{{id}}" class="DeleteOrderLink">Delete</a>
             </div>
+        </div>
         {{/orders}}
         {{^orders}}
-            <div id="noOrderFound">No orders found</div>
+        <div id="noOrderFound">No orders found</div>
         {{/orders}}
-        </div>
     </div>
-    
+</div>
+
 </div>
 
 {{/admin}}
