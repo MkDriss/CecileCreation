@@ -5,10 +5,10 @@
       <div id="shopContent">
             <form action="/searchProduct" method="POST">
                   <input type="text" name="search" id="search" placeholder="Rechercher un produit">
-                  <select name="Categories id=" Categories">
-                        <option id="defaultCategory" value="default">Select a Category</option>
+                  <select name="productCategory" id="productCategory">
+                        <option name="productCategory" id="defaultCategory" value="default">Select a Category</option>
                         {{#categories}}
-                        <option id="category" value="{{category}}">{{categories}}</option>
+                              <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">{{productCategory}}</option>
                         {{/categories}}
                   </select>
                   <input type="submit" value="Rechercher" id="submit">

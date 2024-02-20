@@ -75,6 +75,10 @@ textarea{
     color: white;
 }
 
+#newCategory{
+    display: none;
+}
+
 #deleteProductButton:hover, #updateProductButton:hover{
     cursor: pointer;
 }

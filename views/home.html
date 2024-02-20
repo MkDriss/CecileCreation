@@ -2,28 +2,32 @@
 
 {{#trendProduct}}
 <div id="trendProductBox">
-      <div id="trend">
-            Product of the week
-      </div>
-      <div id="trendProduct">
-            <a href="/readProduct/{{productId}}" id="trendProductLink">
-                  <img src=/{{productPicture}} alt="ProductPicture" id="trendProductPicture">
-            </a>
-            <div id="trendProductRSide">
-                  <div id="trendProductInfos">
-                        <a href="/readProduct/{{productId}}" id="trendProductName">{{productName}}</a>
-                        <div id="trendProductPrice">{{productPrice}} €</div>
-                        <div id="trendProductDescription">{{productDescription}}</div>
-                  </div>
-                  <a class="button" id="addToCartLink" href="/addToCart/{{productId}}">Add to Cart</a>
+      <div id="trendProductContent">
+            <div id="trend">
+                  Product of the week
             </div>
-
+            <div id="trendProduct">
+                  <a href="/readProduct/{{productId}}" id="trendProductLink">
+                        <img src=/{{productPicture}} alt="ProductPicture" id="trendProductPicture">
+                  </a>
+                  <div id="trendProductRSide">
+                        <div id="trendProductInfos">
+                              <a href="/readProduct/{{productId}}" id="trendProductName">{{productName}}</a>
+                              <div id="trendProductPrice">{{productPrice}} €</div>
+                              <div id="trendProductDescription">{{productDescription}}</div>
+                        </div>
+                        <a class="button" id="addToCartLink" href="/addToCart/{{productId}}">Add to Cart</a>
+                  </div>
+            </div>
       </div>
 </div>
 {{/trendProduct}}
 
+<div id="seeMore">
+      <a href="#shopContent" id="seeMoreAnchor">See More</a>
+</div>
+
 <div id="shop">
-      <span id="title">Shop</span>
       <div id="shopContent">
             <div id="productsList">
                   {{#products}}

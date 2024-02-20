@@ -16,10 +16,12 @@
     "username": "Clement",
     "email": "clementmiko13@gmail.com",
     "password": "miko",
-    "adress": "",
-    "zipCode": "",
-    "phone": "",
-    "profilePicture": "Capturedcran1png_1.png"
+    "adress": "30 A rue des mouss",
+    "zipCode": "13008",
+    "phone": "09675",
+    "profilePicture": "Capturedcran1png_1.png",
+    "userLastName": "miko",
+    "city": "Marseille"
   },
   {
     "id": "2",

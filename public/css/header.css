@@ -1,11 +1,16 @@
+html {
+      scroll-behavior: smooth;
+}
+
 body{
       margin: 0px;
       padding: 0px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background-color: rgb(255, 255, 255);
+      background-color: #f5eee9;
       filter: blur(1.rem);
+      font-family: "Raleway";
 }
 
 #navBar{
@@ -18,7 +23,7 @@ body{
       position: fixed;
       z-index: 1;
       width: 100%;
-      background-color: white !important;
+      background-color: #f5eee9 !important;
 }
 
 #navBar a{
@@ -34,8 +39,10 @@ body{
       align-items: center;
       width: 25%;
 }
+
 #home{
       font-size: 40px;
+      
 }
 
 #shop{
@@ -48,6 +55,11 @@ body{
       flex-direction: row;
       justify-content: space-between;
       width: 10%;
+}
+
+#footerLeftSide, #footerMiddle{
+      display: flex;
+      flex-direction: column;
 }
 
 .heading{
@@ -70,13 +82,13 @@ body{
 }
 
 footer{
-      margin-top: 100px;
+      margin-top: auto;
       display: flex;
       flex-direction: row;
       justify-content: space-around;
       align-items: center;
       height: 70px;
-      background-color: white;
+      background-color: #f5eee9;
       padding : 50px;
       border-top: 1px solid black;
 }

@@ -3,14 +3,14 @@
     "productId": "0",
     "productName": "Cartable maternelle fille tissu les Aristochats",
     "productCategory": "Backpack",
-    "productPrice": "40",
-    "productDescription": "Ce cartable a été confectionné dans un tissu coton épais rose et un tissu coton au ravissant motif les Aristochats. Son rabat est accessoirisé de rubans de satin et d'organza coordonnés et fini d'un liseré coordonné pour une finition parfaite.\nIl est entièrement doublé dans une toile écrue épaisse qui lui apporte beaucoup de tenue.\nUne petite poche plaquée devant accueille un fermoir cartable facilement manipulable par les petites mains.\n\nSes dimensions sont adaptées à la morphologie des touts petits (28 cm x 24 cm x 5cm).\nSes anses sont ajustables de 50 à 60 cm\n\nCe cartable est une création unique Cicilounette. Il a été confectionné avec le plus grand soin dans des tissus choisis pour leur beauté et leur qualité.\nLe prénom peut être inscrit sur simple demande",
+    "productPrice": "45",
+    "productDescription": "Ce cartable a été confectionné dans un tissu coton épais rose et un tissu coton au ravissant motif les Aristochats. Son rabat est accessoirisé de rubans de satin et d'organza coordonnés et fini d'un liseré coordonné pour une finition parfaite.\r\nIl est entièrement doublé dans une toile écrue épaisse qui lui apporte beaucoup de tenue.\r\nUne petite poche plaquée devant accueille un fermoir cartable facilement manipulable par les petites mains.\r\n\r\nSes dimensions sont adaptées à la morphologie des touts petits (28 cm x 24 cm x 5cm).\r\nSes anses sont ajustables de 50 à 60 cm\r\n\r\nCe cartable est une création unique Cicilounette. Il a été confectionné avec le plus grand soin dans des tissus choisis pour leur beauté et leur qualité.\r\nLe prénom peut être inscrit sur simple demande",
     "productPicture": "il_794xN.4114713909_6ngb.jpg"
   },
   {
     "productId": "1",
     "productName": "Cartable maternelle petite section personnalisé",
-    "productCategory": "Backpack",
+    "productCategory": "default",
     "productPrice": "70",
     "productDescription": "cartable confectionné dans un tissu épais. Rabat travaillé dans un tissu coton enduit motifs écolier et fini d’un liseré coordonné.",
     "productPicture": "il_794xN.2635023791_n9p1.jpg"
@@ -18,8 +18,8 @@
   {
     "productId": "4",
     "productName": "Sac à dos enfant tissu petits bolides",
-    "productCategory": "Backpack",
-    "productPrice": "45",
+    "productPrice": "60",
+    "productCategory": "Sac à dos",
     "productDescription": "Ce ravissant petit sac à dos forme pochon a été confectionné dans une association de tissus coordonnées : le rabat est réalisé dans un coton au motif petits bolides. Le sac est cousu dans un tissu épais marron. Il est entièrement doublé dans un tissu écru épais, qui lui confère une tenue irréprochable. Sa petite poche devant accueille un velcro. Fermeture intérieure par une cordelette.",
     "productPicture": "il_794xN.3232783213_9mim.jpg"
   },
@@ -27,8 +27,8 @@
     "productId": "5",
     "productName": " Sac à dos enfant le petit prince",
     "productCategory": "Backpack",
-    "productPrice": "45",
-    "description": "Ce ravissant petit sac à dos forme pochon a été confectionné dans une association de tissus coordonnées : le rabat est réalisé dans un coton au motif petits bolides. Le sac est cousu dans un tissu épais marron. Il est entièrement doublé dans un tissu écru épais, qui lui confère une tenue irréprochable. Sa petite poche devant accueille un velcro. Fermeture intérieure par une cordelette.",
-    "productPicture": "il_794xN.3443932700_onzs.jpg"
+    "productPrice": "70",
+    "productPicture": "il_794xN.3443932700_onzs.jpg",
+    "productDescription": "Ce ravissant petit sac à dos forme pochon a été confectionné dans une association de tissus coordonnées : le rabat est réalisé dans un coton au motif petits bolides. Le sac est cousu dans un tissu épais marron. Il est entièrement doublé dans un tissu écru épais, qui lui confère une tenue irréprochable. Sa petite poche devant accueille un velcro. Fermeture intérieure par une cordelette."
   }
 ]

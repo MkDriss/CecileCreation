@@ -3,11 +3,11 @@
       justify-items: center;
       grid-template-columns: repeat(4, 1fr);
       justify-content: space-between;
-      width: 90%;
+      width: 80%;
+      margin-bottom: 100px;
 }
 
 #productPicture, #productInfos, #productLink{
-      
       width: 300px;
       height: 400px;
       transition: transform .2s;
@@ -15,12 +15,12 @@
 
 #productPicture{
       object-fit: cover;
+      border-radius: 10px;
 }
-
 
 #name{
       width: 80%;
-      font-size: 20px;
+      font-size: 15px;
       margin : 20px 0px;
       text-align: justify;
 }
@@ -47,7 +47,7 @@
 
 #productLink{
       text-decoration: none;
-      color: black;
+      color: #3e3e3e;
 }
 
 #title{

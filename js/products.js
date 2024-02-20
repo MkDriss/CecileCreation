@@ -111,8 +111,12 @@ exports.getProductFromCategory = function (category){
 
 exports.getCategories = function () {
       let categories = db.prepare('SELECT DISTINCT productCategory FROM products').all();
-      for (let i = 0; i < categories.length; i++) {
-            categories[i] = categories[i].productCategory;
-        }
+      for(let i = 0;i < categories.length; i++) {
+            let category = categories[i];
+            if (category.productCategory === "default") {
+                  categories.splice(i, 1);
+            }
+      }
       return categories;
+
 }

@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-content: space-between;
+    justify-items: center;
     width: 80%;
     margin-bottom: 200px;
 }
@@ -10,6 +11,10 @@
     width: 300px;
     height: 400px;
     transition: transform .2s;
+}
+
+#productPicture{
+    border-radius: 10px;
 }
 
 #addProductLink{
@@ -45,7 +50,7 @@
 
 #name{
     width: 80%;
-    font-size: 20px;
+    font-size: 15px;
     margin : 20px 0px;
     text-align: justify;
 }
@@ -59,8 +64,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 5px;
-    margin-bottom: 300px;
+    width: 350px;
+    border-radius: 10px;
+    padding: 30px 5px 150px 5px ;
+    margin-bottom: 0px 15px 150px 15px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
 }
 
 #productPicture:hover, #addProductLink:hover{

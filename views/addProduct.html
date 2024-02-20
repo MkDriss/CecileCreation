@@ -1,7 +1,19 @@
 {{>header}}
-<link rel="stylesheet" href="addProduct.css">
 
-
+<script>
+      function showDiv(divId, element)
+  {   
+      if(element.value == "addCategory")
+      {
+          document.getElementById(divId).style.display = "block";
+          console.log("addCategory")
+      }
+      else
+      {
+          document.getElementById(divId).style.display = "none";
+      }
+  }
+  </script>
 {{#admin}}
 <div id="container">
       <div id="title">Add Product</div>
@@ -9,6 +21,14 @@
             <div>
                   <input type="text" id="name" name="name" placeholder="Name" required>
             </div>
+            <select name="productCategory" id="productCategory" onchange="showDiv('newCategory',this)">
+                  <option name="productCategory" id="defaultCategory" value="default">Select a Category</option>
+                  {{#categories}}
+                        <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">{{productCategory}}</option>
+                  {{/categories}}
+                  <option name="addCategory" id="addCategory" value="addCategory">New Category</option>
+            </select>
+            <input type="text" name="newCategory" id="newCategory" placeholder="New Category" style="display: none;">
             <div>
                   <input type="number" id="price" name="price" step=".01" placeholder="Price" required>
             </div>

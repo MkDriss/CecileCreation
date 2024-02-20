@@ -2,15 +2,18 @@
 <footer>
       <div>
             <h3 class="text">About</h3>
+            <div id="footerLeftSide">
             <a href="/aboutUs" class="text">About us</a>
+            <a href="mailto:cecilecreation@gmail.com">Contact us</a>
+      </div>
       </div>
       <div>
             <h3 class="text">Account</h3>
                   {{#authenticated}}
-                  <ul>
-                        <li><a href="/account" class="text">Account</a></li>
-                        <li><a href="/logout" class="text">Logout</a></li>
-                  </ul>
+                  <div id="footerMiddle">
+                        <a href="/account" class="text">Account</a>
+                        <a href="/logout" class="text">Logout</a>
+                  </div>
                   {{/authenticated}}
 
                   {{^authenticated}}

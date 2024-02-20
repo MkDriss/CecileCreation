@@ -1,9 +1,7 @@
 {{>header}}
 {{#authenticated}}
 
-<link rel="stylesheet" href="account.css">
 <div class="container">
-
       <div id="box">
             <h1>Account</h1>
             <div id="content">
@@ -22,7 +20,7 @@
                         <input type="text" placeholder="City" value="{{city}}">
                         <input type="text" placeholder="zipCode" value="{{zipCode}}" readonly>
                         <input type="text" placeholder="Phone Number" value="{{phone}}" readonly>
-                        <a href="/updateAccount" id="editButton">Edit</a>
+                        <a href="/updateAccount" class="button">Edit</a>
                         {{/accountsInfos}}
                   </div>
                   <div id="MiddleBar"></div>

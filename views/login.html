@@ -1,11 +1,11 @@
-{{>header}}
-
-      <link rel="stylesheet" href="login.css">     
+{{>header}} 
       <div id="loginBox">
             <form action="/login" method="POST" id="form">
                   <div id="title">Login</div>
                   <div>{{msg}}</div>
+                  {{#productId}}
                   <input type="hidden" value="{{productId}}" name="productId">
+                  {{/productId}}
                   <div>
                         <input type="email" id="email" name="email" placeholder="Email" required>
                   </div>

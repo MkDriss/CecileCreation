@@ -122,21 +122,21 @@ app.get('/home', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login' , { css: '/login.css'});
 });
 
 app.get('/register', (req, res) => {
-    res.render('register');
+    res.render('register' , { css: '/register.css'});
 });
 
 app.get('/account', (req, res) => {
     let user = account.read(req.session.id);
-    res.render('account', { accountsInfos: user, admin: req.session.admin });
+    res.render('account', { accountsInfos: user, admin: req.session.admin, css: '/account.css' });
 });
 
 app.get('/adminPanel', (req, res) => {
     if (req.session.admin === true) {
-        res.render('adminPanel', { admin: req.session.admin });
+        res.render('adminPanel', { admin: req.session.admin, css: '/admin.css' });
     }
 });
 
@@ -167,20 +167,17 @@ app.get('/shop', (req, res) => {
 });
 
 app.get('/addProduct', (req, res) => {
-    res.render('addProduct', { admin: req.session.admin });
+    res.render('addProduct', { admin: req.session.admin, categories: products.getCategories(), css: '/addProduct.css' });
 });
 
 
 app.get('/updateAccount', (req, res) => {
     let user = account.read(req.session.id);
-    res.render('updateAccount', { accountsInfos: user });
+    res.render('updateAccount', { accountsInfos: user , css: '/updateAccount.css'});
 });
 
-
 app.get('/updateProduct/:id', (req, res) => {
-    let product = products.read(req.params.id)
-    console.log(product.productPicture)
-    res.render('updateProduct', { products: product, css: '/updateProduct.css', admin: req.session.admin, productPictures: product.productPicture });
+    res.render('updateProduct', { products: products.read(req.params.id), css: '/updateProduct.css', admin: req.session.admin, categories: products.getCategories() });
 });
 
 app.get('/updateOrder/:id', (req, res) => {
@@ -188,7 +185,6 @@ app.get('/updateOrder/:id', (req, res) => {
     let order = orderList.getOrderFromId(orderId);
     res.render('updateOrder', { admin: req.session.admin, order: order, css: '/updateOrder.css' });
 });
-
 
 app.get('/deleteOrder/:id', (req, res) => {
     let orderId = req.params.id;
@@ -212,7 +208,7 @@ app.get('/cart', (req, res) => {
 
         if (cartuser == undefined || cartuser.length == 0) {
             console.log("Cart is empty");
-            res.render('cart', { cartId: req.session.id });
+            res.render('cart', { cartId: req.session.id, css: '/cart.css'});
         }
         else {
             let cartProductsInfos = []
@@ -221,7 +217,7 @@ app.get('/cart', (req, res) => {
             }
             let totalPrice = cart.getTotalPrice(req.session.id);
             let passOrder = cartuser.length > 0;
-            res.render('cart', { cartLength: cartuser.length, cartId: req.session.id, cartProducts: cartProductsInfos, totalPrice: totalPrice, passOrder: passOrder });
+            res.render('cart', { cartLength: cartuser.length, cartId: req.session.id, cartProducts: cartProductsInfos, totalPrice: totalPrice, passOrder: passOrder, css: '/cart.css'});
         }
     }
 
@@ -298,7 +294,7 @@ app.get('/readProduct/:productId', (req, res) => {
             }
         }
 
-        return res.render('readProduct', { products: product, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin });
+        return res.render('readProduct', { products: product, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css'});
     }
 });
 
@@ -317,15 +313,17 @@ app.get('/deleteComment/:commentId', (req, res) => {
 
 app.get('/forgotPassword', (req, res) => {
     res.render('forgotPassword');
+    //TO DO
 });
 
 app.get('/resetPassword/:id', (req, res) => {
     res.render('resetPassword');
+    //TO DO
 
 });
 
 app.get('/aboutUs', (req, res) => {
-    res.render('aboutUs');
+    res.render('aboutUs', { css: '/aboutUs.css' });
 });
 
 
@@ -346,33 +344,6 @@ app.get('/deliveryInfos', (req, res) => {
     let userAccountInfos = account.read(req.session.id);
 
     res.render('deliveryInfos', { cartItems: cartProductsInfos, userAccountInfos: userAccountInfos, totalPrice: totalPrice, css: '/deliveryInfos.css' });
-});
-
-
-
-
-app.get('/orderSummary', (req, res) => {
-    if (req.session.id == undefined) {
-        res.redirect('/login');
-    }
-    else {
-        let cartuser = cart.listProducts(req.session.id);
-
-        if (cartuser == undefined || cartuser.length == 0) {
-            console.log("Cart is empty");
-            res.render('cart', { cartId: req.session.id });
-        }
-        else if (cartuser != undefined) {
-            let cartProductsInfos = []
-            for (let i = 0; i < cartuser.length; i++) {
-                cartProductsInfos.push(JSON.parse(cartuser[i].products));
-            }
-
-            let totalPrice = cart.getTotalPrice(req.session.id);
-            res.render('orderSummary', { cartLength: cartuser.length, cartId: req.session.id, cartProducts: cartProductsInfos, totalPrice: totalPrice, name: req.session.userName, lastName: req.session.userLastName, adress: req.session.userAdress, city: req.session.userCity, postCode: req.session.userPostCode, phoneNumber: req.session.userPhoneNumber });
-        }
-    }
-
 });
 
 
@@ -456,7 +427,7 @@ app.post('/login', (req, res) => {
     let productId = req.body.productId;
     if (email == undefined || password == undefined) {
         console.log("email or password is undefined")
-        return res.render('login', { msg: "Invalid email or password" });
+        return res.render('login', { msg: "Invalid email or password", css: '/login.css'});
     }
     else if (account.checkPassword(email, password) == 'true') {
 
@@ -479,7 +450,7 @@ app.post('/login', (req, res) => {
     }
     else if (account.checkPassword(email, password) == 'false') {
         console.log("Invalid username or password")
-        return res.render('login', { msg: "Wrong username or password" });
+        return res.render('login', { msg: "Wrong username or password", css: '/login.css'});
     }
 });
 
@@ -491,7 +462,7 @@ app.post('/register', (req, res) => {
 
     if (email == undefined || username == undefined || password == undefined) {
         console.log("Invalid username or password")
-        return res.render('register', { msg: "Invalid email, username or password" });
+        return res.render('register', { msg: "Invalid email, username or password", css: '/register.css'});
     }
     else if (account.read(id) == undefined && account.checkEmail(email) == 'false') {
         account.create(id, email, username, password);
@@ -501,12 +472,13 @@ app.post('/register', (req, res) => {
     }
     else if (account.read(email) != undefined) {
         console.log("An account already exists with this email")
-        return res.render('register', { msg: "An account already exists with this email" });
+        return res.render('register', { msg: "An account already exists with this email", css: '/register.css'});
     }
 });
 
 
 app.post('/forgotPassword', (req, res) => {
+    //TO DO
     let email = req.body.email;
     let username = req.session.username;
     if (email == undefined) {
@@ -556,6 +528,7 @@ app.post('/forgotPassword', (req, res) => {
 });
 
 app.post('/resetPassword/:token', (req, res) => {
+    //TO DO
 });
 
 
@@ -577,7 +550,7 @@ app.post('/updateAccount', uploadProfilePicture.single('profilePicture'), (req, 
 
     if (email == undefined || username == undefined) {
         console.log("Invalid username or password")
-        return res.render('updateAccount', { msg: "Invalid email, username or password" });
+        return res.render('updateAccount', { msg: "Invalid email, username or password", css: '/updateAccount.css'});
     }
     else if (account.read(email) == undefined) {
         account.updateAccount(id, username, userlastname, email, adress, city, zipCode, phone, profilePictureName);
@@ -611,6 +584,13 @@ app.post('/addProduct', uploadProduct.single('picture'), (req, res) => {
     let price = req.body.price;
     let description = req.body.description;
     let pictureData = req.file;
+    let category = req.body.productCategory;
+    let newCategory = req.body.newCategory;
+    console.log(newCategory)
+    if (newCategory != undefined && newCategory != "") {
+        category = newCategory;
+    }
+
     console.log(pictureData)
     if (name == undefined || price == undefined || description == undefined || pictureData == undefined) {
         console.log("Invalid product")
@@ -625,7 +605,7 @@ app.post('/addProduct', uploadProduct.single('picture'), (req, res) => {
     else if (products.read(name) == undefined) {
 
         let productId = crypto.randomBytes(10).toString("hex");
-        products.create(productId, name, price, description, pictureData);
+        products.create(productId, name, category, price, description, pictureData);
 
         let tmp_path = req.file.path;
         let target_path = 'public/products_pictures/BackPack/' + name + '_' + productId + '.png';
@@ -643,15 +623,23 @@ app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) 
     let productId = req.params.id;
     let name = req.body.productName;
     let price = req.body.productPrice;
+    let category = req.body.productCategory;
+    let newCategory = req.body.newCategory;
     let description = req.body.productDescription;
     let pictureData = req.file;
+
+    console.log(newCategory)
+    if (newCategory != undefined && newCategory != "") {
+        category = newCategory;
+    }
+
     if (name == undefined || price == undefined || description == undefined) {
         console.log("Invalid product")
         return res.redirect('/updateProduct/' + productId);
     }
 
     else if (products.read(productId) != undefined) {
-        products.update(productId, name, price, description);
+        products.update(productId, name, category, price, description);
         if (!(pictureData === undefined)) {
             let tmp_path = req.file.path;
             let target_path = 'public/products_pictures/BackPack/' + name + '_' + productId + '.png';
@@ -671,24 +659,21 @@ app.post('/searchProduct', (req, res) => {
     let productsList = products.list();
     let productsFoundbyCategory = [];
     let productsFoundbySearch = [];
-    let category = req.body.category;
-    
-    if (category != undefined) {
-        
+    let category = req.body.productCategory;
+    if (category != undefined && category != "default") {
         for (let i = 0; i < productsList.length; i++) {
-            if (productsList[i].productCategory == category) {
+            if (productsList[i].productCategory === category && (productsList[i].productName).toLowerCase().includes(search.toLowerCase())) {
                 productsFoundbyCategory.push(productsList[i]);
             }
-            if (search != undefined) {
-                for (let i = 0; i < productsFoundbyCategory.length; i++) {
-                    if ((productsFoundbyCategory[i].productName).toLowerCase().includes(search.toLowerCase())) {
-                        productsFoundbySearch.push(productsFoundbyCategory[i]);
-                    }
-                }
-                return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: products.getCategories()});
-            }
-            return res.render('shop', { products: productsFoundbyCategory, css: '/shop.css', categories : products.getCategories()});
         }
+        if (search != undefined) {
+            for (let i = 0; i < productsFoundbyCategory.length; i++) {
+                if ((productsFoundbyCategory[i].productName).toLowerCase().includes(search.toLowerCase())) {
+                    productsFoundbySearch.push(productsFoundbyCategory[i]);
+                }
+            }
+        }
+        return res.render('shop', { products: productsFoundbyCategory, css: '/shop.css', categories : products.getCategories()});
     }
 
     else if (search != undefined) {
@@ -751,6 +736,8 @@ app.post("/create-payment-intent", async (req, res) => {
         res.send({
             clientSecret: paymentIntent.client_secret,
         });
+        createOrder(req);
+        cart.clearAll(req.session.id);
     }
     catch (err) {
         res.redirect('/');
