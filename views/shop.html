@@ -1,17 +1,17 @@
 {{>header}}
 <link rel="stylesheet" href="shop.css">
 <div id="shop">
-      <span id="title">Shop / Créations</span>
+      <span id="title">Shop</span>
       <div id="shopContent">
-            <form action="/searchProduct" method="POST">
-                  <input type="text" name="search" id="search" placeholder="Rechercher un produit">
+            <form action="/searchProduct" method="POST" id="searchProductForm">
+                  <input type="text" name="search" id="search" placeholder="Search">
                   <select name="productCategory" id="productCategory">
                         <option name="productCategory" id="defaultCategory" value="default">Select a Category</option>
                         {{#categories}}
                               <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">{{productCategory}}</option>
                         {{/categories}}
                   </select>
-                  <input type="submit" value="Rechercher" id="submit">
+                  <input type="submit" value="Search" id="submit">
             </form>
             
             <div id="productsList">

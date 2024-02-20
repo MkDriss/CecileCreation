@@ -4,37 +4,42 @@
 <div class="container">
       <div id="box">
             <h1>Account</h1>
-            <div id="content">
-                  <div id="userInfos">
-                        {{#accountsInfos}}
-                        {{#profilePicture}}
-                        <img src="{{profilePicture}}" id="accountico" alt="accountImg">
-                        {{/profilePicture}}
-                        {{^profilePicture}}
-                        <img src="/icons/account.png" id="accountico" alt="accountImg">
-                        {{/profilePicture}}
-                        <input type="text" placeholder="Name" value="{{username}}" readonly>
-                        <input type="text" placeholder="Last Name" value="{{userLastName}}" readonly>
-                        <input type="text" placeholder="Email" value="{{email}}" readonly>
-                        <input type="text" placeholder="Adress" value="{{adress}}" readonly>
-                        <input type="text" placeholder="City" value="{{city}}">
-                        <input type="text" placeholder="zipCode" value="{{zipCode}}" readonly>
-                        <input type="text" placeholder="Phone Number" value="{{phone}}" readonly>
-                        <a href="/updateAccount" class="button">Edit</a>
-                        {{/accountsInfos}}
-                  </div>
-                  <div id="MiddleBar"></div>
-                  <div id="containerButtons">
-
+                  <div id="content">
+                        <div id="userInfos">
+                              {{#accountsInfos}}
+                              {{#profilePicture}}
+                              <img src="{{profilePicture}}" id="accountico" alt="accountImg">
+                              {{/profilePicture}}
+                              {{^profilePicture}}
+                              <img src="/icons/account.png" id="accountico" alt="accountImg">
+                              {{/profilePicture}}
+                              <div id="nameInfos">
+                              <input type="text" name="name" id="name" class="nameInput"placeholder="Name" value="{{username}}" readonly>
+                              <input type="text" name="lastName" id="lastName" class="nameInput" placeholder="Last Name" value="{{userLastName}}" readonly>
+                              </div>
+                              <input type="text" id="email" name="email" class="input" placeholder="Email" value="{{email}}" readonly>
+                              <div id="addressInfos">
+                              <input type="text" name="adress" id="adress" class="input" placeholder="Adress" value="{{adress}}" readonly>
+                              <input type="text" name="postCode" id="postCode" class="input" placeholder="Zip Code" value="{{zipCode}}" readonly>
+                              </div>
+                              <input type="text" name="city" id="city" class="input" placeholder="City" value="{{city}}" readonly>
+                              <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number" value="{{phone}}" readonly>
+                              <div>
+                              <a href="/updateAccount" class="button">Edit</a>
+                              </div>
+                              {{/accountsInfos}}
+                        </div>
+                        <div id="containerButtons">
                         <a href="/orders" class="button" id="orderList">My Orders</a>
                         {{#admin}}
                         <a href="/adminPanel" class="button" id="admin">Admin</a>
                         {{/admin}}
                         <a id="logout" href="/logout" class="button" id="logout">Logout</a>
+                        </div>
                   </div>
             </div>
-      </div>
 </div>
+
 
 {{/authenticated}}
 {{>footer}}

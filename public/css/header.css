@@ -8,9 +8,10 @@ body{
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background-color: #f5eee9;
+      background-color: whitesmoke;
       filter: blur(1.rem);
       font-family: "Raleway";
+      color: #8e7d68;
 }
 
 #navBar{
@@ -19,16 +20,17 @@ body{
       justify-content: space-around;
       align-items: center;
       height: 100px;
-      box-shadow: 1px 1px 1px black;
+      box-shadow: 1px 1px 1px #3e3e3e;
+      color: #8e7d68;
       position: fixed;
       z-index: 1;
       width: 100%;
-      background-color: #f5eee9 !important;
+      background-color: whitesmoke !important;
 }
 
 #navBar a{
       text-decoration: none;
-      color: black;
+      color: #3e3e3e;
 }
 
 
@@ -42,6 +44,7 @@ body{
 
 #home{
       font-size: 40px;
+
       
 }
 
@@ -88,8 +91,14 @@ footer{
       justify-content: space-around;
       align-items: center;
       height: 70px;
-      background-color: #f5eee9;
+      background-color: whitesmoke;
+      color : #8e7d68;
       padding : 50px;
-      border-top: 1px solid black;
+      border-top: 1px solid #3e3e3e;
+}
+
+footer a{
+      text-decoration: none;
+      color: #8e7d68;
 }
 

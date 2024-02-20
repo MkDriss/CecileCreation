@@ -1,39 +1,41 @@
 {{>header}}
 {{#authenticated}}
-<link rel="stylesheet" href="account.css">
+
 <div class="container">
       <div id="box">
             <h1>Account</h1>
             <div id="content">
                   <form action="/updateAccount" id="userInfos" method="POST" enctype="multipart/form-data">
                         {{#accountsInfos}}
-                        <label for="profilePicture">
+                        <div id="pictureBox">
                               {{#profilePicture}}
-                              <img src="/{{profilePicture}}" alt="Profile Picture" id="profilePicturePreview">
+                              <img src="/{{profilePicture}}" alt="Profile Picture" id="profilePicture">
                               {{/profilePicture}}
                               {{^profilePicture}}
-                              <img src="/icons/account.png" id="accountico" alt="accountImg">
+                              <img src="/icons/account.png" id="profilePicture" alt="accountImg">
                               {{/profilePicture}}
-                        </label>
-                        <input type="file" id="profilePicture" name="profilePicture"
-                              accept='image/png, image/jpg, image/jpeg'>
-                        <input type="text" placeholder="Username" value="{{username}}" name="username" required>
-                        <input type="text" placeholder="Last Name" value="{{userLastName}}" name="lastName" required>
-                        <input type="text" placeholder="Email" value="{{email}}" name="email" required>
-                        <input type="text" placeholder="Adress" value="{{adress}}" name="adress">
-                        <input type="text" placeholder="City" value="{{city}}" name="city">
-                        <input type="text" placeholder="Zip Code" value="{{zipCode}}" name="zipCode">
-                        <input type="text" placeholder="Phone Number" value="{{phone}}" name="phone"
-                              inputmode="numeric">
-                              <div>
-                        <input type="submit" class="button" value="Save">
-                        <a href="/account" class="button">Back</a>
-                  </div>
+                              <label for="updateProfilePicture" id="editPicture" class="button">Edit Picture</label>
+                              <input type="file" id="updateProfilePicture" name="updateProfilePicture" accept='image/png, image/jpg, image/jpeg' value="Edit Picture">
+                        </div>
+                        <div id="nameInfos">
+                              <input type="text" name="name" id="name" class="nameInput"placeholder="Name" value="{{username}}" required>
+                              <input type="text" name="lastName" id="lastName" class="nameInput" placeholder="Last Name" value="{{userLastName}}" required>
+                        </div>
+                        <input type="email" id="email" name="email" class="input" placeholder="Email" value="{{email}}" required>
+                        <div id="addressInfos">
+                              <input type="text" name="adress" id="adress" class="input" placeholder="Adress" value="{{adress}}">
+                              <input type="text" name="postCode" id="postCode" class="input" placeholder="Zip Code" value="{{zipCode}}">
+                        </div>
+                              <input type="text" name="city" id="city" class="input" placeholder="City" value="{{city}}">
+                              <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number" value="{{phone}}">
+                        <div>
+                              <input type="submit" name="save" class="button" value="Save">
+                        </div>
                         {{/accountsInfos}}
-                        
                   </form>
             </div>
       </div>
 </div>
+
 {{/authenticated}}
 {{>footer}}

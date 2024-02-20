@@ -532,14 +532,14 @@ app.post('/resetPassword/:token', (req, res) => {
 });
 
 
-app.post('/updateAccount', uploadProfilePicture.single('profilePicture'), (req, res) => {
-    let username = req.body.username;
+app.post('/updateAccount', uploadProfilePicture.single('updateProfilePicture'), (req, res) => {
+    let username = req.body.name;
     let userlastname = req.body.lastName;
     let email = req.body.email;
     let adress = req.body.adress;
+    let zipCode = req.body.postCode;
     let city = req.body.city;
-    let zipCode = req.body.zipCode;
-    let phone = req.body.phone;
+    let phone = req.body.phoneNumber;
     let id = req.session.id;
     let profilePictureName;
     if (req.file == undefined) {
@@ -550,9 +550,11 @@ app.post('/updateAccount', uploadProfilePicture.single('profilePicture'), (req, 
 
     if (email == undefined || username == undefined) {
         console.log("Invalid username or password")
-        return res.render('updateAccount', { msg: "Invalid email, username or password", css: '/updateAccount.css'});
+        let accountInfos = account.read(id);
+        return res.render('updateAccount', { accountsInfos:accountInfos , msg: "Invalid email, username or password", css: '/updateAccount.css'});
     }
     else if (account.read(email) == undefined) {
+        console.log("No account found with this email")
         account.updateAccount(id, username, userlastname, email, adress, city, zipCode, phone, profilePictureName);
 
         if (req.file == undefined) {
