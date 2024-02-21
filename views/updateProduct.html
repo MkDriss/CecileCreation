@@ -3,45 +3,62 @@
     function showDiv(divId, element) {
         if (element.value == "addCategory") {
             document.getElementById(divId).style.display = "block";
-            console.log("addCategory")
         }
         else {
             document.getElementById(divId).style.display = "none";
+            document.getElementById(divId).validator = false;
         }
     }
 </script>
 
 {{#admin}}
 {{#products}}
-<div id="product">
-    <form action="/updateProduct/{{productId}}" method="POST" id="updateProductForm">
-        <div class="productPictures">
-            <img src=/{{productPicture}} alt="ProductPicture" id="productPicture">
-            <!-- input type="file" id="picture" name="picture" accept='image/png, image/jpg, image/jpeg'-->
-        </div>
-        <div id="productInfos">
-            <div id="productBox">
-                <input type="text" name="productName" id="productName" value="{{productName}}">
-                <select name="productCategory" id="productCategory" onchange="showDiv('newCategory',this)">
-                    <option name="productCategory" id="defaultCategory" value="default">Select a Category</option>
-                    {{#categories}}
-                    <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">
-                        {{productCategory}}</option>
-                    {{/categories}}
-                    <option name="addCategory" id="addCategory" value="addCategory">New Category</option>
-                </select>
+<div id="updateProduct">
+    <div id="product">
+        <div id="title">Update Product</div>
+        <div id="container">
+            <div id="left_container">
+                <div class="productPictures">
+                    <img src=/{{productPicture}} alt="ProductPicture" id="productPicture">
+                    <!-- input type="file" id="picture" name="picture" accept='image/png, image/jpg, image/jpeg'-->
+                </div>
+            </div>
+            <div id="middlebar"></div>
+            <div id="right_container">
+                <form action="/updateProduct/{{productId}}" method="POST" id="updateProductForm"></form>
+                <div id="productInfos">
+                    <div id="productBox">
+                        <input type="text" name="productName" id="productName" value="{{productName}}">
+                        <select name="productCategory" id="productCategory" onchange="showDiv('newCategory',this)">
+                            <option name="productCategory" id="defaultCategory" value="default">Select a Category
+                            </option>
+                            {{#currentCategory}}
+                            <option name="productCategory" id="productCategory" value="{{productCategory}}" selected>
+                                {{productCategory}}</option>
+                            {{/currentCategory}}
+                            {{#categories}}
+                            <option name="productCategory" id="productCategory" value="{{productCategory}}">
+                                {{productCategory}}</option>
+                            {{/categories}}
+                            <option name="productCategory" id="productCategory" value="addCategory">New Category
+                            </option>
+                        </select>
 
-                <input type="text" name="newCategory" id="newCategory" placeholder="New Category">
-                <input type="number" name="productPrice" id="productPrice" value="{{productPrice}}">
-                <textarea name="productDescription" id="productDescription" cols="30"
-                    rows="10">{{productDescription}}</textarea>
-            </div>
-            <div id="buttons">
-                <input type="submit" value="Update Product" id="updateProductButton">
-                <a href="/deleteProduct/{{productId}}">Delete Product</a>
+                        <input type="text" name="newCategory" id="newCategory" placeholder="New Category">
+                        <input type="number" name="productPrice" id="productPrice" value="{{productPrice}}">
+                        <textarea name="productDescription" id="productDescription" cols="30"
+                            rows="10">{{productDescription}}</textarea>
+                    </div>
+                    <div id="buttons">
+                        <input type="submit" value="Update Product" id="updateProductButton">
+                        <a href="/deleteProduct/{{productId}}" id="deleteButton" class="button">Delete Product</a>
+                        <a href="/adminProductList" id="cancelButton" class="button">Cancel</a>
+                    </div>
+                </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 {{/products}}
 {{/admin}}

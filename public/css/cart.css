@@ -18,11 +18,16 @@
     background-color: #867763;
 }
 
-#left_content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 49%;
+#left_container{
+    width: 45%;
+}
+
+
+#right_content{
+}
+
+#right_container{
+    width: 45%;
 }
 
 #productPicture, .productInfos{
@@ -117,11 +122,6 @@
     font-size: 20px;
 }
 
-#right_content{
-    display: flex;
-    flex-direction: column;
-    width: 49%;
-}
 
 #title{
     margin-top: 150px;

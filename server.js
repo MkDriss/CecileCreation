@@ -178,7 +178,21 @@ app.get('/updateAccount', (req, res) => {
 
 app.get('/updateProduct/:id', (req, res) => {
     let product = products.read(req.params.id)
-    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures: product.productPicture ,admin: req.session.admin });
+    let currentCategory = product.productCategory;
+    if (currentCategory === "default") {
+        currentCategory = false;
+    }
+
+    let productCategories = products.getCategories();
+    for (let i = 0; i < productCategories.length; i++) {
+        if (productCategories[i].productCategory === product.productCategory) {
+            productCategories.splice(i, 1);
+            break;
+        }
+    }
+
+
+    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures: product.productPicture, admin: req.session.admin, categories: productCategories, currentCategory: currentCategory });
 });
 
 app.get('/updateOrder/:id', (req, res) => {
@@ -198,7 +212,7 @@ app.get('/deleteOrder/:id', (req, res) => {
 app.get('/deleteProduct/:id', (req, res) => {
     let productId = req.params.id;
     let product = products.read(productId);
-    res.render('deleteProduct', { product: product, css: '/deleteProduct.css', admin: req.session.admin });
+    res.render('deleteProduct', { products: product, css: '/deleteProduct.css', admin: req.session.admin });
 });
 
 app.get('/cart', (req, res) => {
@@ -210,7 +224,7 @@ app.get('/cart', (req, res) => {
 
         if (cartuser == undefined || cartuser.length == 0) {
             console.log("Cart is empty");
-            res.render('cart', { cartId: req.session.id, css: '/cart.css'});
+            res.render('cart', { cartId: req.session.id, css: '/cart.css' });
         }
         else {
             let cartProductsInfos = []
@@ -219,7 +233,7 @@ app.get('/cart', (req, res) => {
             }
             let totalPrice = cart.getTotalPrice(req.session.id);
             let passOrder = cartuser.length > 0;
-            res.render('cart', { css: '/cart.css',cartLength: cartuser.length, cartId: req.session.id, cartProducts: cartProductsInfos, totalPrice: totalPrice, passOrder: passOrder });
+            res.render('cart', { css: '/cart.css', cartLength: cartuser.length, cartId: req.session.id, cartProducts: cartProductsInfos, totalPrice: totalPrice, passOrder: passOrder });
         }
     }
 
@@ -228,7 +242,7 @@ app.get('/cart', (req, res) => {
 app.get('/addToCart/:id', (req, res) => {
 
     if (req.session.authenticated === false || req.session.authenticated === undefined) {
-        return res.render('login', { msg: "You must be logged in to add a product to your cart", css: '/login.css', productId : req.params.id});
+        return res.render('login', { msg: "You must be logged in to add a product to your cart", css: '/login.css', productId: req.params.id });
     }
 
     let id = req.params.id;
@@ -301,7 +315,7 @@ app.get('/readProduct/:productId', (req, res) => {
             category = "";
         }
 
-        return res.render('readProduct', { products: product, category: category,comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css'});
+        return res.render('readProduct', { products: product, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css' });
     }
 });
 
@@ -426,7 +440,7 @@ app.get('/adminProductList', (req, res) => {
 
 app.get('/checkout', (req, res) => {
     try {
-        res.render('checkout', { css: '/checkout.css', authenticated: req.session.authenticated});
+        res.render('checkout', { css: '/checkout.css', authenticated: req.session.authenticated });
     }
     catch (err) {
         res.redirect('/cart');
@@ -447,7 +461,7 @@ app.post('/login', (req, res) => {
     let productId = req.body.productId;
     if (email == undefined || password == undefined) {
         console.log("email or password is undefined")
-        return res.render('login', { msg: "Invalid email or password", css: '/login.css'});
+        return res.render('login', { msg: "Invalid email or password", css: '/login.css' });
     }
     else if (account.checkPassword(email, password) == 'true') {
 
@@ -462,7 +476,7 @@ app.post('/login', (req, res) => {
         console.log(req.session.admin);
         console.log("productId : " + productId)
         if (productId != undefined) {
-            
+
             console.log("Adding product to cart")
             return res.redirect('/addToCart/' + productId);
         }
@@ -470,7 +484,7 @@ app.post('/login', (req, res) => {
     }
     else if (account.checkPassword(email, password) == 'false') {
         console.log("Invalid username or password")
-        return res.render('login', { msg: "Wrong username or password", css: '/login.css'});
+        return res.render('login', { msg: "Wrong username or password", css: '/login.css' });
     }
 });
 
@@ -483,11 +497,11 @@ app.post('/register', (req, res) => {
 
     if (email == undefined || username == undefined || password == undefined) {
         console.log("Invalid username or password")
-        return res.render('register', { msg: "Invalid email, username or password", css: '/register.css'});
+        return res.render('register', { msg: "Invalid email, username or password", css: '/register.css' });
     }
     else if (confirmPassword != password) {
         console.log("Password aren't matching")
-        return res.render('register', { msg: "Wrong password", css: '/register.css'})
+        return res.render('register', { msg: "Wrong password", css: '/register.css' })
     }
     else if (account.read(id) == undefined && account.checkEmail(email) == 'false') {
         account.create(id, email, username, password);
@@ -497,7 +511,7 @@ app.post('/register', (req, res) => {
     }
     else if (account.read(email) != undefined) {
         console.log("An account already exists with this email")
-        return res.render('register', { msg: "An account already exists with this email", css: '/register.css'});
+        return res.render('register', { msg: "An account already exists with this email", css: '/register.css' });
     }
 });
 
@@ -507,11 +521,11 @@ app.post('/forgotPassword', (req, res) => {
     let username = req.session.username;
     if (email == undefined) {
         console.log("Invalid email")
-        return res.render('forgotPassword', { msg: "Invalid email", css: '/forgotPassword.css'});
+        return res.render('forgotPassword', { msg: "Invalid email", css: '/forgotPassword.css' });
     }
     else if (account.read(email) == undefined) {
         console.log("No account found with this email")
-        return res.render('forgotPassword', { msg: "No account found with this email", css: '/forgotPassword.css'});
+        return res.render('forgotPassword', { msg: "No account found with this email", css: '/forgotPassword.css' });
     }
     else if (account.read(email) != undefined) {
         let token = account.read(email).token;
@@ -557,7 +571,6 @@ app.post('/resetPassword/:token', (req, res) => {
 
 
 app.post('/updateAccount', uploadProfilePicture.single('updateProfilePicture'), (req, res) => {
-    console.log("bonjour")
     let username = req.body.name;
     let userlastname = req.body.lastName;
     let email = req.body.email;
@@ -566,7 +579,7 @@ app.post('/updateAccount', uploadProfilePicture.single('updateProfilePicture'), 
     let zipCode = req.body.postCode;
     let phone = req.body.phoneNumber;
     let id = req.session.id;
-    
+
     let profilePictureName;
     if (req.file == undefined) {
         profilePictureName = account.read(id).profilePicture;
@@ -576,7 +589,7 @@ app.post('/updateAccount', uploadProfilePicture.single('updateProfilePicture'), 
 
     if (email == undefined || username == undefined) {
         console.log("Invalid username or password")
-        return res.render('updateAccount', { msg: "Invalid email, username or password", css: '/updateAccount.css'});
+        return res.render('updateAccount', { msg: "Invalid email, username or password", css: '/updateAccount.css' });
     }
     else if (account.read(email) == undefined) {
         account.updateAccount(id, username, userlastname, email, adress, city, zipCode, phone, profilePictureName);
@@ -612,8 +625,13 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
     let productCategory = req.body.productCategory;
     let productNewCategory = req.body.newCategory;
 
-    if (productNewCategory === "addCategory") {
-        productCategory = productNewCategory;
+    if (productCategory === "addCategory") {
+        if ( productNewCategory === "") {
+                        productCategory = "default";
+        }
+        else {
+            productCategory = productNewCategory;
+        }
     }
 
     let pictureData = req.file;
@@ -648,16 +666,28 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
 app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) => {
     let productId = req.params.id;
     let name = req.body.productName;
+    let category = req.body.productCategory;
+    let newCategory = req.body.newCategory;
     let price = req.body.productPrice;
     let description = req.body.productDescription;
     let pictureData = req.file;
+
+    if (category === "addCategory") {
+        if ( newCategory === "") {
+            category = "default";
+        }
+        else {
+            category = newCategory;
+        }
+    }
+
     if (name == undefined || price == undefined || description == undefined) {
         console.log("Invalid product")
         return res.redirect('/updateProduct/' + productId);
     }
 
     else if (products.read(productId) != undefined) {
-        products.update(productId, name, price, description);
+        products.update(productId, name, category, price, description);
         if (!(pictureData === undefined)) {
             let tmp_path = req.file.path;
             let target_path = 'public/products_pictures/BackPack/' + name + '_' + productId + '.png';
@@ -678,9 +708,9 @@ app.post('/searchProduct', (req, res) => {
     let productsFoundbyCategory = [];
     let productsFoundbySearch = [];
     let category = req.body.category;
-    
+
     if (category != undefined) {
-        
+
         for (let i = 0; i < productsList.length; i++) {
             if (productsList[i].productCategory == category) {
                 productsFoundbyCategory.push(productsList[i]);
@@ -691,9 +721,9 @@ app.post('/searchProduct', (req, res) => {
                         productsFoundbySearch.push(productsFoundbyCategory[i]);
                     }
                 }
-                return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: products.getCategories()});
+                return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: products.getCategories() });
             }
-            return res.render('shop', { products: productsFoundbyCategory, css: '/shop.css', categories : products.getCategories()});
+            return res.render('shop', { products: productsFoundbyCategory, css: '/shop.css', categories: products.getCategories() });
         }
     }
 
@@ -741,7 +771,7 @@ app.post('/deliveryInfos', (req, res) => {
 });
 
 app.post("/create-payment-intent", async (req, res) => {
-    
+
     req.session.email = req.body.email;
     req.session.userName = req.body.name;
     req.session.userLastName = req.body.lastName;
@@ -764,11 +794,11 @@ app.post("/create-payment-intent", async (req, res) => {
                 enabled: true,
             },
         });
-        
+
         res.send({
             clientSecret: paymentIntent.client_secret
         });
-        
+
     }
     catch (err) {
         res.redirect('/');

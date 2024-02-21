@@ -1,23 +1,67 @@
-#product{
+#title{
     display: flex;
     justify-content: center;
-    margin-bottom: 100px;
+    color: #8e7d68;
+    font-size: 30px;
+    margin-bottom: 50px;
+
+}
+
+#middlebar{
+    background-color: #3e3e3e;
+    width: 2px;
+}
+
+#updateProduct{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 150px 0px;
+}
+
+#container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#left_container{
+    width: 45%;
+}
+
+#right_container{
+    width: 45%;
+}
+
+#product{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    border-radius: 10px;
+    width: 70%;
 }
 
 #updateProductForm{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 200px;
 }
 
 #productPicture{
-    width: 500px;
+    width: 80%;
     height: 600px;
-    margin-right: 100px;
-    padding-right: 100px;
-    border-right: 2px solid black;
     object-fit: cover;
+    border-radius: 10px;
+}
+
+.productPictures{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 
@@ -26,6 +70,7 @@
     flex-direction: column;
     justify-content: space-between;
     height: 500px;
+    width: 500px;
 }
 
 #productBox{
@@ -35,50 +80,98 @@
     height: 500px;
 }
 
-#productName, #productPrice{
-    margin-bottom: 20px;
-    width: 600px;
-    height: 50px;
-    font-size: 17px;
-}
-
-textarea{
-    font-size: 17px;
-    width: 600px;
+input[type="text"],[type="number"], select{
+    width: 100%;
+    margin: 5px 0px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    padding-left: 10px;
+    font-size: 15px;
+    color: #8e7d68;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    font-family: "Raleway";
 }
 
 #buttons{
-    width: 600px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+input[type="submit"]{
+    display: flex;
+    justify-content: center;
+    width: 185px;
+    height: 35px;
+    font-size: 15px;
+    border-radius: 5px;
+    color: #8e7d68;
+    background-color: whitesmoke;
+    border: none;
+    text-decoration: none;
+    margin: 10px 0px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    font-family: "Raleway";
+}
+
+input[type="submit"]:hover{
+    cursor: pointer;
+}
+
+
+::placeholder{
+    color: #8e7d68;
+    font-family: "Raleway";
+}
+
+#form{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
+    width: 70%;
+
 }
 
-#deleteProductLink, #updateProductButton{
-    width: 400px;
-    height: 50px;
-    margin-bottom: 30px;
-    border-radius: 5px;
+.button{
+    display: flex;
+    justify-content: center;
     font-size: 15px;
+    align-items: center;
+    border-radius: 5px;
+    width: 185px;
+    height: 35px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    background-color: whitesmoke;
+    color: #8e7d68;
+    border: none;
+    text-decoration: none;
+    margin: 10px 0px;
 }
 
-#updateProductButton{
-    background-color: black;
-    border: 0px;
-    color: white;
-}
-
-#deleteProductLink{
-    background-color: red;
-    border: 0px;
-    color: white;
-}
-
-#newCategory{
-    display: none;
-}
-
-#deleteProductButton:hover, #updateProductButton:hover{
+.button:hover{
     cursor: pointer;
+}
+
+#cancelButton{
+    background-color: #a8957d;
+    color:whitesmoke;
+}
+
+#cancelButton:hover{
+    background-color: #8e7d68;
+}
+
+textarea{
+    width: 100%;
+    margin: 10px 0px;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    color: #8e7d68;
+    font-family: "Raleway";
 }

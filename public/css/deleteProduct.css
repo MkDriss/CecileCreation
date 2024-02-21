@@ -1,46 +1,153 @@
-#deleteProductBox {
+#title{
+    display: flex;
+    justify-content: center;
+    color: #8e7d68;
+    font-size: 30px;
+    margin-bottom: 50px;
+
+}
+
+#middlebar{
+    background-color: #3e3e3e;
+    width: 2px;
+}
+
+#updateProduct{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 150px 0px;
+}
+
+#container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#left_container{
+    width: 45%;
+}
+
+#right_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 100px;
+    width: 45%;
+}
+
+#product{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    padding: 50px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    border-radius: 10px;
+    width: 70%;
 }
 
-#title {
+#deleteProductForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#productPicture{
+    width: 80%;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.productPictures{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+
+
+input[type="text"],[type="number"], select{
+    width: 100%;
+    margin: 5px 0px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    padding-left: 10px;
+    font-size: 15px;
+    color: #8e7d68;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    font-family: "Raleway";
+}
+
+#buttons{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    margin-top: 50px;
+    width: 100%;
+    align-items: center;
+}
+
+span{
     font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 20px;
 }
 
-#deleteProductForm {
+input[type="submit"]{
+    display: flex;
+    justify-content: center;
+    width: 185px;
+    height: 35px;
+    font-size: 15px;
+    border-radius: 5px;
+    color: #8e7d68;
+    background-color: whitesmoke;
+    border: none;
+    text-decoration: none;
+    margin: 10px 0px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    font-family: "Raleway";
+}
+
+input[type="submit"]:hover{
+    cursor: pointer;
+}
+
+#form{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 70%;
+}
+
+.button{
+    display: flex;
     justify-content: center;
-    width: 100%;
-}
-
-#deleteProductForm input {
-    margin-bottom: 20px;
-}
-
-#deleteProductButton {
-    width: 100px;
-    height: 30px;
-    background-color: #ff0000;
-    color: white;
-    border: none;
+    font-size: 15px;
+    align-items: center;
     border-radius: 5px;
+    width: 185px;
+    height: 35px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    background-color: whitesmoke;
+    color: #8e7d68;
+    border: none;
+    text-decoration: none;
+    margin: 10px 0px;
+}
+
+.button:hover{
     cursor: pointer;
 }
 
-#cancelLink {
-    width: 100px;
-    height: 30px;
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+#cancelButton{
+    background-color: #a8957d;
+    color:whitesmoke;
+}
+
+#cancelButton:hover{
+    background-color: #8e7d68;
 }

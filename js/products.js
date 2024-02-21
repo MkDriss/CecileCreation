@@ -27,7 +27,7 @@ let loadProduct = function(filename) {
 loadProduct('./json/products.json');
 
 
-exports.create = function (productId, productName, productCategory, productPrice, productDescription) {
+exports.create = function (productId, productName, productCategory="default", productPrice, productDescription) {
       let pictureName = productName + '_' + productId + '.png';
       console.log(productName);
 
@@ -59,7 +59,7 @@ exports.read = function (productId) {
       return db.prepare('SELECT * FROM products WHERE productId = ?').get(productId);
 }
 
-exports.update = function (productId, productName, productCategory, productPrice, productDescription) {
+exports.update = function (productId, productName, productCategory="default", productPrice, productDescription) {
       fs.readFile('json/products.json', function (err, data) {
             if (err) throw err;
             let productsList = JSON.parse(data);

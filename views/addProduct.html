@@ -28,23 +28,22 @@
                         {{/categories}}
                         <option name="addCategory" id="addCategory" value="addCategory">New Category</option>
                   </select>
-                  <input type="text" name="newCategory" id="newCategory" placeholder="New Category" style="display: none;">
+                  <input type="text" name="newCategory" id="newCategory" placeholder="New Category"
+                        style="display: none;">
                   <div>
                         <input type="number" id="price" name="price" step=".01" placeholder="Price" required>
                   </div>
                   <div>
-                        <textarea name="description" id="description" cols="60" rows="5" placeholder="Enter a description"
-                              required></textarea>
+                        <textarea name="description" id="description" cols="60" rows="5"
+                              placeholder="Enter a description" required></textarea>
                   </div>
                   <div id="buttons">
-                         <div>
-                              <label for="uploadPicture" class="button">Upload Picture</label>
-                                    <input type="file" id="uploadPicture" name="uploadPicture"
-                                          accept='image/png, image/jpg, image/jpeg'>
-                        </div>
-                        <div>
-                              <input type="submit" class="button" value="Add Product">
-                        </div>
+                        <label for="uploadPicture" class="button">Upload Picture</label>
+                        <input type="file" id="uploadPicture" name="uploadPicture"
+                              accept='image/png, image/jpg, image/jpeg' required>
+                        <input type="submit" value="Add Product">
+
+                        <a href="/adminProductList" class="button" id="cancelButton">Cancel</a>
                   </div>
             </form>
             <div>

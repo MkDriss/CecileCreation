@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 80%;
+    margin: 150px 0px;
 }
 
 #container{
@@ -32,6 +32,7 @@ input[type="text"],[type="number"], select{
     border-radius: 5px;
     border: none;
     padding-left: 10px;
+    background-color: white;
     font-size: 15px;
     color: #8e7d68;
     box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
@@ -41,8 +42,9 @@ input[type="text"],[type="number"], select{
 #buttons{
     display: flex;
     justify-content: space-around;
+    flex-direction: column;
     width: 100%;
-
+    align-items: center;
 }
 
 input[type="submit"]{
@@ -50,9 +52,10 @@ input[type="submit"]{
     justify-content: center;
     width: 185px;
     height: 35px;
+    font-size: 15px;
     border-radius: 5px;
-    background-color: #8e7d68;
-    color: whitesmoke;
+    background-color: whitesmoke;
+    color: #8e7d68;
     border: none;
     text-decoration: none;
     margin: 10px 0px;
@@ -61,7 +64,6 @@ input[type="submit"]{
 }
 
 input[type="submit"]:hover{
-    background-color: #8e7d68;
     cursor: pointer;
 }
 
@@ -86,16 +88,25 @@ input[type="submit"]:hover{
     border-radius: 5px;
     width: 185px;
     height: 35px;
-    background-color: #8e7d68;
-    box-shadow: 0px 0px 5px 1px #c2b9ae;
-    color: white;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    background-color: whitesmoke;
+    color: #8e7d68;
     border: none;
     text-decoration: none;
     margin: 10px 0px;
 }
 
 .button:hover{
-    background-color: #7b6e5c;
+    cursor: pointer;
+}
+
+#cancelButton{
+    background-color: #a8957d;
+    color:whitesmoke;
+}
+
+#cancelButton:hover{
+    background-color: #8e7d68;
     cursor: pointer;
 }
 

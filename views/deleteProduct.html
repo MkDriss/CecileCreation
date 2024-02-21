@@ -1,24 +1,30 @@
 {{>header}}
-{{#authenticated}}
 {{#admin}}
-<div id="deleteProductBox">
-    <span id="title">Delete Product</span>
-    {{#product}}
-    <form action="/deleteProduct/{{productId}}" method="POST" id="deleteProductForm">
-        <span id="msg">Do you really want to delete this product ?</span>
-        <div>
-            <input type="submit" value="Delete Product" id="deleteProductButton">
-            <a href="/shop" id="cancelLink">Cancel</a>
+{{#products}}
+<div id="updateProduct">
+    <div id="product">
+        <div id="title">Delete Product</div>
+        <div id="container">
+            <div id="left_container">
+                <div class="productPictures">
+                    <img src=/{{productPicture}} alt="ProductPicture" id="productPicture">
+                    <!-- input type="file" id="picture" name="picture" accept='image/png, image/jpg, image/jpeg'-->
+                </div>
+            </div>
+            <div id="middlebar"></div>
+            <div id="right_container">
+                <form action="/deleteProduct/{{productId}}" method="POST" id="deleteProductForm">
+                    <span id="msg">Do you really want to delete this product ?</span>
+                    <div id="buttons">
+                        <input type="submit" value="Delete Product" id="deleteButton"  class="button">
+                        <a href="/updateProduct/{{productId}}" id="cancelButton" class="button">Cancel</a>
+                    </div>
+            </div>
+            </form>
         </div>
-    </form>
-    {{/product}}
-
+    </div>
 </div>
+</div>
+{{/products}}
 {{/admin}}
-
-{{^admin}}
-<span id="msg">You are not authorized to view this page</span>
-{{/admin}}
-{{/authenticated}}
-
 {{>footer}}

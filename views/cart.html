@@ -3,7 +3,7 @@
 <span id="title">Cart</span>
 <div id="cart">
       <div id="content">
-            <div id="left_content">
+            <div id="left_container">
                   {{#cartProducts}}
                   <div class="item">
                         <div class="product">
@@ -34,22 +34,24 @@
                   <a href="/shop" id="goShop">Go shop</a>
                   {{/cartProducts}}
             </div>
-            
+
             {{#passOrder}}
             <div id="middlebar"></div>
 
-            <div id="right_content">
-                  <div id="numberOfItems">
-                        number of items: {{cartLength}}
-                  </div>
-                  <div id="deliveryInfosLinkBox">
-                        <div id="totalPrice">
-                              Total Price : {{totalPrice}} €
+            <div id="right_container">
+                  <div id="right_content">
+                        <div id="numberOfItems">
+                              number of items: {{cartLength}}
                         </div>
-                        <a href="/deliveryInfos" id="deliveryInfosLink">Purchase</a>
+                        <div id="deliveryInfosLinkBox">
+                              <div id="totalPrice">
+                                    Total Price : {{totalPrice}} €
+                              </div>
+                              <a href="/deliveryInfos" id="deliveryInfosLink">Purchase</a>
+                        </div>
                   </div>
             </div>
-      {{/passOrder}}
+            {{/passOrder}}
       </div>
 </div>
 
