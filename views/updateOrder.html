@@ -1,87 +1,127 @@
 {{>header}}
+<script>
+    function showElement(showElementId, hideElementId, cancel) {
+        document.getElementById(showElementId).style.display = 'block';
+        document.getElementById(hideElementId).style.display = 'none';
+        if (cancel === 1) {
+            document.getElementById('cancelButton').style.display = 'flex';
+        } else {
+            document.getElementById('cancelButton').style.display = 'none';
+        }
+    }
+</script>
 {{#authenticated}}
-{{#admin}}
-<div id="title">Update Order</div>
+
 <div id="box">
-    <div id="container">
-        <form action="/updateOrder/{{id}}" id="update" method="POST">
-            <div id="order">
-                {{#order}}
-                <div id="orderInfos">
-                    <h2>Order Infos</h2>
-                    <span>Order Id : </span>
-                    <input type="text" name="id" id="id" value="{{id}}" readonly>
+    <div id="content">
+        <div id="title">Update Order</div>
+        <div id="globalContainer">
+            <div id="left_container">
+                <div id="order">
+                    {{#order}}
+                    <div id="orderInfos">
+                        <h2>Order Infos</h2>
+                        <span>Order Id : {{id}}</span>
+                    </div>
+                    <div>
+                        <span>Order Price : {{price}} €</span>
+                    </div>
+                    <div>
+                        <span>Date : {{date}}</span>
+                    </div>
+                    <div id="commentSection">
+                        <h2>Comment</h2>
+                        <textarea name="commentary" id="orderCommentary" cols="30" rows="5"
+                            readonly>{{commentary}}</textarea>
+                    </div>
+                    <div>
+                        <form action="/updateOrder/{{id}}" method="post" id="updateOrderForm">
+                        <span>State : </span>
+                        <select name="orderState" id="orderState">
+                            {{#currentState}}
+                            <option value="{{state}}" name="orderState" id="orderState">{{state}}</option>
+                            {{/currentState}}
+                            {{#otherStates}}
+                            <option value="{{state}}" name="orderState" id="orderState">{{state}}</option>
+                            {{/otherStates}}
+                        </select>
+                    </div>
+                    <div id="userInfos">
+                        <h2>User Infos</h2>
+                        <div>
+                            <span>Email : {{userEmail}}</span>
+                        </div>
+                        <div>
+                            <span>Name : {{userName}}</span>
+                        </div>
+                        <div>
+                            <span>Last Name : {{userLastName}}</span>
+                        </div>
+                        <div>
+                            <span>Phone Number : {{userPhoneNumber}}</span>
+                        </div>
+                    </div>
+                    <div id="shippingInfos">
+                        <h2>Shipping Infos</h2>
+                        <div>
+                            <span>Adress : {{userAdress}}</span>
+                        </div>
+                        <div>
+                            <span>City : {{userCity}}</span>
+                        </div>
+                        <div>
+                            <span>Postal Code : {{userPostCode}}</span>
+                        </div>
+                    </div>
+                    
                 </div>
-                <input type="text" name="orderId" id="orderId" value="{{id}}" readonly style="display: none;">
-                <div>
-                    <span>Order Price :</span>
-                    <input type="text" name="price" id="price" value="{{price}} €" readonly>
+                <div id="buttons">
+                    <div id="upperButtons">
+                        
+                            <input type="submit" id="updateOrderButton" class="button" value="Update">
+                            <input type="button" id="deleteOrderButton" class="button" vallue="Delete"
+                                onclick="showElement('deleteOrderForm','updateOrderForm',0)">
+                        </form>
+                        <form action="/deleteOrder/{{id}}" method="post" id="deleteOrderForm">
+                            <span id="text">Do you really want to delete this order ?</span>
+                            <div>
+                                <input type="submit" id="confirmDeleteButton" class="button" value="Confirm">
+                                <input type="button" id="cancelDeleteButton" class="button" value="Cancel"
+                                    onclick="showElement('updateOrderForm', 'deleteOrderForm',1)">
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    <span>Date : </span>
-                    <input type="text" name="date" id="date" value="{{date}}" readonly>
-                </div>
-                <div>
-                    <textarea name="commentary" id="orderCommentary" cols="30" rows="5"
-                        readonly>{{commentary}}</textarea>
-                </div>
-                <div>
-                    <span>State : </span>
-                    <select name="state" id="orderState" value="{{state}}">
-                        <option value="En cours de traitement">En cours de traitement</option>
-                        <option value="Expédiée">Expédiée</option>
-                        <option value="Livrée">Livrée</option>
-                    </select>
-                </div>
+                <a href="/allOrders" id="cancelButton" class="button">Cancel</a>
             </div>
-
-            <div id="userInfos">
-                <h2>User Infos</h2>
-                <div>
-                    <span>Email : </span>
-                    <input type="text" name="userEmail" id="userEmail" value="{{userEmail}}" readonly>
-                </div>
-                <div>
-                    <span>Name : </span>
-                    <input type="text" name="userName" id="userName" value="{{userName}}" readonly>
-                </div>
-                <div>
-                    <span>Last Name : </span>
-                    <input type="text" name="userLastName" id="userLastName" value="{{userLastName}}" readonly>
-                </div>
-                <div>
-                    <span>Phone Number : </span>
-                    <input type="text" name="userPhoneNumber" id="userPhoneNumber" value="{{userPhoneNumber}}" readonly>
-                </div>
-            </div>
-            <div id="shippingInfos">
-                <h2>Shipping Infos</h2>
-                <div>
-                    <span>Adress : </span>
-                    <input type="text" name="userAdress" id="userAdress" value="{{userAdress}}" readonly>
-                </div>
-                <div>
-                    <span>City : </span>
-                    <input type="text" name="userCity" id="userCity" value="{{userCity}}" readonly>
-                </div>
-                <div>
-                    <span>Postal Code : </span>
-                    <input type="text" name="postalCode" id="postalCode" value="{{userPostCode}}" readonly>
-                </div>
-            </div>
-
             {{/order}}
-    </div>
-    <input type="submit" class="button" value="Update">
-    </form>
-</div>
-<a href="/allOrders">Back</a>
 
+            <div id="middleBar"></div>
+
+            <div id="right_container">
+                <div>
+                    <div id="products">
+                        {{#products}}
+                        <div class="items">
+                            <a href="/readProduct/{{productId}}" class="productLink">
+                                <img src="/{{productPicture}}" alt="ProductPicture" class="productPicture">
+                            </a>
+                            <div class="otherProductInfos">
+                                <div class="otherProductInfosContainer">
+                                    <a href="/readProduct/{{productId}}" class="productLink">
+                                        <div class="otherProductName">{{productName}}</div>
+                                        <div class="otherProductPrice">{{productPrice}} €</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {{/products}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{{/admin}}
-{{^admin}}
-<div>You don't have access to this page</div>
-{{/admin}}
 {{/authenticated}}
 {{^authenticated}}
 <div>Please log in and retry...</div>

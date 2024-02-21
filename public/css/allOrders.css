@@ -8,9 +8,10 @@
 #container{
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
     width: 80%;
-    margin: 0px 50px;
+    margin: 0px 50px 50px 50px;
 }
 
 .orders{
@@ -20,8 +21,8 @@
     margin-top: 25px;
     height: 50px;
     width: 100%;
-    border-radius: 5px;
-    background-color: lightgrey;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
     text-decoration: none;
 }
 
@@ -30,25 +31,34 @@
     color: black;
 }
 
+a{
+    text-decoration: none;
+    width: 100%;
+    color: #8e7d68;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 35px;
+    border-radius: 10px;
+    margin: 15px 0px;
+    background-color: #8e7d68;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    color: whitesmoke;
+    border: none;
+    text-decoration: none;
+}
+
+.button:hover{
+    background-color: #9c8972;
+}
+
 #box{
     display: flex;
     justify-content: center;
-}
-
-.UpdateOrderLink{
-   margin: 0px 10px;
-   padding: 5px 5px;
-   background-color: black;
-   border-radius: 5px;
-   color :white;
-}
-
-.DeleteOrderLink{
-    margin: 0px 10px;
-    padding: 5px 5px;
-    background-color: rgba(255, 51, 51, 0.908);
-    border-radius: 5px;
-    color :white;
 }
 
 #noOrderFound{
@@ -58,3 +68,6 @@
     margin-bottom: 100px;
     font-size: 30px;
 }
+
+
+

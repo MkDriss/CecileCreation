@@ -6,16 +6,14 @@
 <div id="box">
     <div id="container">
         {{#orders}}
-        <div class="orders">
-            <div>Order Id : {{id}}</div>
-            <div>Order Price : {{price}} €</div>
-            <div>Date : {{date}}</div>
-            <div>State : {{state}}</div>
-            <div>
-                <a href="/updateOrder/{{id}}" class="UpdateOrderLink">Update</a>
-                <a href="/DeleteOrder/{{id}}" class="DeleteOrderLink">Delete</a>
+        <a href="/updateOrder/{{id}}">
+            <div class="orders">
+                <div>Order Id : {{id}}</div>
+                <div>Order Price : {{price}} €</div>
+                <div>Date : {{date}}</div>
+                <div>State : {{state}}</div>
             </div>
-        </div>
+        </a>
         {{/orders}}
         {{^orders}}
         <div id="noOrderFound">No orders found</div>

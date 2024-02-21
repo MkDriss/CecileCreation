@@ -1,25 +1,186 @@
 #title{
     display: flex;
     justify-content: center;
-    margin-top: 150px;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     font-size: 30px;
 }
 
 #box{
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
-    margin-bottom: 50px;
+    width: 100%;
+    margin-bottom: 100px;
 }
 
-#container{
+#content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    margin-top: 150px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    border-radius: 10px;
+    width: 70%;
+}
+
+#globalContainer{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    
+    
+}
+
+#left_container{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin-bottom: 50px;
+    width: 50%;
+    align-items: center;
+}
+
+#right_container{
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    align-items: center;
+}
+
+#products{
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    padding-left: 50px;
+    width: 50%;
+}
+
+select{
+    width: 60%;
+    margin: 5px 0px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    padding-left: 10px;
+    font-size: 15px;
+    color: #8e7d68;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    font-family: "Raleway";
+}
+
+
+input[type="submit"]{
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    height: 35px;
+    font-size: 15px;
+    border-radius: 5px;
+    color: #8e7d68;
+    background-color: white;
+    border: none;
+    text-decoration: none;
+    margin: 10px 0px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    font-family: "Raleway";
+}
+
+input[type="submit"]:hover{
+    cursor: pointer;
+}
+
+#upperButtons{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+}
+
+#buttons{
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 15px;
+    width: 200px;
+    height: 35px;
+    background-color: white;
+    box-shadow: 0px 0px 5px 1px #c2b9ae;
+    font-family: "Raleway";
+    color: #867763;
+    border: none;
+    text-decoration: none;
+}
+
+.button:hover{
+    cursor: pointer;
+}
+
+#cancelButton{
+    background-color: #a8957d;
+    color:whitesmoke;
+}
+
+#cancelButton:hover{
+    background-color: #8e7d68;
+}
+
+.items{
+    width: 150px;
+    padding: 25px;
+    border-radius: 10px;
+    margin: 10px 10px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+}
+
+.productPicture{
+    display: flex;
+    justify-content: center;
+    width: 150px;
+    height: 180px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    object-fit: cover;
+    transition: transform .2s;
+}
+
+.productPicture:hover{
+    transform: scale(1.1);
+}
+
+#middleBar{
+    display: flex;
+    width: 2px;
+    height: 100%;
+    background-color: #867763;
+}
+
+.itemInfos{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.productLink{
+    text-decoration: none;
+    color: #8e7d68;
+}
+
+.productLink:hover{
+    text-decoration: underline;
 }
 
 #order, #userInfos, #shippingInfos{
@@ -27,21 +188,25 @@
     justify-content: space-evenly;
     flex-direction: column;
     width: 100%;
-    margin-left: 100px;
 }
 
-input[type="text"], select{
+#orderCommentary{
     width: 80%;
-    height: 30px;
-    margin-bottom: 20px;
+    height: 100px;
+    margin: 0px 0px 20px 0px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
 }
 
-textarea{
-    width: 80%;
-    margin-bottom: 20px;
-    height: 60px;
-    margin-left: 100px;
+#commentSection{
+    display: flex;
+    flex-direction: column;
 }
 
 
 
+#deleteOrderForm{
+    display: none;
+}

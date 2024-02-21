@@ -110,7 +110,7 @@ input[type="submit"]{
     font-size: 15px;
     border-radius: 5px;
     color: #8e7d68;
-    background-color: whitesmoke;
+    background-color: white;
     border: none;
     text-decoration: none;
     margin: 10px 0px;
@@ -155,9 +155,14 @@ input[type="submit"]:hover{
     cursor: pointer;
 }
 
+#newCategory{
+    display:none;
+}
+
 #cancelButton{
     background-color: #a8957d;
     color:whitesmoke;
+    text-decoration: none;
 }
 
 #cancelButton:hover{
@@ -175,3 +180,4 @@ textarea{
     color: #8e7d68;
     font-family: "Raleway";
 }
+

@@ -27,12 +27,6 @@
                   </div>
 
                   {{/cartProducts}}
-                  {{^cartProducts}}
-                  <div id="msg">
-                        Your cart is Empty
-                  </div>
-                  <a href="/shop" id="goShop">Go shop</a>
-                  {{/cartProducts}}
             </div>
 
             {{#passOrder}}
@@ -53,6 +47,12 @@
             </div>
             {{/passOrder}}
       </div>
+      {{^cartProducts}}
+                  <div id="msg">
+                        Your cart is Empty
+                  </div>
+                  <a href="/shop" id="goShop">Go shop</a>
+                  {{/cartProducts}}
 </div>
 
 {{>footer}}

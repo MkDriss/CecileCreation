@@ -190,15 +190,26 @@ app.get('/updateProduct/:id', (req, res) => {
             break;
         }
     }
-
-
     res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures: product.productPicture, admin: req.session.admin, categories: productCategories, currentCategory: currentCategory });
 });
 
 app.get('/updateOrder/:id', (req, res) => {
     let orderId = req.params.id;
     let order = orderList.getOrderFromId(orderId);
-    res.render('updateOrder', { admin: req.session.admin, order: order, css: '/updateOrder.css' });
+    let currentState = order.state;
+    productIdList = order.products.split(', ');
+    for (let i = 0; i < productIdList.length; i++) {
+        productIdList[i] = products.read(productIdList[i]);
+    }
+    otherStates = [{state:"Pendding"}, {state:"In progress"}, {state:"Delivered"}, {state:"Cancelled"}]
+    for (let i = 0; i < otherStates.length; i++) {
+        if (otherStates[i].state === currentState) {
+            otherStates.splice(i, 1);
+            break;
+        }
+    }
+    res.render('updateOrder', { admin: req.session.admin, products: productIdList, order: order, 
+        css: '/updateOrder.css', otherStates: otherStates, currentState: currentState });
 });
 
 
@@ -356,6 +367,12 @@ app.get('/deliveryInfos', (req, res) => {
     }
 
     let totalPrice = cart.getTotalPrice(req.session.id);
+
+    if (cartuser == undefined || cartuser.length == 0) {
+        console.log("Cart is empty");
+        return res.redirect('/cart');
+    }
+
     let cartProductsInfos = []
 
     for (let i = 0; i < cartuser.length; i++) {
@@ -387,11 +404,16 @@ function getDateOrder() {
 
 function createOrder(id, email, userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, orderCommentary) {
 
-    req.session.userAdress = null;
-    req.session.userCity = null;
-    req.session.userPostCode = null;
-    req.session.userPhoneNumber = null;
-    req.session.orderCommentary = null;
+    console.log(id);
+    console.log(email);
+    console.log(userName);
+    console.log(userLastName);
+    console.log(userAdress);
+    console.log(userCity);
+    console.log(userPostCode);
+    console.log(userPhoneNumber);
+    console.log(orderCommentary);
+
 
     let orderProducts = "";
     let cartuser = cart.listProducts(id);
@@ -404,7 +426,7 @@ function createOrder(id, email, userName, userLastName, userAdress, userCity, us
         }
     }
 
-    let state = "En cours de traitement";
+    let state = "Pedding";
     let date = getDateOrder();
     let price = cart.getTotalPrice(id);
 
@@ -626,8 +648,8 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
     let productNewCategory = req.body.newCategory;
 
     if (productCategory === "addCategory") {
-        if ( productNewCategory === "") {
-                        productCategory = "default";
+        if (productNewCategory === "") {
+            productCategory = "default";
         }
         else {
             productCategory = productNewCategory;
@@ -673,7 +695,7 @@ app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) 
     let pictureData = req.file;
 
     if (category === "addCategory") {
-        if ( newCategory === "") {
+        if (newCategory === "") {
             category = "default";
         }
         else {
@@ -767,11 +789,6 @@ app.post('/addComment', (req, res) => {
 
 
 app.post('/deliveryInfos', (req, res) => {
-    res.redirect('/checkout');
-});
-
-app.post("/create-payment-intent", async (req, res) => {
-
     req.session.email = req.body.email;
     req.session.userName = req.body.name;
     req.session.userLastName = req.body.lastName;
@@ -780,7 +797,10 @@ app.post("/create-payment-intent", async (req, res) => {
     req.session.userPostCode = req.body.postCode;
     req.session.userPhoneNumber = req.body.phoneNumber;
     req.session.orderCommentary = req.body.commentary;
+    res.redirect('/checkout');
+});
 
+app.post("/create-payment-intent", async (req, res) => {
     if (req.session.id == undefined) {
         res.redirect('/login');
     }
@@ -805,16 +825,18 @@ app.post("/create-payment-intent", async (req, res) => {
     }
 });
 
-app.post('/updateOrder', (req, res) => {
-    let newState = req.body.state;
-    let orderId = req.body.orderId;
+app.post('/updateOrder/:id', (req, res) => {
+    let newState = req.body.orderState;
+    console.log("orderstate ", newState)
+    let orderId = req.params.id;
     orderList.updateOrderState(orderId, newState);
     res.redirect('/allOrders');
 });
 
-app.post('/deleteOrder', (req, res) => {
+app.post('/deleteOrder/:id', (req, res) => {
     if (req.session.admin === true) {
-        let orderId = req.body.orderId;
+        let orderId = req.params.id;
+        console.log(req.body.totalPrice)
         orderList.deleteOrderFromId(orderId);
         res.redirect('/allOrders');
     }
@@ -822,7 +844,6 @@ app.post('/deleteOrder', (req, res) => {
 
 app.post('/deleteProduct/:id', (req, res) => {
     let productId = req.params.id;
-    products.delete(productId);
     res.redirect('/adminProductList');
 });
 
