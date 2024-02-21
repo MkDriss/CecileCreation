@@ -3,15 +3,15 @@
 
 <div class="container">
       <div id="box">
-            <h1>Account</h1>
+            <div id="title">Account</div>
             <div id="content">
                   <div id="userInfos">
                         {{#accountsInfos}}
                         {{#profilePicture}}
-                        <img src="{{profilePicture}}" id="accountico" alt="accountImg">
+                        <img src="{{profilePicture}}" id="profilePicture" alt="accountImg">
                         {{/profilePicture}}
                         {{^profilePicture}}
-                        <img src="/icons/account.png" id="accountico" alt="accountImg">
+                        <img src="/icons/account.png" id="profilePicture" alt="accountImg">
                         {{/profilePicture}}
                         <div id="nameInfos">
                               <input type="text" name="name" id="name" class="nameInput" placeholder="Name"

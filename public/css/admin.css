@@ -10,13 +10,36 @@
     justify-content: center;
     align-items: center;
     width: 200px;
-    height: 30px;
-    background-color: dodgerblue;
-    color: white;
+    height: 35px;
+    border-radius: 10px;
+    margin: 15px 0px;
+    background-color: #8e7d68;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    color: whitesmoke;
     border: none;
     text-decoration: none;
 }
 
 .button:hover{
-    background-color: #2e84d9;
+    background-color: #9c8972;
 }
+
+#box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+}
+
+#title{
+    font-size: 30px;
+    color: #8e7d68;
+    margin-bottom: 20px;
+}
+

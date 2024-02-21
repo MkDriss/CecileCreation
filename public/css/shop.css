@@ -37,12 +37,12 @@
       width: 350px;
       border-radius: 10px;
       padding: 30px 5px 150px 5px ;
-      margin-bottom: 0px 15px 150px 15px;
+      margin: 0px 15px 30px 15px;
       box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
 }
 
 #productPicture:hover{
-      transform: scale(1.1);
+      transform: scale(1.05);
 }
 
 #productLink{
@@ -67,12 +67,17 @@ input, select{
       padding-left: 10px;
       font-size: 15px;
       color: #8e7d68;
-      box-shadow: 0px 0px 5px 1px #c2b9ae;;
+      box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+      font-family: "Raleway";
+}
+
+::placeholder{
+      color: #8e7d68;
+      font-family: "Raleway";
 }
 
 select{
       width: 25%;
-      background-color: whitesmoke;
 }
 
 #searchProductForm{
@@ -91,10 +96,12 @@ input[type="submit"]{
       height: 35px;
       border-radius: 5px;
       background-color: #8e7d68;
-      color: white;
+      color: whitesmoke;
       border: none;
       text-decoration: none;
       margin: 10px 0px;
+      box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+      font-family: "Raleway";
 }
 
 input[type="submit"]:hover{

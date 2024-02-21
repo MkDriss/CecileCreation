@@ -14,6 +14,12 @@ body{
       color: #8e7d68;
 }
 
+h3{
+      font-size: 20px;
+      color: #3e3e3e;
+
+}
+
 #navBar{
       display: flex;
       flex-direction: row;

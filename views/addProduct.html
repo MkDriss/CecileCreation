@@ -13,37 +13,43 @@
 </script>
 
 {{#admin}}
-<div id="container">
-      <div id="title">Add Product</div>
-      <form id="form" action="/addProduct" method="POST" enctype="multipart/form-data">
+<div id="addProduct">
+      <div id="container">
+            <div id="title">Add Product</div>
+            <form id="form" action="/addProduct" method="POST" enctype="multipart/form-data">
+                  <div>
+                        <input type="text" id="name" name="name" placeholder="Name" required>
+                  </div>
+                  <select name="productCategory" id="productCategory" onchange="showDiv('newCategory',this)">
+                        <option name="productCategory" id="defaultCategory" value="default">Select a Category</option>
+                        {{#categories}}
+                        <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">
+                              {{productCategory}}</option>
+                        {{/categories}}
+                        <option name="addCategory" id="addCategory" value="addCategory">New Category</option>
+                  </select>
+                  <input type="text" name="newCategory" id="newCategory" placeholder="New Category" style="display: none;">
+                  <div>
+                        <input type="number" id="price" name="price" step=".01" placeholder="Price" required>
+                  </div>
+                  <div>
+                        <textarea name="description" id="description" cols="60" rows="5" placeholder="Enter a description"
+                              required></textarea>
+                  </div>
+                  <div id="buttons">
+                         <div>
+                              <label for="uploadPicture" class="button">Upload Picture</label>
+                                    <input type="file" id="uploadPicture" name="uploadPicture"
+                                          accept='image/png, image/jpg, image/jpeg'>
+                        </div>
+                        <div>
+                              <input type="submit" class="button" value="Add Product">
+                        </div>
+                  </div>
+            </form>
             <div>
-                  <input type="text" id="name" name="name" placeholder="Name" required>
+                  <div>{{msg}}</div>
             </div>
-            <select name="productCategory" id="productCategory" onchange="showDiv('newCategory',this)">
-                  <option name="productCategory" id="defaultCategory" value="default">Select a Category</option>
-                  {{#categories}}
-                  <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">
-                        {{productCategory}}</option>
-                  {{/categories}}
-                  <option name="addCategory" id="addCategory" value="addCategory">New Category</option>
-            </select>
-            <input type="text" name="newCategory" id="newCategory" placeholder="New Category" style="display: none;">
-            <div>
-                  <input type="number" id="price" name="price" step=".01" placeholder="Price" required>
-            </div>
-            <div>
-                  <textarea name="description" id="description" cols="60" rows="5" placeholder="Enter a description"
-                        required></textarea>
-            </div>
-            <div>
-                  <input type="file" id="picture" name="picture" accept='image/png, image/jpg, image/jpeg' required>
-            </div>
-            <div>
-                  <button type="submit">Add Product</button>
-            </div>
-      </form>
-      <div>
-            <div>{{msg}}</div>
       </div>
 </div>
 {{/admin}}

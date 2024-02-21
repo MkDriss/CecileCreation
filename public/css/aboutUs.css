@@ -1,0 +1,19 @@
+#aboutUs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+#title{
+    margin-top: 150px;
+    font-size: 30px;
+    margin-bottom: 100px;
+}
+
+#contactUs{
+    text-decoration: none;
+    color: #8e7d68;
+    margin-top: 100px;
+}

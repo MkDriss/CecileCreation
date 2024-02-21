@@ -167,9 +167,8 @@ app.get('/shop', (req, res) => {
 });
 
 app.get('/addProduct', (req, res) => {
-    res.render('addProduct', { admin: req.session.admin, css: '/addProduct.css'});
+    res.render('addProduct', { admin: req.session.admin, css: '/addProduct.css', categories: products.getCategories() });
 });
-
 
 app.get('/updateAccount', (req, res) => {
     let user = account.read(req.session.id);
@@ -179,8 +178,7 @@ app.get('/updateAccount', (req, res) => {
 
 app.get('/updateProduct/:id', (req, res) => {
     let product = products.read(req.params.id)
-    console.log(product.productPicture)
-    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures: product.productPicture });
+    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures: product.productPicture ,admin: req.session.admin });
 });
 
 app.get('/updateOrder/:id', (req, res) => {
@@ -373,24 +371,33 @@ function getDateOrder() {
     return dateOrder;
 }
 
-function createOrder(req) {
+function createOrder(id, email, userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, orderCommentary) {
+
+    req.session.userAdress = null;
+    req.session.userCity = null;
+    req.session.userPostCode = null;
+    req.session.userPhoneNumber = null;
+    req.session.orderCommentary = null;
+
     let orderProducts = "";
-    let cartuser = cart.listProducts(req.session.id);
+    let cartuser = cart.listProducts(id);
+
     for (let i = 0; i < cartuser.length; i++) {
         let product = JSON.parse(cartuser[i].products);
         orderProducts += product.productId;
-
         if (i < cartuser.length - 1) {
             orderProducts += ', ';
         }
     }
+
     let state = "En cours de traitement";
     let date = getDateOrder();
-    let price = cart.getTotalPrice(req.session.id);
+    let price = cart.getTotalPrice(id);
 
-    orderList.createOrder(req.session.id, req.session.email, req.session.userName, req.session.userLastName,
-        req.session.userAdress, req.session.userCity, req.session.userPostCode, req.session.userPhoneNumber,
-        orderProducts, price, req.body.orderCommentary, date, state);
+    orderList.createOrder(id, email, userName, userLastName,
+        userAdress, userCity, userPostCode, userPhoneNumber,
+        orderProducts, price, orderCommentary, date, state);
+    cart.clearAll(id);
 }
 
 app.get('/orderDetails/:id', (req, res) => {
@@ -419,13 +426,17 @@ app.get('/adminProductList', (req, res) => {
 
 app.get('/checkout', (req, res) => {
     try {
-        res.render('checkout', { css: '/checkout.css' });
+        res.render('checkout', { css: '/checkout.css', authenticated: req.session.authenticated});
     }
     catch (err) {
         res.redirect('/cart');
     }
 });
 
+app.get('/createOrder', (req, res) => {
+    createOrder(req.session.id, req.session.email, req.session.username, req.session.userLastName, req.session.userAdress, req.session.userCity, req.session.userPostCode, req.session.userPhoneNumber, req.session.orderCommentary);
+    res.redirect('/orders');
+});
 
 //POST METHODS
 
@@ -467,11 +478,16 @@ app.post('/register', (req, res) => {
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
+    let confirmPassword = req.body.confimPassword;
     let id = crypto.randomBytes(32).toString("hex");
 
     if (email == undefined || username == undefined || password == undefined) {
         console.log("Invalid username or password")
         return res.render('register', { msg: "Invalid email, username or password", css: '/register.css'});
+    }
+    else if (confirmPassword != password) {
+        console.log("Password aren't matching")
+        return res.render('register', { msg: "Wrong password", css: '/register.css'})
     }
     else if (account.read(id) == undefined && account.checkEmail(email) == 'false') {
         account.create(id, email, username, password);
@@ -540,15 +556,17 @@ app.post('/resetPassword/:token', (req, res) => {
 });
 
 
-app.post('/updateAccount', uploadProfilePicture.single('profilePicture'), (req, res) => {
-    let username = req.body.username;
+app.post('/updateAccount', uploadProfilePicture.single('updateProfilePicture'), (req, res) => {
+    console.log("bonjour")
+    let username = req.body.name;
     let userlastname = req.body.lastName;
     let email = req.body.email;
     let adress = req.body.adress;
     let city = req.body.city;
-    let zipCode = req.body.zipCode;
-    let phone = req.body.phone;
+    let zipCode = req.body.postCode;
+    let phone = req.body.phoneNumber;
     let id = req.session.id;
+    
     let profilePictureName;
     if (req.file == undefined) {
         profilePictureName = account.read(id).profilePicture;
@@ -587,10 +605,17 @@ app.post('/updateAccount', uploadProfilePicture.single('profilePicture'), (req, 
 });
 
 
-app.post('/addProduct', uploadProduct.single('picture'), (req, res) => {
+app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
     let name = req.body.name;
     let price = req.body.price;
     let description = req.body.description;
+    let productCategory = req.body.productCategory;
+    let productNewCategory = req.body.newCategory;
+
+    if (productNewCategory === "addCategory") {
+        productCategory = productNewCategory;
+    }
+
     let pictureData = req.file;
     console.log(pictureData)
     if (name == undefined || price == undefined || description == undefined || pictureData == undefined) {
@@ -606,7 +631,7 @@ app.post('/addProduct', uploadProduct.single('picture'), (req, res) => {
     else if (products.read(name) == undefined) {
 
         let productId = crypto.randomBytes(10).toString("hex");
-        products.create(productId, name, price, description, pictureData);
+        products.create(productId, name, productCategory, price, description, pictureData);
 
         let tmp_path = req.file.path;
         let target_path = 'public/products_pictures/BackPack/' + name + '_' + productId + '.png';
@@ -716,6 +741,16 @@ app.post('/deliveryInfos', (req, res) => {
 });
 
 app.post("/create-payment-intent", async (req, res) => {
+    
+    req.session.email = req.body.email;
+    req.session.userName = req.body.name;
+    req.session.userLastName = req.body.lastName;
+    req.session.userAdress = req.body.adress;
+    req.session.userCity = req.body.city;
+    req.session.userPostCode = req.body.postCode;
+    req.session.userPhoneNumber = req.body.phoneNumber;
+    req.session.orderCommentary = req.body.commentary;
+
     if (req.session.id == undefined) {
         res.redirect('/login');
     }
@@ -729,9 +764,11 @@ app.post("/create-payment-intent", async (req, res) => {
                 enabled: true,
             },
         });
+        
         res.send({
-            clientSecret: paymentIntent.client_secret,
+            clientSecret: paymentIntent.client_secret
         });
+        
     }
     catch (err) {
         res.redirect('/');

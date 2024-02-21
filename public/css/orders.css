@@ -8,6 +8,7 @@
 #container{
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
     width: 80%;
     margin: 0px 50px;
@@ -20,14 +21,33 @@
     margin-top: 25px;
     height: 50px;
     width: 100%;
-    border-radius: 5px;
-    background-color: lightgrey;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
     text-decoration: none;
 }
 
 .UpdateOrderLink, .DeleteOrderLink{
     text-decoration: none;
     color: black;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 35px;
+    border-radius: 10px;
+    margin: 15px 0px;
+    background-color: #8e7d68;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    color: whitesmoke;
+    border: none;
+    text-decoration: none;
+}
+
+.button:hover{
+    background-color: #9c8972;
 }
 
 #box{
@@ -38,7 +58,7 @@
 .UpdateOrderLink{
    margin: 0px 10px;
    padding: 5px 5px;
-   background-color: black;
+   background-color: #8e7d68;
    border-radius: 5px;
    color :white;
 }
@@ -61,6 +81,7 @@
 
 .orderDetailsLink{
     text-decoration: none;
-    color: black;
+    color: #8e7d68;
+    width: 100%;
 }
 

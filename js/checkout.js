@@ -1,4 +1,3 @@
-
 const stripe = Stripe("pk_test_51NZ9oPGoMv8PfBnKrgWhHe2qx1zu7rhuxrwSSvIownLpLnYtXuYXCKKFHaP4EamfqE5rCJHZKooOGVE3rkDkHxbi00ll37cadh");
 
 let returnUrl;
@@ -10,12 +9,11 @@ document
   .addEventListener("submit", handleSubmit);
 
 async function initialize() {
-  console.log("initialize")
   const response = await fetch("/create-payment-intent", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
   });
-  console.log(response);
+
   const { clientSecret } = await response.json();
 
   const appearance = {
@@ -39,7 +37,7 @@ async function handleSubmit(e) {
   const { error } = await stripe.confirmPayment({
     elements,
     confirmParams: {
-      return_url: "http://localhost:3000/orders",
+      return_url: "http://localhost:3000/createOrder",
     },
   });
 
@@ -93,10 +91,8 @@ function showMessage(messageText) {
   }, 4000);
 }
 
-// Show a spinner on payment submission
 function setLoading(isLoading) {
   if (isLoading) {
-    // Disable the button and show a spinner
     document.querySelector("#submit").disabled = true;
     document.querySelector("#spinner").classList.remove("hidden");
     document.querySelector("#button-text").classList.add("hidden");

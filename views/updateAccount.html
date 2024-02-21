@@ -3,7 +3,7 @@
 
 <div class="container">
       <div id="box">
-            <h1>Account</h1>
+            <div id="title">Account</div>
             <div id="content">
                   <form action="/updateAccount" id="userInfos" method="POST" enctype="multipart/form-data">
                         {{#accountsInfos}}
@@ -16,7 +16,7 @@
                               {{/profilePicture}}
                               <label for="updateProfilePicture" id="editPicture" class="button">Edit Picture</label>
                               <input type="file" id="updateProfilePicture" name="updateProfilePicture"
-                                    accept='image/png, image/jpg, image/jpeg' value="Edit Picture">
+                                    accept='image/png, image/jpg, image/jpeg'>
                         </div>
                         <div id="nameInfos">
                               <input type="text" name="name" id="name" class="nameInput" placeholder="Name"
@@ -35,8 +35,9 @@
                         <input type="text" name="city" id="city" class="input" placeholder="City" value="{{city}}">
                         <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number"
                               value="{{phone}}">
-                        <div>
+                        <div id="buttons">
                               <input type="submit" name="save" class="button" value="Save">
+                              <a href="/account" class="button">Cancel</a>
                         </div>
                         {{/accountsInfos}}
                   </form>

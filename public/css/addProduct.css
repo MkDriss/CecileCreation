@@ -1,42 +1,112 @@
+#addProduct{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80%;
+}
+
 #container{
-    margin-top: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 40%;
+    padding: 20px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    border-radius: 10px;
 }
 
 #title{
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-size: 30px;
 }
 
-input{
-    width: 500px;
-    height: 30px;
-    margin: 5px 0px;
+#uploadPicture{
+    display: none;
 }
 
-textarea{
-    width: 500px;
+input[type="text"],[type="number"], select{
+    width: 100%;
+    margin: 5px 0px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    padding-left: 10px;
+    font-size: 15px;
+    color: #8e7d68;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    font-family: "Raleway";
+}
+
+#buttons{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+
+}
+
+input[type="submit"]{
+    display: flex;
+    justify-content: center;
+    width: 185px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: #8e7d68;
+    color: whitesmoke;
+    border: none;
+    text-decoration: none;
+    margin: 10px 0px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    font-family: "Raleway";
+}
+
+input[type="submit"]:hover{
+    background-color: #8e7d68;
+    cursor: pointer;
+}
+
+
+::placeholder{
+    color: #8e7d68;
+    font-family: "Raleway";
 }
 
 #form{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 70%;
+
 }
 
 .button{
     display: flex;
     justify-content: center;
+    font-size: 15px;
     align-items: center;
-    text-decoration: none;
-    background-color: black;
+    border-radius: 5px;
+    width: 185px;
+    height: 35px;
+    background-color: #8e7d68;
+    box-shadow: 0px 0px 5px 1px #c2b9ae;
     color: white;
-    width: 150px;
-    height: 30px;
+    border: none;
+    text-decoration: none;
+    margin: 10px 0px;
 }
 
 .button:hover{
-    background-color: rgb(49, 49, 49);
+    background-color: #7b6e5c;
+    cursor: pointer;
+}
+
+textarea{
+    width: 100%;
+    height: 100%;
+    margin: 10px 0px;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    color: #8e7d68;
+    font-family: "Raleway";
 }

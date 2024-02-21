@@ -49,7 +49,7 @@ exports.create = function (productId, productName, productCategory, productPrice
                         console.log('product Added!');
                   });
             });
-            db.prepare('INSERT INTO products(productId, productName, productPrice, productDescription, productPicture) VALUES (?, ?, ?, ?, ?)').run(productId, productName, productPrice, productDescription, pictureName);
+            db.prepare('INSERT INTO products(productId, productName, productCategory, productPrice, productDescription, productPicture) VALUES (?, ?, ?, ?, ?, ?)').run(productId, productName, productCategory, productPrice, productDescription, pictureName);
       } catch(err) {
             console.log(err);
       }  
