@@ -32,7 +32,6 @@ loadAccount('json/accounts.json');
 //CREATE
 
 exports.create = function (id, email, username, userLastName, password) {
-      console.log(username, email);
 
       let newAccount = {
             "id": id,
@@ -172,6 +171,7 @@ exports.updateAccount = function (id, username, userLastName, email, adress, cit
       });
 
       db.prepare('UPDATE user SET username = ?, userLastName = ?, email = ?, adress = ?, city = ?, zipCode = ?, phone = ?, profilePicture = ? WHERE id = ?').run(username, userLastName, email, adress, city, zipCode, phone, pictureName, id);
+      console.log("Account updated");
 
 }
 

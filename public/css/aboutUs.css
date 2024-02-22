@@ -40,7 +40,12 @@
 #content {
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 60%;
     align-items: center;
     margin-top: 50px;
+}
+
+p {
+    font-size: 20px;
+    text-align: justify;
 }

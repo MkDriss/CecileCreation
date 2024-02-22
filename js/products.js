@@ -29,8 +29,8 @@ loadProduct('./json/products.json');
 // CREATE
 
 exports.create = function (productId, productName, productCategory = "default", productPrice, productDescription) {
-      let pictureName = productName + '_' + productId + '.png';
-      console.log(productName);
+      
+      let pictureName = convertInAlphabet(productName) + '_' + productId + '.png';
 
       let newProduct = {
             "productId": productId,
@@ -133,3 +133,16 @@ exports.delete = function (productId) {
       db.prepare('DELETE FROM products WHERE productId = ?').run(productId);
       console.log('product ' + productId + ' deleted');
 }
+
+// FUNCTION
+
+function convertInAlphabet(str) {
+      let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789@_-";
+      let newStr = "";
+      for (let i = 0; i < str.length; i++) {
+          if (alphabet.includes(str[i].toLowerCase())) {
+              newStr += str[i];
+          }
+      }
+      return newStr;
+  };

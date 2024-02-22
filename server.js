@@ -109,7 +109,6 @@ app.get('/', (req, res) => {
     let randomId = Math.floor(Math.random() * products.list().length);
     let productsList = products.list();
     let trendProduct = products.read(productsList[randomId].productId);
-    account.test();
     res.render('home', { trendProduct: trendProduct, products: productsList, css: '/home.css' });
 });
 
@@ -127,8 +126,7 @@ app.get('/register', (req, res) => {
 
 app.get('/account', (req, res) => {
     let user = account.read(req.session.id);
-    if (user.profilePicture === undefined) {
-        console.log(user.profilePicture)
+    if (user.profilePicture === undefined || user.profilePicture === "") {
         user.profilePicture = "defaultAccountIco.png";
     }
     res.render('account', { accountsInfos: user, admin: req.session.admin, css: '/account.css' });
@@ -172,6 +170,9 @@ app.get('/addProduct', (req, res) => {
 
 app.get('/updateAccount', (req, res) => {
     let user = account.read(req.session.id);
+    if (user.profilePicture === undefined || user.profilePicture === "") {
+        user.profilePicture = "defaultAccountIco.png";
+    }
     res.render('updateAccount', { accountsInfos: user, admin: req.session.admin, css: '/updateAccount.css' });
 });
 
@@ -437,9 +438,6 @@ app.post('/login', (req, res) => {
         req.session.admin = account.checkAdmin(req.session.id);
 
         console.log(req.session.username + ' connected');
-        console.log(req.session.email)
-        console.log(req.session.admin);
-        console.log("productId : " + productId)
         if (productId != undefined) {
 
             console.log("Adding product to cart")
@@ -470,8 +468,6 @@ app.post('/register', (req, res) => {
     }
     else if (account.read(id) == undefined && account.checkEmail(email) == 'false') {
         account.create(id, email, username, password);
-        console.log("username : " + username);
-        console.log("password : " + password);
         return res.redirect('/login');
     }
     else if (account.read(email) != undefined) {
@@ -494,7 +490,6 @@ app.post('/forgotPassword', (req, res) => {
     }
     else if (account.read(email) != undefined) {
         let token = account.read(email).token;
-        console.log(token);
         console.log("An email has been sent to " + email);
 
         let response = {
@@ -569,15 +564,6 @@ app.post('/updateAccount', uploadProfilePicture.single('updateProfilePicture'), 
             src.pipe(dest);
         }
 
-        console.log("Account updated");
-        console.log("username : " + username);
-        console.log("userlastname : " + userlastname);
-        console.log("email : " + email);
-        console.log("adress : " + adress);
-        console.log("city : " + city);
-        console.log("phone : " + phone);
-        console.log("profilePicture : " + profilePictureName);
-        console.log(account.read(id));
         return res.redirect('/account');
     }
 });
@@ -589,7 +575,6 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
     let description = req.body.description;
     let productCategory = req.body.productCategory;
     let productNewCategory = req.body.newCategory;
-
     if (productCategory === "addCategory") {
         if (productNewCategory === "") {
             productCategory = "default";
@@ -600,7 +585,6 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
     }
 
     let pictureData = req.file;
-    console.log(pictureData)
     if (name == undefined || price == undefined || description == undefined || pictureData == undefined) {
         console.log("Invalid product")
         return res.redirect('/addProduct');
@@ -617,7 +601,7 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
         products.create(productId, name, productCategory, price, description, pictureData);
 
         let tmp_path = req.file.path;
-        let target_path = 'public/products_pictures/' + name + '_' + productId + '.png';
+        let target_path = 'public/products_pictures/' + convertInAlphabet(name) + '_' + productId + '.png';
         let src = fs.createReadStream(tmp_path);
         let dest = fs.createWriteStream(target_path);
         src.pipe(dest);
@@ -740,7 +724,6 @@ app.post('/deliveryInfos', (req, res) => {
     req.session.userPostCode = req.body.postCode;
     req.session.userPhoneNumber = req.body.phoneNumber;
     req.session.orderCommentary = req.body.orderCommentary;
-    console.log(req.session.email);
     res.redirect('/checkout');
 });
 
@@ -771,7 +754,6 @@ app.post("/create-payment-intent", async (req, res) => {
 
 app.post('/updateOrder/:id', (req, res) => {
     let newState = req.body.orderState;
-    console.log("orderstate ", newState)
     let orderId = req.params.id;
     orderList.updateOrderState(orderId, newState);
     res.redirect('/allOrders');
@@ -780,7 +762,6 @@ app.post('/updateOrder/:id', (req, res) => {
 app.post('/deleteOrder/:id', (req, res) => {
     if (req.session.admin === true) {
         let orderId = req.params.id;
-        console.log(req.body.totalPrice)
         orderList.deleteOrderFromId(orderId);
         res.redirect('/allOrders');
     }
