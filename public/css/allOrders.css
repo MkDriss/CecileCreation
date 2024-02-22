@@ -1,11 +1,11 @@
-#title{
+#title {
     display: flex;
     justify-content: center;
     margin-top: 150px;
     font-size: 30px;
 }
 
-#container{
+#container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,7 +14,7 @@
     margin: 0px 50px 50px 50px;
 }
 
-.orders{
+.orders {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -26,48 +26,51 @@
     text-decoration: none;
 }
 
-.UpdateOrderLink, .DeleteOrderLink{
+.UpdateOrderLink,
+.DeleteOrderLink {
     text-decoration: none;
     color: black;
 }
 
-a{
-    text-decoration: none;
-    width: 100%;
-    color: #8e7d68;
-}
 
-.button{
+.button {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 200px;
     height: 35px;
-    border-radius: 10px;
-    margin: 15px 0px;
-    background-color: #8e7d68;
+    border-radius: 5px;
+    margin: 20px 0px;
+    font-weight: 600;
+    background-color: #a8957d;
     box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
     color: whitesmoke;
     border: none;
     text-decoration: none;
 }
 
-.button:hover{
-    background-color: #9c8972;
+#updateOrderLink {
+    width: 100%;
+    text-decoration: none;
+    color: #8e7d68;
 }
 
-#box{
+.button:hover {
+    cursor: pointer;
+    background-color: #8e7d68;
+}
+
+#box {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
-#noOrderFound{
+#noOrderFound {
     display: flex;
     justify-content: center;
     margin-top: 150px;
     margin-bottom: 100px;
     font-size: 30px;
 }
-
-
-

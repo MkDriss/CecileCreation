@@ -1,12 +1,11 @@
-
-#title{
+#title {
       display: flex;
-            justify-content: center;
-            margin: 50px 0px;
-            font-size: 30px;
+      justify-content: center;
+      margin: 50px 0px;
+      font-size: 30px;
 }
 
-#loginBox{
+#loginBox {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -15,7 +14,7 @@
       margin-top: 200px;
 }
 
-#form{
+#form {
       display: flex;
       justify-content: flex-start;
       width: 20%;
@@ -24,9 +23,9 @@
       box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
       border-radius: 5px;
       align-items: center;
-      }
+}
 
-#other{
+#other {
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
@@ -35,12 +34,12 @@
       color: #8e7d68;
 }
 
-a{
+a {
       color: #8e7d68;
       text-decoration: none;
 }
 
-input{
+input {
       width: 100%;
       margin: 5px 0px;
       height: 35px;
@@ -52,13 +51,14 @@ input{
       box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
 }
 
-input[type="submit"]{
+input[type="submit"] {
       display: flex;
       justify-content: center;
       width: 185px;
       height: 35px;
       border-radius: 5px;
-      background-color: #8e7d68;
+      font-weight: 600;
+      background-color: #a8957d;
       color: whitesmoke;
       border: none;
       text-decoration: none;
@@ -66,12 +66,12 @@ input[type="submit"]{
       box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
 }
 
-input[type="submit"]:hover{
-      background-color: #9c8972;
+input[type="submit"]:hover {
+      background-color: #8e7d68;
       cursor: pointer;
 }
 
 
-::placeholder{
+::placeholder {
       color: #8e7d68;
 }

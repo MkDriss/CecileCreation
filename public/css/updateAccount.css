@@ -1,19 +1,19 @@
-.container{
+.container {
     display: flex;
     justify-content: center;
     width: 100%;
 }
 
 
-#title{
+#title {
     display: flex;
     justify-content: center;
-    color: #867763;
+    color: #8e7d68;
     font-size: 30px;
     margin: 25px 0px;
 }
 
-#box{
+#box {
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0px 5px 1px #c2b9ae;
@@ -26,25 +26,30 @@
     margin-bottom: 150px;
 }
 
-#content{
+#content {
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 80%;
 }
 
-#name, #postCode{
+#name,
+#postCode {
     width: 30%;
 }
-#lastName, #adress{
+
+#lastName,
+#adress {
     width: 67%;
 }
 
-#email, #city, #phoneNumber{
+#email,
+#city,
+#phoneNumber {
     width: 100%;
 }
 
-#accountico{
+#accountico {
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -53,7 +58,7 @@
     object-fit: cover;
 }
 
-#userInfos{
+#userInfos {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -62,33 +67,35 @@
     width: 50%;
 }
 
-#nameInfos, #addressInfos{
+#nameInfos,
+#addressInfos {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-.button{
+.button {
     display: flex;
     justify-content: center;
+    font-size: 15px;
     align-items: center;
-    width: 200px;
+    border-radius: 5px;
+    width: 185px;
     height: 35px;
-    border-radius: 10px;
-    margin: 15px 0px;
-    background-color: #8e7d68;
+    font-weight: 600;
     box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
-    color: whitesmoke;
+    background-color: whitesmoke;
+    color: #8e7d68;
     border: none;
     text-decoration: none;
-    font-family: "Raleway";
+    margin: 10px 0px;
 }
 
-.button:hover{
-    background-color: #9c8972;
+.button:hover {
+    cursor: pointer;
 }
 
-#pictureBox{
+#pictureBox {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -97,21 +104,21 @@
     width: 100%;
 }
 
-#editPicture{
+#editPicture {
     width: 100px;
     height: 35px;
     margin-left: 10px;
 }
 
 
-#buttons{
+#buttons {
     display: flex;
     justify-content: space-around;
     width: 80%;
     margin-top: 20px;
 }
 
-#profilePicture{
+#profilePicture {
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -120,7 +127,8 @@
     margin-right: 20px;
 }
 
-input{
+input[type="text"],
+input[type="email"] {
     font-family: "Raleway";
     width: 300px;
     height: 35px;
@@ -130,15 +138,24 @@ input{
     padding-left: 10px;
     font-size: 15px;
     color: #867763;
-    box-shadow: 0px 0px 5px 1px #c2b9ae;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
 }
 
-label{
+label {
     cursor: pointer;
     margin-bottom: 10px;
 }
 
-input[type="file"]{
+input[type="file"] {
     display: none;
 }
 
+#cancelButton {
+    background-color: #a8957d;
+    color: whitesmoke;
+}
+
+#cancelButton:hover {
+    background-color: #8e7d68;
+    cursor: pointer;
+}

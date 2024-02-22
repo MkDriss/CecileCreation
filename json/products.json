@@ -1,34 +1,34 @@
 [
   {
     "productId": "0",
-    "productName": "Cartable maternelle fille tissu les Aristochats",
-    "productCategory": "default",
+    "productName": "The Aristocats fabric nursery bag for girls",
+    "productCategory": "SchoolBag",
     "productPrice": "45",
-    "productDescription": "Ce cartable a été confectionné dans un tissu coton épais rose et un tissu coton au ravissant motif les Aristochats. Son rabat est accessoirisé de rubans de satin et d'organza coordonnés et fini d'un liseré coordonné pour une finition parfaite.\r\nIl est entièrement doublé dans une toile écrue épaisse qui lui apporte beaucoup de tenue.\r\nUne petite poche plaquée devant accueille un fermoir cartable facilement manipulable par les petites mains.\r\n\r\nSes dimensions sont adaptées à la morphologie des touts petits (28 cm x 24 cm x 5cm).\r\nSes anses sont ajustables de 50 à 60 cm\r\n\r\nCe cartable est une création unique Cicilounette. Il a été confectionné avec le plus grand soin dans des tissus choisis pour leur beauté et leur qualité.\r\nLe prénom peut être inscrit sur simple demande",
+    "productDescription": "This satchel was made in a thick pink cotton fabric and a cotton fabric with a delightful Aristocats pattern. Its flap is accessorized with coordinated satin and organza ribbons and finished with a coordinated edging for a perfect finish.\r\nIt is fully lined in a thick ecru canvas which gives it a lot of hold.\r\nA small pocket plated on the front accommodates a satchel clasp that is easily handled by small hands.\r\n\r\nIts dimensions are adapted to the body shape of toddlers (28 cm x 24 cm x 5cm).\r\nIts handles are adjustable from 50 to 60 cm\r\n\r\nThis satchel is a unique Cicilounette creation. It has been made with the greatest care in fabrics chosen for their beauty and quality.\r\nThe first name can be written on simple request",
     "productPicture": "il_794xN.4114713909_6ngb.jpg"
   },
   {
     "productId": "1",
-    "productName": "Cartable maternelle petite section personnalisé",
-    "productCategory": "Backpack",
+    "productName": "Personalized kindergarten schoolbag",
+    "productCategory": "SchoolBag",
     "productPrice": "50",
-    "productDescription": "cartable confectionné dans un tissu épais. Rabat travaillé dans un tissu coton enduit motifs écolier et fini d’un liseré coordonné.",
+    "productDescription": "Satchel made from thick fabric. Flap worked in a coated cotton fabric with a schoolboy motif and finished with coordinated piping.",
     "productPicture": "il_794xN.2635023791_n9p1.jpg"
   },
   {
     "productId": "4",
-    "productName": "Sac à dos enfant tissu petits bolides",
+    "productName": "Children's fabric backpack",
     "productPrice": "60",
-    "productCategory": "default",
-    "productDescription": "Ce ravissant petit sac à dos forme pochon a été confectionné dans une association de tissus coordonnées : le rabat est réalisé dans un coton au motif petits bolides. Le sac est cousu dans un tissu épais marron. Il est entièrement doublé dans un tissu écru épais, qui lui confère une tenue irréprochable. Sa petite poche devant accueille un velcro. Fermeture intérieure par une cordelette.",
+    "productCategory": "BackPack",
+    "productDescription": "This delightful little pouch-shaped backpack has been crafted in a coordinated combination of fabrics: the flap is made from a cotton fabric with a small bolides motif. The bag is sewn in a thick brown fabric. It is fully lined in a thick ecru fabric for impeccable wear. Its small front pocket has a Velcro fastening. Inside cord closure.",
     "productPicture": "il_794xN.3232783213_9mim.jpg"
   },
   {
     "productId": "5",
-    "productName": " Sac à dos enfant le petit prince",
-    "productCategory": "Sac à dos",
+    "productName": "The Little Prince children's backpack",
+    "productCategory": "BackPack",
     "productPrice": "70",
-    "productDescription": "Ce ravissant petit sac à dos forme pochon a été confectionné dans une association de tissus coordonnées : le rabat est réalisé dans un coton au motif petits bolides. Le sac est cousu dans un tissu épais marron. Il est entièrement doublé dans un tissu écru épais, qui lui confère une tenue irréprochable. Sa petite poche devant accueille un velcro. Fermeture intérieure par une cordelette.",
+    "productDescription": "This delightful little pouch-shaped backpack has been crafted in a coordinated combination of fabrics: the flap is made from a cotton fabric with a small bolides motif. The bag is sewn in a thick brown fabric. It is fully lined in a thick ecru fabric for impeccable wear. Its small front pocket has a Velcro fastening. Inside cord closure.",
     "productPicture": "il_794xN.3443932700_onzs.jpg"
   }
 ]

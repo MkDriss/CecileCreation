@@ -1,19 +1,19 @@
-.container{
+.container {
     display: flex;
     justify-content: center;
     width: 100%;
 }
 
 
-#title{
+#title {
     display: flex;
     justify-content: center;
-    color: #867763;
+    color: #8e7d68;
     font-size: 30px;
     margin: 25px 0px;
 }
 
-#box{
+#box {
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0px 5px 1px #c2b9ae;
@@ -27,25 +27,30 @@
     margin-bottom: 150px;
 }
 
-#content{
+#content {
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 80%;
 }
 
-#name, #postCode{
+#name,
+#postCode {
     width: 30%;
 }
-#lastName, #adress{
+
+#lastName,
+#adress {
     width: 67%;
 }
 
-#email, #city, #phoneNumber{
+#email,
+#city,
+#phoneNumber {
     width: 100%;
 }
 
-#profilePicture{
+#profilePicture {
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -54,14 +59,14 @@
     object-fit: cover;
 }
 
-#accountBox{
+#accountBox {
     display: flex;
     justify-content: center;
     width: 100%;
 
 }
 
-#userInfos{
+#userInfos {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -70,13 +75,14 @@
     width: 50%;
 }
 
-#nameInfos, #addressInfos{
+#nameInfos,
+#addressInfos {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-#containerButtons{
+#containerButtons {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -84,41 +90,41 @@
     height: 80%;
 }
 
-
-
-.button{
+.button {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 200px;
     height: 35px;
-    border-radius: 10px;
+    font-weight: 600;
+    border-radius: 5px;
     margin: 15px 0px;
-    background-color: #8e7d68;
+    background-color: #a8957d;
     box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
     color: whitesmoke;
     border: none;
     text-decoration: none;
 }
 
-.button:hover{
-    background-color: #9c8972;
+.button:hover {
+    background-color: #8e7d68;
 }
 
-#editButton{
+#editButton {
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
     width: 100px;
     height: 35px;
-    background-color: #867763;
+    background-color: #a8957d;
     color: white;
     border: none;
     text-decoration: none;
 }
 
-input{
+input[type="text"],
+input[type="email"] {
     width: 300px;
     height: 35px;
     margin-bottom: 10px;
@@ -126,20 +132,20 @@ input{
     border: none;
     padding-left: 10px;
     font-size: 15px;
-    color: #867763;
+    color: #8e7d68;
     box-shadow: 0px 0px 5px 0px rgb(195, 195, 195);
 }
 
-label{
+label {
     cursor: pointer;
     margin-bottom: 10px;
 }
 
-input[type="file"]{
+input[type="file"] {
     display: none;
 }
 
-#profilePicturePreview{
+#profilePicturePreview {
     width: 70px;
     height: 70px;
     border-radius: 50%;

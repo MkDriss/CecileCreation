@@ -4,8 +4,6 @@ const Sqlite = require('better-sqlite3');
 const fs = require('fs');
 let db = new Sqlite('db.sqlite');
 
-
-
 let loadAccount = function (filename) {
 
       const accounts = JSON.parse(fs.readFileSync(filename));
@@ -30,10 +28,8 @@ let loadAccount = function (filename) {
 }
 
 loadAccount('json/accounts.json');
-//CREATE
 
-exports.test = function () {
-}
+//CREATE
 
 exports.create = function (id, email, username, userLastName, password) {
       console.log(username, email);
@@ -70,6 +66,7 @@ exports.create = function (id, email, username, userLastName, password) {
 
 
 //READ 
+
 exports.read = function (id) {
       return db.prepare('SELECT * FROM user WHERE id = ?').get(id);
 }
@@ -185,6 +182,7 @@ exports.updateAccountPassword = function (password, email) {
 
 
 //DELETE
+
 exports.delete = function (email) {
       db.prepare('DELETE FROM user WHERE email = ?').run(email);
 }

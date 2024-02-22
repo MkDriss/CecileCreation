@@ -6,7 +6,7 @@
 <div id="box">
     <div id="container">
         {{#orders}}
-        <a href="/updateOrder/{{id}}">
+        <a href="/updateOrder/{{id}}" id="updateOrderLink">
             <div class="orders">
                 <div>Order Id : {{id}}</div>
                 <div>Order Price : {{price}} €</div>
@@ -15,12 +15,11 @@
             </div>
         </a>
         {{/orders}}
+        <a href="/adminPanel" class="button" id="backButton">Back</a>
         {{^orders}}
         <div id="noOrderFound">No orders found</div>
         {{/orders}}
     </div>
-</div>
-
 </div>
 
 {{/admin}}

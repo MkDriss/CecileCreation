@@ -1,7 +1,8 @@
 {{>header}}
 <script>
     function showElement(showElementId, hideElementId, cancel) {
-        document.getElementById(showElementId).style.display = 'block';
+
+        document.getElementById(showElementId).style.display = 'flex';
         document.getElementById(hideElementId).style.display = 'none';
         if (cancel === 1) {
             document.getElementById('cancelButton').style.display = 'flex';
@@ -34,8 +35,8 @@
                         <textarea name="commentary" id="orderCommentary" cols="30" rows="5"
                             readonly>{{commentary}}</textarea>
                     </div>
-                    <div>
-                        <form action="/updateOrder/{{id}}" method="post" id="updateOrderForm">
+
+                    <form action="/updateOrder/{{id}}" method="post" id="updateOrderForm">
                         <span>State : </span>
                         <select name="orderState" id="orderState">
                             {{#currentState}}
@@ -45,82 +46,82 @@
                             <option value="{{state}}" name="orderState" id="orderState">{{state}}</option>
                             {{/otherStates}}
                         </select>
-                    </div>
-                    <div id="userInfos">
-                        <h2>User Infos</h2>
-                        <div>
-                            <span>Email : {{userEmail}}</span>
+                        <div id="userInfos">
+                            <h2>User Infos</h2>
+                            <div>
+                                <span>Email : {{userEmail}}</span>
+                            </div>
+                            <div>
+                                <span>Name : {{userName}}</span>
+                            </div>
+                            <div>
+                                <span>Last Name : {{userLastName}}</span>
+                            </div>
+                            <div>
+                                <span>Phone Number : {{userPhoneNumber}}</span>
+                            </div>
                         </div>
-                        <div>
-                            <span>Name : {{userName}}</span>
+                        <div id="shippingInfos">
+                            <h2>Shipping Infos</h2>
+                            <div>
+                                <span>Adress : {{userAdress}}</span>
+                            </div>
+                            <div>
+                                <span>City : {{userCity}}</span>
+                            </div>
+                            <div>
+                                <span>Postal Code : {{userPostCode}}</span>
+                            </div>
                         </div>
-                        <div>
-                            <span>Last Name : {{userLastName}}</span>
-                        </div>
-                        <div>
-                            <span>Phone Number : {{userPhoneNumber}}</span>
-                        </div>
-                    </div>
-                    <div id="shippingInfos">
-                        <h2>Shipping Infos</h2>
-                        <div>
-                            <span>Adress : {{userAdress}}</span>
-                        </div>
-                        <div>
-                            <span>City : {{userCity}}</span>
-                        </div>
-                        <div>
-                            <span>Postal Code : {{userPostCode}}</span>
-                        </div>
-                    </div>
-                    
+
                 </div>
                 <div id="buttons">
-                    <div id="upperButtons">
-                        
-                            <input type="submit" id="updateOrderButton" class="button" value="Update">
-                            <input type="button" id="deleteOrderButton" class="button" vallue="Delete"
-                                onclick="showElement('deleteOrderForm','updateOrderForm',0)">
-                        </form>
-                        <form action="/deleteOrder/{{id}}" method="post" id="deleteOrderForm">
-                            <span id="text">Do you really want to delete this order ?</span>
-                            <div>
-                                <input type="submit" id="confirmDeleteButton" class="button" value="Confirm">
-                                <input type="button" id="cancelDeleteButton" class="button" value="Cancel"
-                                    onclick="showElement('updateOrderForm', 'deleteOrderForm',1)">
-                            </div>
-                        </form>
+                    <div id="upperUpdateButtons">
+                        <input type="submit" id="updateOrderButton" class="button" value="Update">
+                        <input type="button" id="deleteOrderButton" class="button" value="Delete"
+                            onclick="showElement('deleteOrderForm','upperUpdateButtons',0)">
                     </div>
                 </div>
+                </form>
                 <a href="/allOrders" id="cancelButton" class="button">Cancel</a>
-            </div>
-            {{/order}}
-
-            <div id="middleBar"></div>
-
-            <div id="right_container">
-                <div>
-                    <div id="products">
-                        {{#products}}
-                        <div class="items">
-                            <a href="/readProduct/{{productId}}" class="productLink">
-                                <img src="/{{productPicture}}" alt="ProductPicture" class="productPicture">
-                            </a>
-                            <div class="otherProductInfos">
-                                <div class="otherProductInfosContainer">
-                                    <a href="/readProduct/{{productId}}" class="productLink">
-                                        <div class="otherProductName">{{productName}}</div>
-                                        <div class="otherProductPrice">{{productPrice}} €</div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        {{/products}}
-                    </div>
-                </div>
+                <form action="/deleteOrder/{{id}}" method="post" id="deleteOrderForm">
+                    <span id="text">Do you really want to delete this order ?</span>
+                    <div id="buttons">
+                        <div id="upperButtons">
+                            <input type="submit" id="confirmDeleteButton" class="button" value="Confirm">
+                            <input type="button" id="cancelDeleteButton" class="button" value="Cancel"
+                                onclick="showElement('upperUpdateButtons', 'deleteOrderForm',1)">
+                </form>
             </div>
         </div>
     </div>
+    {{/order}}
+
+    <div id="middleBar"></div>
+
+    <div id="right_container">
+        <div>
+            <div id="products">
+                {{#products}}
+                <div class="items">
+                    <a href="/readProduct/{{productId}}" class="productLink">
+                        <img src="/{{productPicture}}" alt="ProductPicture" class="productPicture">
+                    </a>
+                    <div class="otherProductInfos">
+                        <div class="otherProductInfosContainer">
+                            <a href="/readProduct/{{productId}}" class="productLink">
+                                <div class="otherProductName">{{productName}}</div>
+                                <div class="otherProductPrice">{{productPrice}} €</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {{/products}}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 </div>
 {{/authenticated}}
 {{^authenticated}}

@@ -3,24 +3,35 @@
 <div id="title">Delivery Informations</div>
 
 <div id="infos">
-    <form action="deliveryInfos" method="POST" id="infoForm">
-        {{#userAccountInfos}}
-        <div id="nameInfos">
-            <input type="text" name="name" id="name" class="nameInput" placeholder="Name" value="{{username}}" required>
-            <input type="text" name="lastName" id="lastName" class="nameInput" placeholder="Last Name"
-                value="{{userLastName}}" required>
-        </div>
-        <input type="text" name="adress" id="adress" class="input" placeholder="Adress" value="{{adress}}" required>
-        <input type="text" name="city" id="city" class="input" placeholder="City" value="{{city}}" required>
-        <input type="text" name="postCode" id="postCode" class="input" placeholder="Zip Code" value="{{zipCode}}"
-            required>
-        <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number"
-            value="{{phone}}" required>
-        <div>
-            <input type="submit" id="submitbutton" class="input" value="Continue">
-        </div>
-        {{/userAccountInfos}}
-    </form>
+    <div id="left_container">
+        <form action="deliveryInfos" method="POST" id="infoForm">
+            {{#userAccountInfos}}
+            <div id="nameInfos">
+                <input type="text" name="name" id="name" class="nameInput" placeholder="Name" value="{{username}}"
+                    required>
+                <input type="text" name="lastName" id="lastName" class="nameInput" placeholder="Last Name"
+                    value="{{userLastName}}" required>
+            </div>
+            <div id="addressInfos">
+                <input type="text" name="adress" id="adress" class="input" placeholder="Adress" value="{{adress}}"
+                    required>
+                <input type="text" name="postCode" id="postCode" class="input" placeholder="Post code"
+                    value="{{zipCode}}" required>
+            </div>
+            <input type="text" name="city" id="city" class="input" placeholder="City" value="{{city}}" required>
+            <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number"
+                value="{{phone}}" required>
+            <div id="commentSection">
+                <textarea name="orderCommentary" id="orderCommentary" cols="30" rows="10"
+                    placeholder="Write a comment"></textarea>
+            </div>
+            <div>
+                <input type="submit" id="submitbutton" class="input" value="Continue">
+            </div>
+            {{/userAccountInfos}}
+        </form>
+    </div>
+    <div id="middlebar"></div>
 
     <div id="OrderSummary">
         <div id="summaryTitle">Order Summary</div>
@@ -38,23 +49,28 @@
                 <span>{{totalPrice}} €</span>
             </div>
         </div>
-        <div id="cart">
-            <div id="cartTitle">Cart</div>
-            <div id="cartItems">
-                {{#cartItems}}
-                <div class="cartItem">
-                    <a href="/readProduct/{{productId}}" class="productLink">
-                        <img src="{{productPicture}}" alt="productPicture" class="productPicture">
-                    </a>
-                    <div class="itemInfos">
-                        <a href="/readProduct/{{productId}}" class="productLink">
-                            <div class="itemName">{{productName}}</div>
-                        </a>
-                        <div class="itemPrice">{{productPrice}} €</div>
-                    </div>
 
+        <div id="right_container">
+            <div id="cartTitle">Cart</div>
+            <div id="cart">
+                <div id="cartItems">
+                    {{#cartItems}}
+                    <div class="cartItem">
+                        <a href="/readProduct/{{productId}}" class="productPictureLink">
+                            <img src="/{{productPicture}}" alt="ProductPicture" class="productPicture">
+                        </a>
+                        <div class="otherProductInfos">
+                            <div class="otherProductInfosContainer">
+                                <a href="/readProduct/{{productId}}" class="productLink">
+                                    <div class="otherProductName">{{productName}}</div>
+                                    <div class="otherProductPrice">{{productPrice}} €</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {{/cartItems}}
                 </div>
-                {{/cartItems}}
+
             </div>
         </div>
     </div>

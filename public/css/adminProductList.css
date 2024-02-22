@@ -1,28 +1,30 @@
-#productsList{
+#productsList {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-content: space-between;
     justify-items: center;
     width: 80%;
-    margin-bottom: 200px;
+    margin-bottom: 20px;
 }
 
-#productPicture, #productInfos, #productLink{
+#productPicture,
+#productInfos,
+#productLink {
     width: 300px;
     height: 400px;
     transition: transform .2s;
 }
 
-#productPicture{
+#productPicture {
     border-radius: 10px;
 }
 
-#addProductLink{
+#addProductLink {
     width: 300px;
     transition: transform .2s;
 }
 
-#addProductPicture{
+#addProductPicture {
     width: 75px;
     height: 75px;
     padding: 50px;
@@ -30,17 +32,18 @@
     border-radius: 10px;
 }
 
-#addProductLink{
+#addProductLink {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#productPicture, #addProductPicture{
+#productPicture,
+#addProductPicture {
     object-fit: cover;
 }
 
-#addProductDiv{
+#addProductDiv {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,14 +51,34 @@
     width: 300px;
 }
 
-#name{
+.button {
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    align-items: center;
+    width: 200px;
+    height: 35px;
+    border-radius: 5px;
+    margin: 15px 0px;
+    background-color: #a8957d;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    color: whitesmoke;
+    border: none;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: #8e7d68;
+}
+
+#name {
     width: 80%;
     font-size: 15px;
-    margin : 20px 0px;
+    margin: 20px 0px;
     text-align: justify;
 }
 
-#name:hover{
+#name:hover {
     text-decoration: underline;
 }
 
@@ -66,21 +89,22 @@
     align-items: center;
     width: 350px;
     border-radius: 10px;
-    padding: 30px 5px 150px 5px ;
+    padding: 30px 5px 150px 5px;
     margin: 0px 15px 30px 15px;
     box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
 }
 
-#productPicture:hover, #addProductLink:hover{
+#productPicture:hover,
+#addProductLink:hover {
     transform: scale(1.05);
 }
 
-#productLink{
+#productLink {
     text-decoration: none;
     color: #8e7d68;
 }
 
-#title{
+#title {
     display: flex;
     justify-content: center;
     margin-top: 200px;
@@ -88,15 +112,15 @@
     font-size: 30px;
 }
 
-#shopContent{
+#shopContent {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 100px;
 }
 
-#price{
+#price {
     font-size: 20px;
     margin-bottom: 20px;
 }
-

@@ -1,38 +1,40 @@
+
+// CONST & VARIABLES
 const express = require("express");
 const bodyparser = require("body-parser");
 const mustache = require('mustache-express');
-const nodemailer = require('nodemailer');
-const mailgen = require('mailgen');
+const cookieSession = require('cookie-session');
 const crypto = require('crypto');
 const multer = require('multer');
 const stripe = require("stripe")('sk_test_51NZ9oPGoMv8PfBnKajor64U8hHsai70r5GxUcUVZdWNtxs5lEELdBYnBGE3OQxzDlxZb8xOgZXBM2oeRwe5CVajY0024tVXiH5');
-
-const uploadProduct = multer({ dest: 'public/products_pictures/BackPack/' });
+const uploadProduct = multer({ dest: 'public/products_pictures/' });
 const uploadProfilePicture = multer({ dest: 'public/profiles_pictures/' });
 const fs = require('fs');
 const app = express();
 
+var account = require('./js/accounts');
+var products = require('./js/products');
+var cart = require('./js/cart');
+var comments = require('./js/comments');
+var orderList = require('./js/orderList');
+
+// APP
+
 app.engine('html', mustache());
+
 app.set('view engine', 'html');
 app.set('views', './views');
 
 app.use(bodyparser.urlencoded({ extended: true }));
-app.use(express.static('public'));
-app.use(express.static('public/products_pictures/BackPack'));
+app.use(express.static('public/products_pictures/'));
 app.use(express.static('public/icons'));
 app.use(express.static('public/css'));
 app.use(express.static('public/profiles_pictures/'));
 app.use(express.static('js'));
+app.use(cookieSession({ secret: 'j7G!wA4t&L,_T9kq5}M(NBF' }));
+app.use(middleware);
 
-const cookieSession = require('cookie-session');
-app.use(cookieSession({
-    secret: 'j7G!wA4t&L,_T9kq5}M(NBF'
-}));
-
-
-
-
-//Middleware to check if user un authenticated
+// MIDDLEWARE
 
 function middleware(req, res, next) {
     if (req.session.username) {
@@ -43,6 +45,8 @@ function middleware(req, res, next) {
     next();
 }
 
+
+// FUNCTIONS
 
 function convertInAlphabet(str) {
     let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789@_-";
@@ -56,55 +60,47 @@ function convertInAlphabet(str) {
 };
 
 
-app.use(middleware);
+function getDateOrder() {
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
 
-
-var account = require('./js/accounts');
-var products = require('./js/products');
-var cart = require('./js/cart');
-var comments = require('./js/comments');
-var orderList = require('./js/orderList');
-const { setMaxIdleHTTPParsers } = require("http");
-
-//SEND MAILS
-
-
-const config = {
-    service: 'gmail',
-    auth: {
-        user: 'meskinidrisspro@gmail.com',
-        pass: 'snnzxxkuepkpmbwh'
+    if (day < 10) {
+        day = "0" + day;
     }
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+    let dateOrder = day + "/" + month + "/" + year;
+    return dateOrder;
 }
 
-const transporter = nodemailer.createTransport(config);
+function createOrder(id, email, userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, orderCommentary) {
 
-const mailgenerator = new mailgen({
-    theme: 'default',
-    product: {
-        name: 'Cecile Creation',
-        link: 'http://localhost:3001/home'
-    }
-});
+    let orderProducts = "";
+    let cartuser = cart.listProducts(id);
 
-
-const getbill = (req, res) => {
-
-    let message = {
-        from: 'meskinidrisspro@gmail.com',
-        to: 'mathieumeskini@gmail.com',
-        subject: 'Order Confirmation',
-        html: mail
+    for (let i = 0; i < cartuser.length; i++) {
+        let product = JSON.parse(cartuser[i].products);
+        orderProducts += product.productId;
+        if (i < cartuser.length - 1) {
+            orderProducts += ', ';
+        }
     }
 
-    transporter.sendMail(message).then(() => {
-        console.log('you should receive an email shortly');
-    }).catch(err => {
-        console.log(err);
-    });
+    let state = "Pedding";
+    let date = getDateOrder();
+    let price = cart.getTotalPrice(id);
+
+    orderList.createOrder(id, email, userName, userLastName,
+        userAdress, userCity, userPostCode, userPhoneNumber,
+        orderProducts, price, orderCommentary, date, state);
+    cart.clearAll(id);
 }
 
-//OTHER FUNCTIONS
+
 
 //GET METHODS
 
@@ -131,6 +127,10 @@ app.get('/register', (req, res) => {
 
 app.get('/account', (req, res) => {
     let user = account.read(req.session.id);
+    if (user.profilePicture === undefined) {
+        console.log(user.profilePicture)
+        user.profilePicture = "defaultAccountIco.png";
+    }
     res.render('account', { accountsInfos: user, admin: req.session.admin, css: '/account.css' });
 });
 
@@ -201,22 +201,17 @@ app.get('/updateOrder/:id', (req, res) => {
     for (let i = 0; i < productIdList.length; i++) {
         productIdList[i] = products.read(productIdList[i]);
     }
-    otherStates = [{state:"Pendding"}, {state:"In progress"}, {state:"Delivered"}, {state:"Cancelled"}]
+    otherStates = [{ state: "Pendding" }, { state: "In progress" }, { state: "Delivered" }, { state: "Cancelled" }]
     for (let i = 0; i < otherStates.length; i++) {
         if (otherStates[i].state === currentState) {
             otherStates.splice(i, 1);
             break;
         }
     }
-    res.render('updateOrder', { admin: req.session.admin, products: productIdList, order: order, 
-        css: '/updateOrder.css', otherStates: otherStates, currentState: currentState });
-});
-
-
-app.get('/deleteOrder/:id', (req, res) => {
-    let orderId = req.params.id;
-    let order = orderList.getOrderFromId(orderId);
-    res.render('deleteOrder', { admin: req.session.admin, order: order, css: '/deleteOrder.css' });
+    res.render('updateOrder', {
+        admin: req.session.admin, products: productIdList, order: order,
+        css: '/updateOrder.css', otherStates: otherStates, currentState: currentState
+    });
 });
 
 
@@ -385,57 +380,6 @@ app.get('/deliveryInfos', (req, res) => {
 });
 
 
-function getDateOrder() {
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-
-    if (day < 10) {
-        day = "0" + day;
-    }
-    if (month < 10) {
-        month = "0" + month;
-    }
-
-    let dateOrder = day + "/" + month + "/" + year;
-    return dateOrder;
-}
-
-function createOrder(id, email, userName, userLastName, userAdress, userCity, userPostCode, userPhoneNumber, orderCommentary) {
-
-    console.log(id);
-    console.log(email);
-    console.log(userName);
-    console.log(userLastName);
-    console.log(userAdress);
-    console.log(userCity);
-    console.log(userPostCode);
-    console.log(userPhoneNumber);
-    console.log(orderCommentary);
-
-
-    let orderProducts = "";
-    let cartuser = cart.listProducts(id);
-
-    for (let i = 0; i < cartuser.length; i++) {
-        let product = JSON.parse(cartuser[i].products);
-        orderProducts += product.productId;
-        if (i < cartuser.length - 1) {
-            orderProducts += ', ';
-        }
-    }
-
-    let state = "Pedding";
-    let date = getDateOrder();
-    let price = cart.getTotalPrice(id);
-
-    orderList.createOrder(id, email, userName, userLastName,
-        userAdress, userCity, userPostCode, userPhoneNumber,
-        orderProducts, price, orderCommentary, date, state);
-    cart.clearAll(id);
-}
-
 app.get('/orderDetails/:id', (req, res) => {
     let orderId = req.params.id;
     let order = orderList.getOrderFromId(orderId);
@@ -475,7 +419,6 @@ app.get('/createOrder', (req, res) => {
 });
 
 //POST METHODS
-
 
 app.post('/login', (req, res) => {
     let email = req.body.email;
@@ -674,7 +617,7 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
         products.create(productId, name, productCategory, price, description, pictureData);
 
         let tmp_path = req.file.path;
-        let target_path = 'public/products_pictures/BackPack/' + name + '_' + productId + '.png';
+        let target_path = 'public/products_pictures/' + name + '_' + productId + '.png';
         let src = fs.createReadStream(tmp_path);
         let dest = fs.createWriteStream(target_path);
         src.pipe(dest);
@@ -712,7 +655,7 @@ app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) 
         products.update(productId, name, category, price, description);
         if (!(pictureData === undefined)) {
             let tmp_path = req.file.path;
-            let target_path = 'public/products_pictures/BackPack/' + name + '_' + productId + '.png';
+            let target_path = 'public/products_pictures/' + name + '_' + productId + '.png';
             let src = fs.createReadStream(tmp_path);
             let dest = fs.createWriteStream(target_path);
             src.pipe(dest);
@@ -729,24 +672,23 @@ app.post('/searchProduct', (req, res) => {
     let productsList = products.list();
     let productsFoundbyCategory = [];
     let productsFoundbySearch = [];
-    let category = req.body.category;
+    let category = req.body.productCategory;
 
-    if (category != undefined) {
-
+    if (category != undefined && category != "default") {
         for (let i = 0; i < productsList.length; i++) {
             if (productsList[i].productCategory == category) {
                 productsFoundbyCategory.push(productsList[i]);
-            }
-            if (search != undefined) {
-                for (let i = 0; i < productsFoundbyCategory.length; i++) {
-                    if ((productsFoundbyCategory[i].productName).toLowerCase().includes(search.toLowerCase())) {
-                        productsFoundbySearch.push(productsFoundbyCategory[i]);
+                if (search != undefined && search != "") {
+                    if ((productsList[i].productName).toLowerCase().includes(search.toLowerCase())) {
+                        productsFoundbySearch.push(productsList[i]);
                     }
                 }
-                return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: products.getCategories() });
             }
-            return res.render('shop', { products: productsFoundbyCategory, css: '/shop.css', categories: products.getCategories() });
         }
+        if (productsFoundbySearch.length > 0) {
+            return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: products.getCategories() });
+        }
+        return res.render('shop', { products: productsFoundbyCategory, css: '/shop.css', categories: products.getCategories() });
     }
 
     else if (search != undefined) {
@@ -789,14 +731,16 @@ app.post('/addComment', (req, res) => {
 
 
 app.post('/deliveryInfos', (req, res) => {
-    req.session.email = req.body.email;
+    let user = account.read(req.session.id);
+    req.session.email = user.email;
     req.session.userName = req.body.name;
     req.session.userLastName = req.body.lastName;
     req.session.userAdress = req.body.adress;
     req.session.userCity = req.body.city;
     req.session.userPostCode = req.body.postCode;
     req.session.userPhoneNumber = req.body.phoneNumber;
-    req.session.orderCommentary = req.body.commentary;
+    req.session.orderCommentary = req.body.orderCommentary;
+    console.log(req.session.email);
     res.redirect('/checkout');
 });
 
@@ -844,11 +788,11 @@ app.post('/deleteOrder/:id', (req, res) => {
 
 app.post('/deleteProduct/:id', (req, res) => {
     let productId = req.params.id;
+    products.delete(productId);
     res.redirect('/adminProductList');
 });
 
 //LISTENING
-
 
 app.listen(3000, () => {
     console.log("Server listening ");

@@ -1,12 +1,11 @@
-
-#title{
+#title {
     display: flex;
     justify-content: center;
     margin-top: 150px;
     font-size: 30px;
 }
 
-#trendProductBox{
+#trendProductBox {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -14,14 +13,14 @@
     margin-top: 100px;
 }
 
-#trendProduct{
+#trendProduct {
     display: flex;
     justify-content: center;
-    
+
     padding: 50px 0px;
 }
 
-#trendProductContent{
+#trendProductContent {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,7 +32,7 @@
     width: 60%;
 }
 
-#trendProductPicture{
+#trendProductPicture {
     width: 380px;
     height: 520px;
     object-fit: cover;
@@ -41,15 +40,15 @@
     border-radius: 10px;
 }
 
-#trendProductPicture:hover{
+#trendProductPicture:hover {
     transform: scale(1.05);
 }
 
-#trend{
+#trend {
     font-size: 30px;
 }
 
-#trendProductRSide{
+#trendProductRSide {
     display: flex;
     flex-direction: column;
     width: 500px;
@@ -59,14 +58,14 @@
     height: 100%;
 }
 
-#trendProductInfos{
+#trendProductInfos {
     display: flex;
     flex-direction: column;
     margin-bottom: 50px;
     height: 400px;
 }
 
-#trendProductName{
+#trendProductName {
     width: 80%;
     width: 470px;
     font-size: 25px;
@@ -76,17 +75,18 @@
     text-decoration: none;
 }
 
-#trendProductName:hover{
+#trendProductName:hover {
     text-decoration: underline;
 }
 
 
-#trendProductPrice{
+#trendProductPrice {
     font-size: 20px;
     margin-bottom: 20px;
 }
 
-#trendProductDescription{
+#trendProductDescription {
+
     margin: 20px 0px;
     width: 470px;
     text-align: justify;
@@ -94,15 +94,16 @@
     color: #8e7d68;
 }
 
-#seeMore{
+#seeMore {
     display: flex;
     justify-content: center;
     height: 100px;
 }
 
-#seeMoreAnchor{
+#seeMoreAnchor {
     display: flex;
     justify-content: center;
+    font-weight: 600;
     text-decoration: none;
     box-shadow: 0px 0px 5px rgb(195, 195, 195);
     color: #8e7d68;
@@ -114,9 +115,10 @@
     border-radius: 10px;
 }
 
-#addToCartLink{
+#addToCartLink {
     display: flex;
     justify-content: center;
+    font-weight: 600;
     text-decoration: none;
     background-color: #8e7d68;
     box-shadow: 0px 0px 5px 1px #c2b9ae;
@@ -126,11 +128,11 @@
     padding: 10px 0px;
 }
 
-#addToCartLink:hover{
-    background-color:#867763;
+#addToCartLink:hover {
+    background-color: #867763;
 }
 
-#productsList{
+#productsList {
     display: grid;
     justify-items: center;
     grid-template-columns: repeat(4, 1fr);
@@ -139,59 +141,59 @@
     padding-top: 150px
 }
 
-#productPicture, #productInfos, #productLink{
+#productPicture,
+#productInfos,
+#productLink {
     width: 300px;
     height: 400px;
     transition: transform .2s;
 }
 
-#productPicture{
+#productPicture {
     object-fit: cover;
     border-radius: 10px;
 }
 
-#name{
+#name {
     width: 80%;
     font-size: 15px;
-    margin : 20px 0px;
+    margin: 20px 0px;
     text-align: justify;
 }
 
-#name:hover{
+#name:hover {
     text-decoration: underline;
 }
 
-#product{
+#product {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 350px;
     border-radius: 5px;
-    padding: 30px 5px 150px 5px ;
+    padding: 30px 5px 150px 5px;
     margin: 0px 15px 150px 15px;
     box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
 }
 
-#productPicture:hover{
+#productPicture:hover {
     transform: scale(1.05);
 }
 
-#productLink{
+#productLink {
     text-decoration: none;
     color: #8e7d68;
 }
 
-#shopContent{
+#shopContent {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
 }
 
-#price{
+#price {
     font-size: 20px;
     margin-bottom: 20px;
 }
-
-

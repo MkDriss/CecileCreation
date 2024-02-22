@@ -26,11 +26,10 @@
                         </a>
                   </div>
                   {{/products}}
-                  {{^products}}
-                  <div id="noProduct">No Products Found</div>
-                  {{/products}}
-
             </div>
+            {{^products}}
+            <div id="noProduct">No Products Found</div>
+            {{/products}}
             {{#admin}}
             <a class="button" href="/addProduct">addProduct</a>
             {{/admin}}

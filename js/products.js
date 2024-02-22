@@ -4,30 +4,31 @@ const Sqlite = require('better-sqlite3');
 const fs = require('fs');
 let db = new Sqlite('db.sqlite');
 
-let loadProduct = function(filename) {
+let loadProduct = function (filename) {
 
-      const products= JSON.parse(fs.readFileSync(filename));
-      
-      db.prepare ('DROP TABLE IF EXISTS products').run();
+      const products = JSON.parse(fs.readFileSync(filename));
+
+      db.prepare('DROP TABLE IF EXISTS products').run();
       console.log('products table dropped');
       db.prepare('CREATE TABLE IF NOT EXISTS products (productId TEXT PRIMARY KEY, productName TEXT, productCategory TEXT,productPrice INTEGER, productDescription TEXT, productPicture TEXT)').run();
       let insertProduct = db.prepare('INSERT INTO products VALUES (?, ?, ?, ?, ?, ?)');
 
       let transaction = db.transaction((products) => {
-                  
-                  for(let tempProduct = 0;tempProduct < products.length; tempProduct++) {
-                        let product = products[tempProduct];
-                        insertProduct.run(product.productId, product.productName, product.productCategory, product.productPrice, product.productDescription, product.productPicture);
-                  }     
-            });
+
+            for (let tempProduct = 0; tempProduct < products.length; tempProduct++) {
+                  let product = products[tempProduct];
+                  insertProduct.run(product.productId, product.productName, product.productCategory, product.productPrice, product.productDescription, product.productPicture);
+            }
+      });
 
       transaction(products);
-      }
+}
 
 loadProduct('./json/products.json');
 
+// CREATE
 
-exports.create = function (productId, productName, productCategory="default", productPrice, productDescription) {
+exports.create = function (productId, productName, productCategory = "default", productPrice, productDescription) {
       let pictureName = productName + '_' + productId + '.png';
       console.log(productName);
 
@@ -36,10 +37,10 @@ exports.create = function (productId, productName, productCategory="default", pr
             "productName": productName,
             "productCategory": productCategory,
             "productPrice": productPrice,
-            "productDescription": productDescription, 
-            "productPicture": pictureName 
+            "productDescription": productDescription,
+            "productPicture": pictureName
       };
-      try{
+      try {
             fs.readFile('./json/products.json', (err, data) => {
                   if (err) throw err;
                   let productList = JSON.parse(data);
@@ -50,20 +51,43 @@ exports.create = function (productId, productName, productCategory="default", pr
                   });
             });
             db.prepare('INSERT INTO products(productId, productName, productCategory, productPrice, productDescription, productPicture) VALUES (?, ?, ?, ?, ?, ?)').run(productId, productName, productCategory, productPrice, productDescription, pictureName);
-      } catch(err) {
+      } catch (err) {
             console.log(err);
-      }  
+      }
 }
+
+// READ
 
 exports.read = function (productId) {
       return db.prepare('SELECT * FROM products WHERE productId = ?').get(productId);
 }
 
-exports.update = function (productId, productName, productCategory="default", productPrice, productDescription) {
+// GET
+
+exports.getProductFromCategory = function (category) {
+      return db.prepare('SELECT * FROM products WHERE productCategory = ?').all(category);
+}
+
+exports.getCategories = function () {
+      let categories = db.prepare('SELECT DISTINCT productCategory FROM products').all();
+      for (let i = 0; i < categories.length; i++) {
+            let category = categories[i];
+            if (category.productCategory === "default") {
+                  categories.splice(i, 1);
+            }
+      }
+      return categories;
+
+}
+
+
+// UPDATE
+
+exports.update = function (productId, productName, productCategory = "default", productPrice, productDescription) {
       fs.readFile('json/products.json', function (err, data) {
             if (err) throw err;
             let productsList = JSON.parse(data);
-            for(let i = 0;i < productsList.length; i++) {
+            for (let i = 0; i < productsList.length; i++) {
                   let product = productsList[i];
                   if (product.productId === productId) {
                         product.productName = productName;
@@ -77,16 +101,25 @@ exports.update = function (productId, productName, productCategory="default", pr
                   console.log(err);
             });
       });
-      
+
       db.prepare('UPDATE products SET productName = ?, productCategory = ?, productPrice = ?, productDescription = ? WHERE productId = ?').run(productName, productCategory, productPrice, productDescription, productId);
 
 }
+
+// LIST
+
+exports.list = function () {
+      return db.prepare('SELECT * FROM products').all();
+}
+
+
+// DELETE
 
 exports.delete = function (productId) {
       fs.readFile('json/products.json', function (err, data) {
             if (err) throw err;
             let productsList = JSON.parse(data);
-            for(let i = 0;i < productsList.length; i++) {
+            for (let i = 0; i < productsList.length; i++) {
                   let product = productsList[i];
                   if (product.productId === productId) {
                         productsList.splice(i, 1);
@@ -99,24 +132,4 @@ exports.delete = function (productId) {
       });
       db.prepare('DELETE FROM products WHERE productId = ?').run(productId);
       console.log('product ' + productId + ' deleted');
-}
-
-exports.list = function () {
-      return db.prepare('SELECT * FROM products').all();
-}
-
-exports.getProductFromCategory = function (category){
-      return db.prepare('SELECT * FROM products WHERE productCategory = ?').all(category);
-}
-
-exports.getCategories = function () {
-      let categories = db.prepare('SELECT DISTINCT productCategory FROM products').all();
-      for(let i = 0;i < categories.length; i++) {
-            let category = categories[i];
-            if (category.productCategory === "default") {
-                  categories.splice(i, 1);
-            }
-      }
-      return categories;
-
 }
