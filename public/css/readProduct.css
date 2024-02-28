@@ -83,9 +83,10 @@
 #dimensions,
 #material,
 #description {
-    width: 400px;
+    width: 100%;
     text-align: justify;
     text-justify: inter-character;
+    margin-bottom: 25px;
 }
 
 .showButton {

@@ -32,12 +32,14 @@
                                     <div id="productCategory">{{category}}</div>
                               </div>
                               <div id="price">{{productPrice}} €</div>
+                              <hr>
                               <div id="descriptionContainer">
                                     <button onclick="showElement('description')" class="showButton">Description <img
                                                 src="/right-arrow.png" alt="right_arrow" class="right-arrow"
                                                 style="rotate: 90deg;"></button>
                                     <div id="description" style="display: block;">{{productDescription}}</div>
                               </div>
+                              <hr>
                               <div id="dimensionsContainer">
                                     <button onclick="showElement('dimensions')" class="showButton">Dimensions <img
                                                 src="/right-arrow.png" alt="right_arrow" class="right-arrow"
@@ -46,6 +48,7 @@
                                           cm x
                                           {{productDepth}} cm</div>
                               </div>
+                              <hr>
                               <div id="materialContainer">
                                     <button onclick="showElement('material')" class="showButton">Material <img
                                                 src="/right-arrow.png" alt="right_arrow" class="right-arrow"
@@ -54,7 +57,9 @@
                                     <div id="material" style="display: block;">{{productMaterial}}</div>
 
                               </div>
+                              <hr>
                         </div>
+                        
                         <div>
                               <a class="button" id="addToCart" href="/addToCart/{{productId}}">Add to cart</a>
                         </div>
