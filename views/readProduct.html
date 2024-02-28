@@ -1,27 +1,69 @@
 {{>header}}
 
+<script>
+      function showElement(elementId) {
+            let element = document.getElementById(elementId);
+            let arrow = element.previousElementSibling.querySelector('.right-arrow');
+            if (element.style.display === "none") {
+                  element.style.display = "block";
+                  arrow.style.transform = "rotate(0deg)";
+            } else {
+                  element.style.display = "none";
+                  arrow.style.transform = "rotate(270deg)";
+            }
+      }
+</script>
+
 <link rel="stylesheet" href="/readProduct.css">
 
 {{#products}}
-<div id="container">
-      <div id="product">
-            <img src=/{{productPicture}} alt="ProductPicture" id="picture">
-            <div id="productInfos">
-                  <div id="productBox">
+<div id="readProduct">
+<div id="product">
+      <div id="container">
+            <div id="left_container">
+                  <img src=/{{productPicture}} alt="ProductPicture" id="picture">
+            </div>
+            <div id="middlebar"></div>
+            <div id="right_container">
+                  <div id="productInfos">
+                        <div id="productBox">
+                              <div>
+                                    <div id="productName">{{productName}}</div>
+                                    <div id="productCategory">{{category}}</div>
+                              </div>
+                              <div id="price">{{productPrice}} €</div>
+                              <div id="descriptionContainer">
+                                    <button onclick="showElement('description')" class="showButton">Description <img
+                                                src="/right-arrow.png" alt="right_arrow" class="right-arrow"
+                                                style="rotate: 90deg;"></button>
+                                    <div id="description" style="display: block;">{{productDescription}}</div>
+                              </div>
+                              <div id="dimensionsContainer">
+                                    <button onclick="showElement('dimensions')" class="showButton">Dimensions <img
+                                                src="/right-arrow.png" alt="right_arrow" class="right-arrow"
+                                                style="rotate: 90deg;"></button>
+                                    <div id="dimensions" style="display: block;">{{productHeight}} cm x {{productWidth}}
+                                          cm x
+                                          {{productDepth}} cm</div>
+                              </div>
+                              <div id="materialContainer">
+                                    <button onclick="showElement('material')" class="showButton">Material <img
+                                                src="/right-arrow.png" alt="right_arrow" class="right-arrow"
+                                                style="rotate: 90deg;"></button>
+
+                                    <div id="material" style="display: block;">{{productMaterial}}</div>
+
+                              </div>
+                        </div>
                         <div>
-                              <div id="productName">{{productName}}</div>
-                              <div id="productCategory">{{category}}</div>
+                              <a class="button" id="addToCart" href="/addToCart/{{productId}}">Add to cart</a>
                         </div>
-                        <div id="price">{{productPrice}} €</div>
-                        <div id="description">{{productDescription}}
-                        </div>
-                  </div>
-                  <div>
-                        <a class="button" id="addToCart" href="/addToCart/{{productId}}">Add to cart</a>
                   </div>
             </div>
       </div>
 </div>
+</div>
+
 <div id="otherProductsList">
       <div id="otherProducts">
             <a href="#otherProductsBox" id="otherProductsLink">Other Products</a>

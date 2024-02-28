@@ -180,9 +180,14 @@ app.get('/updateAccount', (req, res) => {
 app.get('/updateProduct/:id', (req, res) => {
     let product = products.read(req.params.id)
     let currentCategory = product.productCategory;
-    if (currentCategory === "default") {
+    let currentMaterial = product.productMaterial
+    if (currentCategory === "None") {
         currentCategory = false;
     }
+    if (currentMaterial === "None") {
+        currentMaterial = false;
+    }
+
 
     let productCategories = products.getCategories();
     for (let i = 0; i < productCategories.length; i++) {
@@ -191,7 +196,15 @@ app.get('/updateProduct/:id', (req, res) => {
             break;
         }
     }
-    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures: product.productPicture, admin: req.session.admin, categories: productCategories, currentCategory: currentCategory });
+
+    let productMaterials = products.getMaterials();
+    for (let i = 0; i < productMaterials.length; i++) {
+        if (productMaterials[i].productMaterial === currentMaterial) {
+            productMaterials.splice(i, 1);
+            break;
+        }
+    }
+    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures: product.productPicture, admin: req.session.admin, categories: productCategories, materials : productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial });
 });
 
 app.get('/updateOrder/:id', (req, res) => {
@@ -318,10 +331,13 @@ app.get('/readProduct/:productId', (req, res) => {
         }
 
         let category = product.productCategory;
-        if (category == "default") {
+        if (category == "None") {
             category = "";
         }
 
+        if (product.productMaterial === "None"){
+            product.productMaterial = "";
+        }
         return res.render('readProduct', { products: product, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css' });
     }
 });
@@ -575,12 +591,27 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
     let description = req.body.description;
     let productCategory = req.body.productCategory;
     let productNewCategory = req.body.newCategory;
+    let productHeight = req.body.height;
+    let productWidth = req.body.width;
+    let productDepth = req.body.depth;
+    let productMaterial = req.body.material;
+    let productNewMaterial = req.body.newMaterial;
+
     if (productCategory === "addCategory") {
         if (productNewCategory === "") {
-            productCategory = "default";
+            productCategory = "None";
         }
         else {
             productCategory = productNewCategory;
+        }
+    }
+
+    if (productMaterial === "addMaterial") {
+        if (productNewMaterial === "") {
+            productMaterial = "None";
+        }
+        else {
+            productMaterial = productNewMaterial;
         }
     }
 
@@ -598,7 +629,7 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
     else if (products.read(name) == undefined) {
 
         let productId = crypto.randomBytes(10).toString("hex");
-        products.create(productId, name, productCategory, price, description, pictureData);
+        products.create(productId, name, productCategory, productHeight, productWidth, productDepth, productMaterial, price, description, pictureData);
 
         let tmp_path = req.file.path;
         let target_path = 'public/products_pictures/' + convertInAlphabet(name) + '_' + productId + '.png';
@@ -618,15 +649,28 @@ app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) 
     let category = req.body.productCategory;
     let newCategory = req.body.newCategory;
     let price = req.body.productPrice;
+    let productHeight = req.body.productHeight;
+    let productWidth = req.body.productWidth;
+    let productDepth = req.body.productDepth;
+    let productMaterial = req.body.productMaterial;
+    let productNewMaterial = req.body.newProductMaterial;
     let description = req.body.productDescription;
     let pictureData = req.file;
-
     if (category === "addCategory") {
         if (newCategory === "") {
-            category = "default";
+            category = "None";
         }
         else {
             category = newCategory;
+        }
+    }
+
+    if (productMaterial === "addProductMaterial") {
+        if (productNewMaterial === "") {
+            productMaterial = "None";
+        }
+        else {
+            productMaterial = productNewMaterial;
         }
     }
 
@@ -636,7 +680,7 @@ app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) 
     }
 
     else if (products.read(productId) != undefined) {
-        products.update(productId, name, category, price, description);
+        products.update(productId, name, category, price, productHeight, productWidth, productDepth, productMaterial, description);
         if (!(pictureData === undefined)) {
             let tmp_path = req.file.path;
             let target_path = 'public/products_pictures/' + name + '_' + productId + '.png';
@@ -658,7 +702,7 @@ app.post('/searchProduct', (req, res) => {
     let productsFoundbySearch = [];
     let category = req.body.productCategory;
 
-    if (category != undefined && category != "default") {
+    if (category != undefined && category != "None") {
         for (let i = 0; i < productsList.length; i++) {
             if (productsList[i].productCategory == category) {
                 productsFoundbyCategory.push(productsList[i]);

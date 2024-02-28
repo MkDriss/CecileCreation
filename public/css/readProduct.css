@@ -1,35 +1,59 @@
 #product {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 50px;
     box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
-    margin-top: 150px;
-    margin-bottom: 50px;
     border-radius: 10px;
+    width: 70%;
 }
 
 #picture {
-    width: 420px;
-    height: 560px;
-    margin-right: 100px;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    height: 600px;
     object-fit: cover;
     border-radius: 10px;
 }
 
-#container {
+#readProduct {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
-    color: #8e7d68;
+    margin: 150px 0px;
+}
+
+#container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#left_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+    height: 100%;
+}
+
+#right_container {
+    width: 45%;
+}
+
+#middlebar {
+    background-color: #8e7d68;
+    width: 2px;
 }
 
 #productInfos {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-left: 100px;
-    border-left: 2px solid #8e7d68;
-    height: 560px;
+    height: 100%;
 }
 
 #otherProductsLink {
@@ -56,12 +80,34 @@
 
 }
 
-
+#dimensions,
+#material,
 #description {
-    margin: 40px 0px;
-    width: 500px;
+    width: 400px;
     text-align: justify;
     text-justify: inter-character;
+}
+
+.showButton {
+    display: flex;
+    justify-content: space-start;
+    text-decoration: none;
+    color: #8e7d68;
+    font-family: "Raleway";
+    background-color: whitesmoke;
+    align-items: center;
+    border: none;
+    padding: 10px 0px;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.right-arrow {
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
 }
 
 #addToCart {
@@ -73,6 +119,7 @@
     font-weight: 600;
     color: white;
     padding: 10px 0px;
+    margin-top: 20px;
     box-shadow: 0px 0px 5px 1px #c2b9ae;
 
 }

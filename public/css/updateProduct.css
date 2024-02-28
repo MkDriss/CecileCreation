@@ -20,6 +20,26 @@
     margin: 150px 0px;
 }
 
+
+#dimensions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+#productHeight, #productWidth, #productDepth {
+    width: 30%;
+}
+
+#productHeight, #productWidth{
+    margin-right: 10px;
+}
+
+#productWidth, #productDepth {
+    margin-left: 10px;
+}
+
 #container{
     display: flex;
     justify-content: space-between;

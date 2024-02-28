@@ -1,12 +1,11 @@
 {{>header}}
 <script>
     function showDiv(divId, element) {
-        if (element.value == "addCategory") {
+        if (element.value == "addCategory" || element.value == "addProductMaterial") {
             document.getElementById(divId).style.display = "block";
         }
         else {
             document.getElementById(divId).style.display = "none";
-            document.getElementById(divId).validator = false;
         }
     }
 
@@ -57,6 +56,35 @@
                             </select>
 
                             <input type="text" name="newCategory" id="newCategory" placeholder="New Category">
+                            <div id="dimensions">
+                                <input type="number" name="productHeight" id="productHeight" value="{{productHeight}}"
+                                    required>
+                                <span>x</span>
+                                <input type="number" name="productWidth" id="productWidth" value="{{productWidth}}"
+                                    required>
+                                <span>x</span>
+                                <input type="number" name="productDepth" id="productDepth" value="{{productDepth}}"
+                                    required>
+                            </div>
+                            <select name="productMaterial" id="productMaterial"
+                                onchange="showDiv('newProductMaterial',this)">
+                                <option name="productMaterial" id="defaultproductMaterial" value="None">Select a
+                                    Material
+                                </option>
+                                {{#currentMaterial}}
+                                <option name="productMaterial" id="productMaterial" value="{{productMaterial}}"
+                                    selected>
+                                    {{productMaterial}}</option>
+                                {{/currentMaterial}}
+                                {{#materials}}
+                                <option name="productMaterial" id="{{productMaterial}}" value="{{productMaterial}}">
+                                    {{productMaterial}}</option>
+                                {{/materials}}
+                                <option name="addProductMaterial" id="addProductMaterial" value="addProductMaterial">New
+                                    Material</option>
+                            </select>
+                            <input type="text" name="newProductMaterial" id="newProductMaterial"
+                                placeholder="New Material" style="display: none;">
                             <input type="number" name="productPrice" id="productPrice" value="{{productPrice}}">
                             <textarea name="productDescription" id="productDescription" cols="30"
                                 rows="10">{{productDescription}}</textarea>

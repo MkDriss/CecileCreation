@@ -31,12 +31,11 @@ loadAccount('json/accounts.json');
 
 //CREATE
 
-exports.create = function (id, email, username, userLastName, password) {
-
+exports.create = function (id, email, username, password) {
       let newAccount = {
             "id": id,
             "username": username,
-            "userLastName": userLastName,
+            "userLastName": "",
             "email": email,
             "password": password,
             "adress": "",
@@ -55,7 +54,7 @@ exports.create = function (id, email, username, userLastName, password) {
             console.log(err);
       });
       try {
-            db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, userLastName, email, password, "", "", "", "", "defaultAccountIco.png");
+            db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, "", email, password, "", "", "", "", "defaultAccountIco.png");
       } catch (err) {
             console.log(err);
       }

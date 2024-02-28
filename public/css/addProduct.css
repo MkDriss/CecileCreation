@@ -25,12 +25,30 @@
     display: none;
 }
 
+#dimensions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+#height, #width, #depth {
+    width: 30%;
+}
+
+#height, #width{
+    margin-right: 10px;
+}
+
+#width, #depth {
+    margin-left: 10px;
+}
+
 input[type="text"],
 [type="number"],
 select {
     width: 100%;
     margin: 5px 0px;
-    font-weight: 600;
     height: 35px;
     border-radius: 5px;
     border: none;

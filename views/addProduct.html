@@ -2,9 +2,8 @@
 
 <script>
       function showDiv(divId, element) {
-            if (element.value == "addCategory") {
+            if (element.value == "addCategory" || element.value == "newProductMaterial") {
                   document.getElementById(divId).style.display = "block";
-                  console.log("addCategory")
             }
             else {
                   document.getElementById(divId).style.display = "none";
@@ -21,18 +20,36 @@
                         <input type="text" id="name" name="name" placeholder="Name" required>
                   </div>
                   <select name="productCategory" id="productCategory" onchange="showDiv('newCategory',this)">
-                        <option name="productCategory" id="defaultCategory" value="default">Select a Category</option>
+                        <option name="productCategory" id="defaultCategory" value="None">Select a Category</option>
                         {{#categories}}
-                        <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">
-                              {{productCategory}}</option>
-                        {{/categories}}
+                        <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">{{productCategory}}</option>
+                              {{/categories}}
+                        
                         <option name="addCategory" id="addCategory" value="addCategory">New Category</option>
                   </select>
                   <input type="text" name="newCategory" id="newCategory" placeholder="New Category"
                         style="display: none;">
                   <div>
-                        <input type="number" id="price" name="price" step=".01" placeholder="Price" required>
+                        <div id="dimensions">
+                              <input type="number" name="height" id="height" placeholder="Height" required>
+                              <span>x</span>
+                              <input type="number" name="width" id="width" placeholder="Width" required>
+                              <span>x</span>
+                              <input type="number" name="depth" id="depth" placeholder="Depth" required>
+                        </div>
+                        <select name="productMaterial" id="productMaterial" onchange="showDiv('productMaterial',this)" required>
+                              <option name="productMaterial" id="defaultproductMaterial" value="None">Select a Material
+                              </option>
+                              {{#Materials}}
+                              <option name="productMaterial" id="{{productMaterial}}" value="{{productMaterial}}">
+                                    {{productMaterial}}</option>
+                              {{/Materials}}
+                              <option name="newProductMaterial" id="newProductMaterial" value="newProductMaterial">New Material</option>
+                        </select>
+                        <input type="text" name="newProductMaterial" id="newProductMaterial" placeholder="New Material"
+                              style="display: none;">
                   </div>
+                  <input type="number" id="price" name="price" step=".01" placeholder="Price" required>
                   <div>
                         <textarea name="description" id="description" cols="60" rows="5"
                               placeholder="Enter a description" required></textarea>
