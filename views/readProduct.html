@@ -5,7 +5,7 @@
             let element = document.getElementById(elementId);
             let arrow = element.previousElementSibling.querySelector('.right-arrow');
             if (element.style.display === "none") {
-                  element.style.display = "block";
+                  element.style.display = "flex";
                   arrow.style.transform = "rotate(0deg)";
             } else {
                   element.style.display = "none";
@@ -37,14 +37,14 @@
                                     <button onclick="showElement('description')" class="showButton">Description <img
                                                 src="/right-arrow.png" alt="right_arrow" class="right-arrow"
                                                 style="rotate: 90deg;"></button>
-                                    <div id="description" style="display: block;">{{productDescription}}</div>
+                                    <div id="description" style="display: flex;">{{productDescription}}</div>
                               </div>
                               <hr>
                               <div id="dimensionsContainer">
                                     <button onclick="showElement('dimensions')" class="showButton">Dimensions <img
                                                 src="/right-arrow.png" alt="right_arrow" class="right-arrow"
                                                 style="rotate: 90deg;"></button>
-                                    <div id="dimensions" style="display: block;">{{productHeight}} cm x {{productWidth}}
+                                    <div id="dimensions" style="display: flex;"><img src="/regle.png" alt="dimensions.png" class="productInfosIcos"> {{productHeight}} cm x {{productWidth}}
                                           cm x
                                           {{productDepth}} cm</div>
                               </div>
@@ -54,7 +54,7 @@
                                                 src="/right-arrow.png" alt="right_arrow" class="right-arrow"
                                                 style="rotate: 90deg;"></button>
 
-                                    <div id="material" style="display: block;">{{productMaterial}}</div>
+                                    <div id="material" style="display: flex;"><img src="/cube.png" alt="materials.png" class="productInfosIcos">{{productMaterial}}</div>
 
                               </div>
                               <hr>
