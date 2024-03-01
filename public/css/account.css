@@ -47,7 +47,7 @@
 #email,
 #city,
 #phoneNumber {
-    width: 100%;
+    width: 90%;
 }
 
 #profilePicture {
@@ -72,21 +72,21 @@
     justify-content: space-around;
     height: 100%;
     align-items: center;
-    width: 50%;
+    width: 55%;
 }
 
 #nameInfos,
 #addressInfos {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 90%;
 }
 
 #containerButtons {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 120px;
+    justify-content: center;
     height: 80%;
 }
 
@@ -125,12 +125,11 @@
 
 input[type="text"],
 input[type="email"] {
-    width: 300px;
+    font-family: "Raleway";
     height: 35px;
     margin-bottom: 10px;
     border-radius: 5px;
     border: none;
-    padding-left: 10px;
     font-size: 15px;
     color: #8e7d68;
     box-shadow: 0px 0px 5px 0px rgb(195, 195, 195);

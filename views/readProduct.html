@@ -21,7 +21,9 @@
 <div id="product">
       <div id="container">
             <div id="left_container">
-                  <img src=/{{productPicture}} alt="ProductPicture" id="picture">
+                  {{#productPictures}}
+                  <img src="/{{pictureName}}" alt="ProductPicture" id="picture">
+                  {{/productPictures}}
             </div>
             <div id="middlebar"></div>
             <div id="right_container">

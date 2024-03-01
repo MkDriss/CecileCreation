@@ -2,7 +2,7 @@
 
 <script>
       function showDiv(divId, element) {
-            if (element.value == "addCategory" || element.value == "newProductMaterial") {
+            if (element.value == "addCategory" || element.value == "addProductMaterial") {
                   document.getElementById(divId).style.display = "block";
             }
             else {
@@ -37,14 +37,20 @@
                               <span>x</span>
                               <input type="number" name="depth" id="depth" placeholder="Depth" required>
                         </div>
-                        <select name="productMaterial" id="productMaterial" onchange="showDiv('productMaterial',this)" required>
+                        <select name="productMaterial" id="productMaterial" onchange="showDiv('newProductMaterial',this)" required>
                               <option name="productMaterial" id="defaultproductMaterial" value="None">Select a Material
                               </option>
-                              {{#Materials}}
-                              <option name="productMaterial" id="{{productMaterial}}" value="{{productMaterial}}">
+                              {{#currentMaterial}}
+                                <option name="productMaterial" id="productMaterial" value="{{productMaterial}}"
+                                    selected>
                                     {{productMaterial}}</option>
-                              {{/Materials}}
-                              <option name="newProductMaterial" id="newProductMaterial" value="newProductMaterial">New Material</option>
+                                {{/currentMaterial}}
+                                {{#materials}}
+                                <option name="productMaterial" id="{{productMaterial}}" value="{{productMaterial}}">
+                                    {{productMaterial}}</option>
+                                {{/materials}}
+                                <option name="addProductMaterial" id="addProductMaterial" value="addProductMaterial">New
+                                    Material</option>
                         </select>
                         <input type="text" name="newProductMaterial" id="newProductMaterial" placeholder="New Material"
                               style="display: none;">
@@ -56,10 +62,9 @@
                   </div>
                   <div id="buttons">
                         <label for="uploadPicture" class="button">Upload Picture</label>
-                        <input type="file" id="uploadPicture" name="uploadPicture"
-                              accept='image/png, image/jpg, image/jpeg' required>
+                        <input type="file" id="uploadPicture" name="uploadPicture[]"
+                              accept='image/png, image/jpg, image/jpeg' multiple required>
                         <input type="submit" value="Add Product">
-
                         <a href="/adminProductList" class="button" id="cancelButton">Cancel</a>
                   </div>
             </form>

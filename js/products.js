@@ -8,16 +8,26 @@ let loadProduct = function (filename) {
 
       const products = JSON.parse(fs.readFileSync(filename));
 
+
       db.prepare('DROP TABLE IF EXISTS products').run();
       console.log('products table dropped');
-      db.prepare('CREATE TABLE IF NOT EXISTS products (productId TEXT PRIMARY KEY, productName TEXT, productCategory TEXT,productPrice INTEGER, productHeight INTEGER, productWidth INTEGER, productDepth INTEGER, productMaterial TEXT, productDescription TEXT, productPicture TEXT)').run();
-      let insertProduct = db.prepare('INSERT INTO products VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+      db.prepare('DROP Table IF EXISTS pictures').run();
+      console.log('pictures table dropped');
+      db.prepare('CREATE TABLE IF NOT EXISTS products (productId TEXT PRIMARY KEY, productName TEXT, productCategory TEXT,productPrice INTEGER, productHeight INTEGER, productWidth INTEGER, productDepth INTEGER, productMaterial TEXT, productDescription TEXT)').run();
+      db.prepare('CREATE TABLE IF NOT EXISTS pictures (productId TEXT, pictureName TEXT)').run();
+      let insertProductPicture = db.prepare('INSERT INTO pictures VALUES (?, ?)');
+      let insertProduct = db.prepare('INSERT INTO products VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
 
       let transaction = db.transaction((products) => {
 
             for (let tempProduct = 0; tempProduct < products.length; tempProduct++) {
                   let product = products[tempProduct];
-                  insertProduct.run(product.productId, product.productName, product.productCategory, product.productPrice, product.productHeight, product.productWidth, product.productDepth, product.productMaterial, product.productDescription, product.productPicture);
+                  insertProduct.run(product.productId, product.productName, product.productCategory, product.productPrice, product.productHeight, product.productWidth, product.productDepth, product.productMaterial, product.productDescription);
+                  let productPictures = product.productPicture;
+                  for (let i = 0; i < productPictures.length; i++) {
+                        let picture = productPictures[i];
+                        insertProductPicture.run(product.productId, picture.pictureName);
+                  }
             }
       });
 
@@ -28,10 +38,12 @@ loadProduct('./json/products.json');
 
 // CREATE
 
-exports.create = function (productId, productName, productCategory = "None", productHeight, productWidth, productDepth, productMaterial="None", productPrice, productDescription) {
-
-      let pictureName = convertInAlphabet(productName) + '_' + productId + '.png';
-
+exports.create = function (productId, productName, productCategory = "None", productHeight, productWidth, productDepth, productMaterial="None", productPrice, productDescription, pictureData) {
+      let pictures = [];
+      console.log(pictureData)
+      for (let i = 0; i < pictureData.length; i++) {
+            pictures.push({ "pictureName": productName + "_" + i + "_" + productId + ".png"});
+      }
       let newProduct = {
             "productId": productId,
             "productName": productName,
@@ -42,7 +54,7 @@ exports.create = function (productId, productName, productCategory = "None", pro
             "productDepth": productDepth,
             "productMaterial": productMaterial,
             "productDescription": productDescription,
-            "productPicture": pictureName
+            "productPicture": pictures
       };
       try {
             fs.readFile('./json/products.json', (err, data) => {
@@ -54,7 +66,10 @@ exports.create = function (productId, productName, productCategory = "None", pro
                         console.log('product Added!');
                   });
             });
-            db.prepare('INSERT INTO products(productId, productName, productCategory, productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription, productPicture) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(productId, productName, productCategory, productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription, pictureName);
+            db.prepare('INSERT INTO products(productId, productName, productCategory, productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)').run(productId, productName, productCategory, productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription);
+            for (let i = 0; i < pictures.length; i++) {
+                  db.prepare('INSERT INTO pictures(productId, pictureName) VALUES (?, ?)').run(productId, pictures[i].pictureName);
+            }
       } catch (err) {
             console.log(err);
       }
@@ -67,6 +82,10 @@ exports.read = function (productId) {
 }
 
 // GET
+
+exports.getProductPictures= function(productId) {
+      return db.prepare('SELECT * FROM pictures WHERE productId = ?').all(productId);
+}
 
 exports.getProductFromCategory = function (category) {
       return db.prepare('SELECT * FROM products WHERE productCategory = ?').all(category);
@@ -126,7 +145,13 @@ exports.update = function (productId, productName, productCategory = "None", pro
 // LIST
 
 exports.list = function () {
-      return db.prepare('SELECT * FROM products').all();
+      let productslist = db.prepare('SELECT * FROM products').all();
+      for (let i = 0; i < productslist.length; i++) {
+            let product = productslist[i];
+            product.productPicture = (db.prepare('SELECT pictureName FROM pictures WHERE productId = ?').all(product.productId))[0].pictureName;
+            console.log(product)
+      }
+      return productslist;
 }
 
 

@@ -109,7 +109,8 @@ app.get('/', (req, res) => {
     let randomId = Math.floor(Math.random() * products.list().length);
     let productsList = products.list();
     let trendProduct = products.read(productsList[randomId].productId);
-    res.render('home', { trendProduct: trendProduct, products: productsList, css: '/home.css' });
+    let trendProductPicture = products.getProductPictures(trendProduct.productId)[0].pictureName;
+    res.render('home', { trendProduct: trendProduct, trendProductPicture: trendProductPicture ,products: productsList, css: '/home.css' });
 });
 
 app.get('/home', (req, res) => {
@@ -165,7 +166,8 @@ app.get('/shop', (req, res) => {
 });
 
 app.get('/addProduct', (req, res) => {
-    res.render('addProduct', { admin: req.session.admin, css: '/addProduct.css', categories: products.getCategories() });
+    let productMaterials = products.getMaterials();
+    res.render('addProduct', { admin: req.session.admin, css: '/addProduct.css', categories: products.getCategories(), materials: productMaterials});
 });
 
 app.get('/updateAccount', (req, res) => {
@@ -204,7 +206,9 @@ app.get('/updateProduct/:id', (req, res) => {
             break;
         }
     }
-    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures: product.productPicture, admin: req.session.admin, categories: productCategories, materials : productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial });
+
+    console.log(products.getProductPictures(req.params.id)[0].pictureName)
+    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures : products.getProductPictures(req.params.id), productPictures: product.productPicture, admin: req.session.admin, categories: productCategories, materials : productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial });
 });
 
 app.get('/updateOrder/:id', (req, res) => {
@@ -338,7 +342,8 @@ app.get('/readProduct/:productId', (req, res) => {
         if (product.productMaterial === "None"){
             product.productMaterial = "";
         }
-        return res.render('readProduct', { products: product, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css' });
+
+        return res.render('readProduct', { products: product, productPictures : products.getProductPictures(productId), category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css' });
     }
 });
 
@@ -585,7 +590,7 @@ app.post('/updateAccount', uploadProfilePicture.single('updateProfilePicture'), 
 });
 
 
-app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
+app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
     let name = req.body.name;
     let price = req.body.price;
     let description = req.body.description;
@@ -615,7 +620,7 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
         }
     }
 
-    let pictureData = req.file;
+    let pictureData = req.files;
     if (name == undefined || price == undefined || description == undefined || pictureData == undefined) {
         console.log("Invalid product")
         return res.redirect('/addProduct');
@@ -627,15 +632,16 @@ app.post('/addProduct', uploadProduct.single('uploadPicture'), (req, res) => {
     }
 
     else if (products.read(name) == undefined) {
-
-        let productId = crypto.randomBytes(10).toString("hex");
+        name = convertInAlphabet(name);
+        let productId = crypto.randomBytes(5).toString("hex");
         products.create(productId, name, productCategory, productHeight, productWidth, productDepth, productMaterial, price, description, pictureData);
-
-        let tmp_path = req.file.path;
-        let target_path = 'public/products_pictures/' + convertInAlphabet(name) + '_' + productId + '.png';
-        let src = fs.createReadStream(tmp_path);
-        let dest = fs.createWriteStream(target_path);
-        src.pipe(dest);
+        for (let i = 0; i < pictureData.length; i++) {
+            let tmp_path = pictureData[i].path;
+            let target_path = 'public/products_pictures/' + name +'_' + i +'_' + productId + '.png';
+            let src = fs.createReadStream(tmp_path);
+            let dest = fs.createWriteStream(target_path);
+            src.pipe(dest);
+        }
 
         return res.redirect('/shop');
     }
