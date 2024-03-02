@@ -149,7 +149,6 @@ exports.list = function () {
       for (let i = 0; i < productslist.length; i++) {
             let product = productslist[i];
             product.productPicture = (db.prepare('SELECT pictureName FROM pictures WHERE productId = ?').all(product.productId))[0].pictureName;
-            console.log(product)
       }
       return productslist;
 }
