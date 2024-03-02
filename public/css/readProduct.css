@@ -37,7 +37,6 @@
     justify-content: center;
     align-items: center;
     width: 45%;
-    height: 100%;
 }
 
 #right_container {
@@ -83,6 +82,8 @@
 #dimensions,
 #material,
 #description {
+    display: flex;
+    align-items: center;
     width: 100%;
     text-align: justify;
     text-justify: inter-character;
@@ -201,9 +202,15 @@
 #otherProductName {
     width: 200px;
     margin: 20px 0px;
-    text-align: justify;
+    text-justify: inter-character;
 }
 
 #otherProductName:hover {
     text-decoration: underline;
+}
+
+.productInfosIcos{
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
 }
