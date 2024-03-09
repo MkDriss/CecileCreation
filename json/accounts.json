@@ -10,17 +10,5 @@
     "userLastName": "MESKINI",
     "profilePicture": "",
     "city": "Marseille"
-  },
-  {
-    "id": "6a2b270f797f00d388789b8302a15ddffa8cb093989f0846cc3d459526170310",
-    "username": "mathi",
-    "userLastName": "",
-    "email": "mathi@gmail.com",
-    "password": "ma",
-    "adress": "",
-    "city": "",
-    "zipCode": "",
-    "phone": "",
-    "profilePicture": "defaultAccountIco.png"
   }
 ]

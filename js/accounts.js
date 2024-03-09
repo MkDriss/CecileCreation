@@ -46,19 +46,20 @@ exports.create = function (id, email, username, password) {
 
       };
 
-      let accountsList = JSON.parse(fs.readFileSync('json/accounts.json'));
-      accountsList.push(newAccount);
-
-      fs.writeFileSync('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
+      fs.readFile('./json/accounts.json', (err, data) => {
             if (err) throw err;
-            console.log(err);
+            let accountsList = JSON.parse(data);
+            accountsList.push(newAccount);
+            fs.writeFile('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
+                  if (err) console.log(err);
+            });
       });
       try {
             db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, "", email, password, "", "", "", "", "defaultAccountIco.png");
+            console.log('Account created');
       } catch (err) {
             console.log(err);
       }
-      console.log('Account created');
 
 };
 

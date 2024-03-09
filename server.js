@@ -472,7 +472,7 @@ app.post('/login', (req, res) => {
     }
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', (req, res)  => {
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
