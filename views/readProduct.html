@@ -12,6 +12,35 @@
                   arrow.style.transform = "rotate(270deg)";
             }
       }
+
+      let slideIndex = 0;
+      function showSlides(n) {
+            let oldIndex = slideIndex;
+            if (n === 1) {
+                  if (slideIndex === document.getElementsByClassName("pictures").length -1) {
+                        slideIndex = 0;
+                  } else {
+                        slideIndex++;
+                  }
+            } else {
+                  if (slideIndex === 0) {
+                        slideIndex = document.getElementsByClassName("pictures").length - 1;
+                  } else {
+                        slideIndex--;
+                  }
+            }
+            console.log(slideIndex, oldIndex)
+            document.getElementById(oldIndex).style.display = "none";
+            document.getElementById(slideIndex).style.display = "flex";
+      }
+
+      function showSlidesOnId() {
+            let oldIndex = slideIndex;
+            slideIndex = event.target.id;
+            document.getElementById(oldIndex).style.display = "none";
+            document.getElementById(slideIndex).style.display = "flex";
+      }
+      
 </script>
 
 <link rel="stylesheet" href="/readProduct.css">
@@ -21,8 +50,14 @@
 <div id="product">
       <div id="container">
             <div id="left_container">
+                  <button onclick="showSlides(-1)" class="prev">&#10094;</button>
+                  <img src="/{{frontPicture}}" alt="FrontProductPicture" id="0" class="pictures">
                   {{#productPictures}}
-                  <img src="/{{pictureName}}" alt="ProductPicture" id="picture">
+                  <img src="/{{pictureName}}" alt="ProductPicture" id="{{pictureId}}" class="pictures" style="display: none;">
+                  {{/productPictures}}
+                  <button onclick="showSlides(1)" class="next">&#10095;</button>
+                  {{#productPictures}}
+                  <span class="dot" id="{{pictureId}}" onclick="showSlidesOnId()"></span>
                   {{/productPictures}}
             </div>
             <div id="middlebar"></div>

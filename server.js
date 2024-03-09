@@ -17,6 +17,7 @@ var products = require('./js/products');
 var cart = require('./js/cart');
 var comments = require('./js/comments');
 var orderList = require('./js/orderList');
+const { setMaxIdleHTTPParsers } = require("http");
 
 // APP
 
@@ -207,8 +208,8 @@ app.get('/updateProduct/:id', (req, res) => {
         }
     }
 
-    console.log(products.getProductPictures(req.params.id)[0].pictureName)
-    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures : products.getProductPictures(req.params.id), productPictures: product.productPicture, admin: req.session.admin, categories: productCategories, materials : productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial });
+    console.log(products.getProductPictures(req.params.id))
+    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures : products.getProductPictures(req.params.id), admin: req.session.admin, categories: productCategories, materials : productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial });
 });
 
 app.get('/updateOrder/:id', (req, res) => {
@@ -342,8 +343,10 @@ app.get('/readProduct/:productId', (req, res) => {
         if (product.productMaterial === "None"){
             product.productMaterial = "";
         }
+        
+        let otherProductsList = (products.getProductPictures(productId)).slice(1);
 
-        return res.render('readProduct', { products: product, productPictures : products.getProductPictures(productId), category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css' });
+        return res.render('readProduct', {products: product ,frontPicture: products.getProductPictures(productId)[0].pictureName, productPictures : otherProductsList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css'});
     }
 });
 

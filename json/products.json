@@ -10,7 +10,8 @@
     "productDescription": "This satchel was made in a thick pink cotton fabric and a cotton fabric with a delightful Aristocats pattern. Its flap is accessorized with coordinated satin and organza ribbons and finished with a coordinated edging for a perfect finish.\r\nIt is fully lined in a thick ecru canvas which gives it a lot of hold.\r\nA small pocket plated on the front accommodates a satchel clasp that is easily handled by small hands.\r\n\r\nIts dimensions are adapted to the body shape of toddlers (28 cm x 24 cm x 5cm).\r\nIts handles are adjustable from 50 to 60 cm\r\n\r\nThis satchel is a unique Cicilounette creation. It has been made with the greatest care in fabrics chosen for their beauty and quality.\r\nThe first name can be written on simple request",
     "productPicture": [
       {
-        "pictureName": "il_794xN.4114713909_6ngb.jpg"
+        "pictureName": "il_794xN.4114713909_6ngb.jpg",
+        "pictureId": "0"
       }
     ],
     "productMaterial": "whool"
@@ -27,7 +28,8 @@
     "productDescription": "Satchel made from thick fabric. Flap worked in a coated cotton fabric with a schoolboy motif and finished with coordinated piping.",
     "productPicture": [
       {
-        "pictureName": "il_794xN.2635023791_n9p1.jpg"
+        "pictureName": "il_794xN.2635023791_n9p1.jpg",
+        "pictureId": "0"
       }
     ]
   },
@@ -43,7 +45,8 @@
     "productDescription": "This delightful little pouch-shaped backpack has been crafted in a coordinated combination of fabrics: the flap is made from a cotton fabric with a small bolides motif. The bag is sewn in a thick brown fabric. It is fully lined in a thick ecru fabric for impeccable wear. Its small front pocket has a Velcro fastening. Inside cord closure.",
     "productPicture": [
       {
-        "pictureName": "il_794xN.3232783213_9mim.jpg"
+        "pictureName": "il_794xN.3232783213_9mim.jpg",
+        "pictureId": "0"
       }
     ]
   },
@@ -59,7 +62,8 @@
     "productDescription": "This delightful little pouch-shaped backpack has been crafted in a coordinated combination of fabrics: the flap is made from a cotton fabric with a small bolides motif. The bag is sewn in a thick brown fabric. It is fully lined in a thick ecru fabric for impeccable wear. Its small front pocket has a Velcro fastening. Inside cord closure.",
     "productPicture": [
       {
-        "pictureName": "il_794xN.3443932700_onzs.jpg"
+        "pictureName": "il_794xN.3443932700_onzs.jpg",
+        "pictureId": "0"
       }
     ]
   },
@@ -75,10 +79,12 @@
     "productDescription": "d",
     "productPicture": [
       {
-        "pictureName": "RicketMorty_0_9afe184894.png"
+        "pictureName": "RicketMorty_0_9afe184894.png",
+        "pictureId": "0"
       },
       {
-        "pictureName": "RicketMorty_1_9afe184894.png"
+        "pictureName": "RicketMorty_1_9afe184894.png",
+        "pictureId": "1"
       }
     ]
   }

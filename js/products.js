@@ -8,14 +8,13 @@ let loadProduct = function (filename) {
 
       const products = JSON.parse(fs.readFileSync(filename));
 
-
       db.prepare('DROP TABLE IF EXISTS products').run();
       console.log('products table dropped');
       db.prepare('DROP Table IF EXISTS pictures').run();
       console.log('pictures table dropped');
       db.prepare('CREATE TABLE IF NOT EXISTS products (productId TEXT PRIMARY KEY, productName TEXT, productCategory TEXT,productPrice INTEGER, productHeight INTEGER, productWidth INTEGER, productDepth INTEGER, productMaterial TEXT, productDescription TEXT)').run();
-      db.prepare('CREATE TABLE IF NOT EXISTS pictures (productId TEXT, pictureName TEXT)').run();
-      let insertProductPicture = db.prepare('INSERT INTO pictures VALUES (?, ?)');
+      db.prepare('CREATE TABLE IF NOT EXISTS pictures (productId TEXT, pictureName TEXT, pictureId INTEGER)').run();
+      let insertProductPicture = db.prepare('INSERT INTO pictures VALUES (?, ?, ?)');
       let insertProduct = db.prepare('INSERT INTO products VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
 
       let transaction = db.transaction((products) => {
@@ -26,7 +25,7 @@ let loadProduct = function (filename) {
                   let productPictures = product.productPicture;
                   for (let i = 0; i < productPictures.length; i++) {
                         let picture = productPictures[i];
-                        insertProductPicture.run(product.productId, picture.pictureName);
+                        insertProductPicture.run(product.productId, picture.pictureName, picture.pictureId);
                   }
             }
       });
@@ -40,9 +39,8 @@ loadProduct('./json/products.json');
 
 exports.create = function (productId, productName, productCategory = "None", productHeight, productWidth, productDepth, productMaterial="None", productPrice, productDescription, pictureData) {
       let pictures = [];
-      console.log(pictureData)
       for (let i = 0; i < pictureData.length; i++) {
-            pictures.push({ "pictureName": productName + "_" + i + "_" + productId + ".png"});
+            pictures.push({ "pictureName": productName + "_" + i + "_" + productId + ".png", "pictureId":i});
       }
       let newProduct = {
             "productId": productId,
@@ -54,9 +52,14 @@ exports.create = function (productId, productName, productCategory = "None", pro
             "productDepth": productDepth,
             "productMaterial": productMaterial,
             "productDescription": productDescription,
-            "productPicture": pictures
+            "productPicture": pictures,
       };
       try {
+            db.prepare('INSERT INTO products(productId, productName, productCategory, productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)').run(productId, productName, productCategory, productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription);
+            for (let i = 0; i < pictures.length; i++) {
+                  console.log(i)
+                  db.prepare('INSERT INTO pictures(productId, pictureName, pictureId) VALUES (?, ?, ?)').run(productId, pictures[i].pictureName, i);
+            }
             fs.readFile('./json/products.json', (err, data) => {
                   if (err) throw err;
                   let productList = JSON.parse(data);
@@ -66,10 +69,6 @@ exports.create = function (productId, productName, productCategory = "None", pro
                         console.log('product Added!');
                   });
             });
-            db.prepare('INSERT INTO products(productId, productName, productCategory, productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)').run(productId, productName, productCategory, productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription);
-            for (let i = 0; i < pictures.length; i++) {
-                  db.prepare('INSERT INTO pictures(productId, pictureName) VALUES (?, ?)').run(productId, pictures[i].pictureName);
-            }
       } catch (err) {
             console.log(err);
       }

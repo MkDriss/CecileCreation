@@ -71,7 +71,7 @@
     align-items: center;
 }
 
-#productPicture{
+.productPicture{
     width: 80%;
     height: 600px;
     object-fit: cover;
