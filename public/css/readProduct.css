@@ -34,6 +34,10 @@
     width: 100%;
 }
 
+.otherPicturesLink:hover{
+    cursor: pointer;
+}
+
 .prev,
 .next {
     cursor: pointer;
@@ -47,27 +51,43 @@
     background-color: whitesmoke;
 }
 
-.dot {
-    cursor: pointer;
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: black;
-    border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.6s ease;
+.next {
+    margin-left: 10px;
 }
 
-.active,
-.dot:hover {
-    background-color: #717171;
+.prev {
+    margin-right: 10px;
 }
+
 
 #left_container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 45%;
+}
+
+#frontPicture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pictures {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.otherPictures {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 0px 10px;
+    transition: transform .2s;
 }
 
 #right_container {

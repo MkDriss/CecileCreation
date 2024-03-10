@@ -91,7 +91,7 @@ function createOrder(id, email, userName, userLastName, userAdress, userCity, us
         }
     }
 
-    let state = "Pedding";
+    let state = "Pendding";
     let date = getDateOrder();
     let price = cart.getTotalPrice(id);
 
@@ -345,8 +345,8 @@ app.get('/readProduct/:productId', (req, res) => {
         }
         
         let otherProductsList = (products.getProductPictures(productId)).slice(1);
-
-        return res.render('readProduct', {products: product ,frontPicture: products.getProductPictures(productId)[0].pictureName, productPictures : otherProductsList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css'});
+        let countPictures = products.getProductPictures(productId)
+        return res.render('readProduct', {products: product ,frontPicture: products.getProductPictures(productId)[0].pictureName, countPictures: countPictures , productPictures : otherProductsList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css'});
     }
 });
 
