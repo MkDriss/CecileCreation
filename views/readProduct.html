@@ -45,7 +45,7 @@
             slideIndex = event.target.id
             let slides = document.getElementsByClassName("pictures");
             let otherSlides = document.getElementsByClassName("otherPictures");
-            
+
             for (let index = 0; index < slides.length; index++) {
                   slides[index].style.display = "none";
                   otherSlides[index].style.border = "none";
@@ -88,7 +88,6 @@
                                           <div id="productCategory">{{category}}</div>
                                     </div>
                                     <div id="price">{{productPrice}} €</div>
-                                    <hr>
                                     <div id="descriptionContainer">
                                           <button onclick="showElement('description')" class="showButton">Description
                                                 <img src="/right-arrow.png" alt="right_arrow" class="right-arrow"
@@ -117,7 +116,6 @@
                                           </div>
 
                                     </div>
-                                    <hr>
                               </div>
 
                               <div>

@@ -111,7 +111,7 @@ app.get('/', (req, res) => {
     let productsList = products.list();
     let trendProduct = products.read(productsList[randomId].productId);
     let trendProductPicture = products.getProductPictures(trendProduct.productId)[0].pictureName;
-    res.render('home', { trendProduct: trendProduct, trendProductPicture: trendProductPicture ,products: productsList, css: '/home.css' });
+    res.render('home', { trendProduct: trendProduct, trendProductPicture: trendProductPicture, products: productsList, css: '/home.css' });
 });
 
 app.get('/home', (req, res) => {
@@ -168,7 +168,7 @@ app.get('/shop', (req, res) => {
 
 app.get('/addProduct', (req, res) => {
     let productMaterials = products.getMaterials();
-    res.render('addProduct', { admin: req.session.admin, css: '/addProduct.css', categories: products.getCategories(), materials: productMaterials});
+    res.render('addProduct', { admin: req.session.admin, css: '/addProduct.css', categories: products.getCategories(), materials: productMaterials });
 });
 
 app.get('/updateAccount', (req, res) => {
@@ -208,8 +208,7 @@ app.get('/updateProduct/:id', (req, res) => {
         }
     }
 
-    console.log(products.getProductPictures(req.params.id))
-    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures : products.getProductPictures(req.params.id), admin: req.session.admin, categories: productCategories, materials : productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial });
+    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures: products.getProductPictures(req.params.id), admin: req.session.admin, categories: productCategories, materials: productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial });
 });
 
 app.get('/updateOrder/:id', (req, res) => {
@@ -256,13 +255,12 @@ app.get('/cart', (req, res) => {
             for (let i = 0; i < cartuser.length; i++) {
                 productInfos = JSON.parse(cartuser[i].products);
                 productInfos.picture = products.getproductInfos = JSON.parse(cartuser[i].products);
-                productInfos.picture = products.getProductPictures(productInfos.productId)[0].pictureName;  
+                productInfos.picture = products.getProductPictures(productInfos.productId)[0].pictureName;
                 cartProductsInfos.push(productInfos);
             }
             let totalPrice = cart.getTotalPrice(req.session.id);
             let passOrder = cartuser.length > 0;
-            
-            console.log(cartProductsInfos)
+
             res.render('cart', { css: '/cart.css', cartLength: cartuser.length, cartId: req.session.id, cartProducts: cartProductsInfos, totalPrice: totalPrice, passOrder: passOrder });
         }
     }
@@ -273,7 +271,7 @@ app.get('/addToCart/:id', (req, res) => {
 
     if (req.session.authenticated === false || req.session.authenticated === undefined) {
         return res.render('login', { msg: "You must be logged in to add a product to your cart", css: '/login.css', productId: req.params.id });
-    }   
+    }
 
     let id = req.params.id;
     let userId = req.session.id;
@@ -345,13 +343,13 @@ app.get('/readProduct/:productId', (req, res) => {
             category = "";
         }
 
-        if (product.productMaterial === "None"){
+        if (product.productMaterial === "None") {
             product.productMaterial = "";
         }
-        
+
         let otherProductsList = (products.getProductPictures(productId)).slice(1);
         let countPictures = products.getProductPictures(productId)
-        return res.render('readProduct', {products: product ,frontPicture: products.getProductPictures(productId)[0].pictureName, countPictures: countPictures , productPictures : otherProductsList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css'});
+        return res.render('readProduct', { products: product, frontPicture: products.getProductPictures(productId)[0].pictureName, countPictures: countPictures, productPictures: otherProductsList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css' });
     }
 });
 
@@ -399,9 +397,11 @@ app.get('/deliveryInfos', (req, res) => {
     }
 
     let cartProductsInfos = []
-
     for (let i = 0; i < cartuser.length; i++) {
-        cartProductsInfos.push(JSON.parse(cartuser[i].products));
+        productInfos = JSON.parse(cartuser[i].products);
+        productInfos.picture = products.getproductInfos = JSON.parse(cartuser[i].products);
+        productInfos.picture = products.getProductPictures(productInfos.productId)[0].pictureName;
+        cartProductsInfos.push(productInfos);
     }
 
     let userAccountInfos = account.read(req.session.id);
@@ -482,7 +482,7 @@ app.post('/login', (req, res) => {
     }
 });
 
-app.post('/register', (req, res)  => {
+app.post('/register', (req, res) => {
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
@@ -647,7 +647,7 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
         products.create(productId, name, productCategory, productHeight, productWidth, productDepth, productMaterial, price, description, pictureData);
         for (let i = 0; i < pictureData.length; i++) {
             let tmp_path = pictureData[i].path;
-            let target_path = 'public/products_pictures/' + name +'_' + i +'_' + productId + '.png';
+            let target_path = 'public/products_pictures/' + name + '_' + i + '_' + productId + '.png';
             let src = fs.createReadStream(tmp_path);
             let dest = fs.createWriteStream(target_path);
             src.pipe(dest);
