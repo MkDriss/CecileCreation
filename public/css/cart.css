@@ -37,7 +37,7 @@
 
 #productPicture {
     border-radius: 10px;
-    transition: transform 0.5s;
+    transition: transform 0.2s;
 }
 
 #productPicture:hover {

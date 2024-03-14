@@ -216,9 +216,15 @@ app.get('/updateOrder/:id', (req, res) => {
     let order = orderList.getOrderFromId(orderId);
     let currentState = order.state;
     productIdList = order.products.split(', ');
+
     for (let i = 0; i < productIdList.length; i++) {
-        productIdList[i] = products.read(productIdList[i]);
+        let product = products.read(productIdList[i]);
+        product.picture = products.getProductPictures(product.productId)[0].pictureName;
+        productIdList[i] = product;
+        console.log(productIdList[i])
     }
+
+
     otherStates = [{ state: "Pendding" }, { state: "In progress" }, { state: "Delivered" }, { state: "Cancelled" }]
     for (let i = 0; i < otherStates.length; i++) {
         if (otherStates[i].state === currentState) {
@@ -660,6 +666,7 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
 });
 
 app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) => {
+
     let productId = req.params.id;
     let name = req.body.productName;
     let category = req.body.productCategory;
