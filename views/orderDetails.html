@@ -10,7 +10,6 @@
                     <h2>Order Infos</h2>
                     <span>Order Id : {{id}}</span>
                 </div>
-                <input type="text" name="orderId" id="orderId" value="{{id}}" readonly style="display: none;">
                 <div>
                     <span>Order Price : {{price}} €</span>
                 </div>
@@ -65,7 +64,7 @@
                     {{#products}}
                     <div class="items">
                         <a href="/readProduct/{{productId}}" class="productLink">
-                            <img src="/{{productPicture}}" alt="ProductPicture" class="productPicture">
+                            <img src="/{{picture}}" alt="ProductPicture" class="productPicture">
                         </a>
                         <div class="otherProductInfos">
                             <div class="otherProductInfosContainer">

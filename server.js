@@ -254,10 +254,15 @@ app.get('/cart', (req, res) => {
         else {
             let cartProductsInfos = []
             for (let i = 0; i < cartuser.length; i++) {
-                cartProductsInfos.push(JSON.parse(cartuser[i].products));
+                productInfos = JSON.parse(cartuser[i].products);
+                productInfos.picture = products.getproductInfos = JSON.parse(cartuser[i].products);
+                productInfos.picture = products.getProductPictures(productInfos.productId)[0].pictureName;  
+                cartProductsInfos.push(productInfos);
             }
             let totalPrice = cart.getTotalPrice(req.session.id);
             let passOrder = cartuser.length > 0;
+            
+            console.log(cartProductsInfos)
             res.render('cart', { css: '/cart.css', cartLength: cartuser.length, cartId: req.session.id, cartProducts: cartProductsInfos, totalPrice: totalPrice, passOrder: passOrder });
         }
     }
@@ -268,7 +273,7 @@ app.get('/addToCart/:id', (req, res) => {
 
     if (req.session.authenticated === false || req.session.authenticated === undefined) {
         return res.render('login', { msg: "You must be logged in to add a product to your cart", css: '/login.css', productId: req.params.id });
-    }
+    }   
 
     let id = req.params.id;
     let userId = req.session.id;
@@ -411,7 +416,9 @@ app.get('/orderDetails/:id', (req, res) => {
     let orderProductsId = order.products.split(', ');
     let productsList = [];
     for (let i = 0; i < orderProductsId.length; i++) {
-        productsList.push(products.read(orderProductsId[i]));
+        let product = products.read(orderProductsId[i])
+        product.picture = products.getProductPictures(product.productId)[0].pictureName;
+        productsList.push(product);
     }
     res.render('orderDetails', { order: order, css: '/orderDetails.css', products: productsList });
 });

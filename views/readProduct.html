@@ -14,46 +14,45 @@
       }
 
       let slideIndex = 0;
+
       function showSlides(n) {
-            let oldIndex = slideIndex;
-            let slides = document.getElementsByClassName("otherPictures");
-            let otherPictures = document.getElementsByClassName("otherPictures");
-            console.log(document.getElementsByClassName("otherPictures"));
-            if (n === 1) {
-                  if (slideIndex === otherPictures.length - 1) {
+            let slides = document.getElementsByClassName("pictures");
+            let otherSlides = document.getElementsByClassName("otherPictures");
+            if (n < 0) {
+                  if ((slideIndex - 1) < 0) {
+                        slideIndex = slides.length - 1
+                  } else {
+                        slideIndex --;
+                  }
+            } else if (n > 0) {
+                  if ((slideIndex + 1) > (slides.length - 1)) {
                         slideIndex = 0;
                   } else {
-                        slideIndex++;
-                  }
-            } else {
-                  if (slideIndex === 0) {
-                        slideIndex = otherPictures.length - 1;
-                  } else {
-                        slideIndex--;
+                        slideIndex ++;
                   }
             }
-            for (let i = 0; i < otherPictures.length; i++) {
-                  slides[i].style.display = "none";
-                  otherPictures[i].style.border = "none";
+
+            for (let index = 0; index < slides.length; index++) {
+                  slides[index].style.display = "none";
+                  otherSlides[index].style.border = "none";
             }
-            console.log(slideIndex);
-            otherPictures[slideIndex].style.border = "2px solid #8e7d68";
-            document.getElementById(slideIndex).style.display = "flex";
-      }
-      function showSlidesOnClick() {
-            let slides = document.getElementsByClassName("pictures");
-            let otherPictures = document.getElementsByClassName("otherPictures");
-            for (let i = 0; i < slides.length; i++) {
-                  slides[i].style.display = "none";
-                  otherPictures[i].style.border = "none";
-            }
-            let id = event.target.id;
-            document.getElementById(id).style.display = "flex";
-            event.target.style.border = "2px solid #8e7d68";
-            slideIndex = id;
-            console.log(slideIndex);
+
+            slides[slideIndex].style.display = "block";
+            otherSlides[slideIndex].style.border = "solid 2px #8e7d68";
       }
 
+      function showSlidesOnClick(n) {
+            slideIndex = event.target.id
+            let slides = document.getElementsByClassName("pictures");
+            let otherSlides = document.getElementsByClassName("otherPictures");
+            
+            for (let index = 0; index < slides.length; index++) {
+                  slides[index].style.display = "none";
+                  otherSlides[index].style.border = "none";
+            }
+            slides[slideIndex].style.display = "block";
+            otherSlides[slideIndex].style.border = "solid 2px #8e7d68";
+      }
 </script>
 
 <link rel="stylesheet" href="/readProduct.css">
@@ -65,7 +64,8 @@
                   <div id="left_container">
                         <div id="frontPicture">
                               <button onclick="showSlides(-1)" class="prev">&#10094;</button>
-                              <img src="/{{frontPicture}}" alt="FrontProductPicture" id="0" class="pictures">
+                              <img src="/{{frontPicture}}" alt="FrontProductPicture" id="0" class="pictures"
+                                    style="display: inline-block;">
                               {{#productPictures}}
                               <img src="/{{pictureName}}" alt="ProductPicture" id="{{pictureId}}" class="pictures"
                                     style="display: none;">
