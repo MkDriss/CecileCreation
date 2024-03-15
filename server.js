@@ -637,6 +637,7 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
     }
 
     let pictureData = req.files;
+    console.log(pictureData)
     if (name == undefined || price == undefined || description == undefined || pictureData == undefined) {
         console.log("Invalid product")
         return res.redirect('/addProduct');
@@ -665,8 +666,7 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
     return res.redirect('/addProduct');
 });
 
-app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) => {
-
+app.post('/updateProduct/:id', uploadProduct.any('updatePicture'), (req, res) => {
     let productId = req.params.id;
     let name = req.body.productName;
     let category = req.body.productCategory;
@@ -678,7 +678,7 @@ app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) 
     let productMaterial = req.body.productMaterial;
     let productNewMaterial = req.body.newProductMaterial;
     let description = req.body.productDescription;
-    let pictureData = req.file;
+    let pictureData = req.files;
     if (category === "addCategory") {
         if (newCategory === "") {
             category = "None";
@@ -703,10 +703,11 @@ app.post('/updateProduct/:id', uploadProduct.single('inputPicture'), (req, res) 
     }
 
     else if (products.read(productId) != undefined) {
-        products.update(productId, name, category, price, productHeight, productWidth, productDepth, productMaterial, description);
-        if (!(pictureData === undefined)) {
-            let tmp_path = req.file.path;
-            let target_path = 'public/products_pictures/' + name + '_' + productId + '.png';
+        name = convertInAlphabet(name);
+        products.update(productId, name, category, price, productHeight, productWidth, productDepth, productMaterial, description, pictureData);
+        for (let i = 0; i < pictureData.length; i++) {
+            let tmp_path = pictureData[i].path;
+            let target_path = 'public/products_pictures/' + name + '_' + i + '_' + productId + '.png';
             let src = fs.createReadStream(tmp_path);
             let dest = fs.createWriteStream(target_path);
             src.pipe(dest);

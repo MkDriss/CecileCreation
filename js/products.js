@@ -13,7 +13,7 @@ let loadProduct = function (filename) {
       db.prepare('DROP Table IF EXISTS pictures').run();
       console.log('pictures table dropped');
       db.prepare('CREATE TABLE IF NOT EXISTS products (productId TEXT PRIMARY KEY, productName TEXT, productCategory TEXT,productPrice INTEGER, productHeight INTEGER, productWidth INTEGER, productDepth INTEGER, productMaterial TEXT, productDescription TEXT)').run();
-      db.prepare('CREATE TABLE IF NOT EXISTS pictures (productId TEXT, pictureName TEXT, pictureId INTEGER)').run();
+      db.prepare('CREATE TABLE IF NOT EXISTS pictures (productId TEXT, pictureName TEXT, pictureId INTEGER )').run();
       let insertProductPicture = db.prepare('INSERT INTO pictures VALUES (?, ?, ?)');
       let insertProduct = db.prepare('INSERT INTO products VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
 
@@ -57,7 +57,6 @@ exports.create = function (productId, productName, productCategory = "None", pro
       try {
             db.prepare('INSERT INTO products(productId, productName, productCategory, productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)').run(productId, productName, productCategory, productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription);
             for (let i = 0; i < pictures.length; i++) {
-                  console.log(i)
                   db.prepare('INSERT INTO pictures(productId, pictureName, pictureId) VALUES (?, ?, ?)').run(productId, pictures[i].pictureName, i);
             }
             fs.readFile('./json/products.json', (err, data) => {
@@ -116,7 +115,25 @@ exports.getMaterials = function () {
 
 // UPDATE
 
-exports.update = function (productId, productName, productCategory = "None", productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription) {
+exports.update = function (productId, productName, productCategory = "None", productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription, pictureData) {
+      let currentPictures = db.prepare('SELECT pictureName FROM pictures WHERE productId = ?').all(productId);
+      for (let i = 0; i < currentPictures.length; i++) {
+            fs.unlinkSync('public/products_pictures/' + currentPictures[i].pictureName);
+      }
+      
+      let pictures;
+      if (pictureData.length === 0) {
+            pictures = db.prepare('SELECT pictureName, pictureId FROM pictures WHERE productId = ?').all(productId);
+            for (let i = 0; i < pictures.length; i++) {
+                  pictures[i].pictureId = i;
+            }
+      } else{
+            pictures = [];
+            for (let i = 0; i < pictureData.length; i++) {
+                  pictures.push({ "pictureName": productName + "_" + i + "_" + productId + ".png", "pictureId":i});
+            }
+      }
+
       fs.readFile('json/products.json', function (err, data) { 
             if (err) throw err;
             let productsList = JSON.parse(data);
@@ -131,6 +148,7 @@ exports.update = function (productId, productName, productCategory = "None", pro
                         product.productWidth = productWidth;
                         product.productDepth = productDepth;
                         product.productMaterial = productMaterial;
+                        product.productPicture = pictures;
                   }
             }
             fs.writeFileSync('json/products.json', JSON.stringify(productsList, null, 2), function (err) {
@@ -156,6 +174,10 @@ exports.list = function () {
 // DELETE
 
 exports.delete = function (productId) {
+      let currentPictures = db.prepare('SELECT pictureName FROM pictures WHERE productId = ?').all(productId);
+      for (let i = 0; i < currentPictures.length; i++) {
+            fs.unlinkSync('public/products_pictures/' + currentPictures[i].pictureName);
+      }
       fs.readFile('json/products.json', function (err, data) {
             if (err) throw err;
             let productsList = JSON.parse(data);
@@ -173,16 +195,3 @@ exports.delete = function (productId) {
       db.prepare('DELETE FROM products WHERE productId = ?').run(productId);
       console.log('product ' + productId + ' deleted');
 }
-
-// FUNCTION
-
-function convertInAlphabet(str) {
-      let alphabet = "abcdefghijklmnopqrstuvwxyz0123456789@_-";
-      let newStr = "";
-      for (let i = 0; i < str.length; i++) {
-            if (alphabet.includes(str[i].toLowerCase())) {
-                  newStr += str[i];
-            }
-      }
-      return newStr;
-};

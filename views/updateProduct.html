@@ -29,16 +29,17 @@
         <div id="container">
             <div id="left_container">
                 <div class="productPictures">
-                    
                     {{#productPictures}}
                     <img src="/{{pictureName}}" alt="ProductPicture" class="productPicture">
                     {{/productPictures}}
-                    <img src="/plus.png" alt="plus" class="productPicture">
+                    <label for="updatePicture"><img src="/plus.png" alt="plus" id="addPicture"></label>
                 </div>
             </div>
             <div id="middlebar"></div>
             <div id="right_container">
-                <form action="/updateProduct/{{productId}}" method="POST" id="updateProductForm">
+                <form action="/updateProduct/{{productId}}" method="POST" id="updateProductForm" enctype="multipart/form-data">
+                    <input type="file" id="updatePicture" name="updatePicture[]"
+                              accept='image/png, image/jpg, image/jpeg' multiple hidden>
                     <div id="productInfos">
                         <div id="productBox">
                             <input type="text" name="productName" id="productName" value="{{productName}}">
