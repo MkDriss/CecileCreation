@@ -35,7 +35,7 @@
   },
   {
     "productId": "4",
-    "productName": "Children's fabric backpack",
+    "productName": "Childrensfabricbackpack",
     "productPrice": "60",
     "productHeight": "28",
     "productWidth": "24",
@@ -45,8 +45,8 @@
     "productDescription": "This delightful little pouch-shaped backpack has been crafted in a coordinated combination of fabrics: the flap is made from a cotton fabric with a small bolides motif. The bag is sewn in a thick brown fabric. It is fully lined in a thick ecru fabric for impeccable wear. Its small front pocket has a Velcro fastening. Inside cord closure.",
     "productPicture": [
       {
-        "pictureName": "il_794xN.3232783213_9mim.jpg",
-        "pictureId": "0"
+        "pictureName": "Childrensfabricbackpack_0_4.png",
+        "pictureId": 0
       }
     ]
   },
@@ -64,27 +64,6 @@
       {
         "pictureName": "il_794xN.3443932700_onzs.jpg",
         "pictureId": "0"
-      }
-    ]
-  },
-  {
-    "productId": "9afe184894",
-    "productName": "RicketMorty",
-    "productCategory": "BackPack",
-    "productPrice": "35",
-    "productHeight": "769",
-    "productWidth": "2398",
-    "productDepth": "329",
-    "productMaterial": "None",
-    "productDescription": "d",
-    "productPicture": [
-      {
-        "pictureName": "RicketMorty_0_9afe184894.png",
-        "pictureId": "0"
-      },
-      {
-        "pictureName": "RicketMorty_1_9afe184894.png",
-        "pictureId": "1"
       }
     ]
   }

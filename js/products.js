@@ -37,10 +37,10 @@ loadProduct('./json/products.json');
 
 // CREATE
 
-exports.create = function (productId, productName, productCategory = "None", productHeight, productWidth, productDepth, productMaterial="None", productPrice, productDescription, pictureData) {
+exports.create = function (productId, productName, productCategory = "None", productHeight, productWidth, productDepth, productMaterial = "None", productPrice, productDescription, pictureData) {
       let pictures = [];
       for (let i = 0; i < pictureData.length; i++) {
-            pictures.push({ "pictureName": productName + "_" + i + "_" + productId + ".png", "pictureId":i});
+            pictures.push({ "pictureName": productName + "_" + i + "_" + productId + ".png", "pictureId": i });
       }
       let newProduct = {
             "productId": productId,
@@ -81,7 +81,7 @@ exports.read = function (productId) {
 
 // GET
 
-exports.getProductPictures= function(productId) {
+exports.getProductPictures = function (productId) {
       return db.prepare('SELECT * FROM pictures WHERE productId = ?').all(productId);
 }
 
@@ -116,25 +116,29 @@ exports.getMaterials = function () {
 // UPDATE
 
 exports.update = function (productId, productName, productCategory = "None", productPrice, productHeight, productWidth, productDepth, productMaterial, productDescription, pictureData) {
-      let currentPictures = db.prepare('SELECT pictureName FROM pictures WHERE productId = ?').all(productId);
-      for (let i = 0; i < currentPictures.length; i++) {
-            fs.unlinkSync('public/products_pictures/' + currentPictures[i].pictureName);
-      }
-      
       let pictures;
       if (pictureData.length === 0) {
             pictures = db.prepare('SELECT pictureName, pictureId FROM pictures WHERE productId = ?').all(productId);
             for (let i = 0; i < pictures.length; i++) {
                   pictures[i].pictureId = i;
             }
-      } else{
+      } else {
+            let currentPictures = db.prepare('SELECT pictureName FROM pictures WHERE productId = ?').all(productId);
+            for (let i = 0; i < currentPictures.length; i++) {
+                  fs.unlinkSync('public/products_pictures/' + currentPictures[i].pictureName);
+                  console.log('picture ' + currentPictures[i].pictureName + ' deleted');
+            }
+            db.prepare('DELETE FROM pictures WHERE productId = ?').run(productId);
             pictures = [];
             for (let i = 0; i < pictureData.length; i++) {
-                  pictures.push({ "pictureName": productName + "_" + i + "_" + productId + ".png", "pictureId":i});
+                  let pictureName = productName + "_" + i + "_" + productId + ".png";
+                  pictures.push({ "pictureName": pictureName, "pictureId": i });
+                  db.prepare('INSERT INTO pictures(productId, pictureName, pictureId) VALUES (?, ?, ?)').run(productId, pictureName, i);
             }
+            
       }
 
-      fs.readFile('json/products.json', function (err, data) { 
+      fs.readFile('json/products.json', function (err, data) {
             if (err) throw err;
             let productsList = JSON.parse(data);
             for (let i = 0; i < productsList.length; i++) {
