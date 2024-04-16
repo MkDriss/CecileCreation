@@ -9,6 +9,11 @@
     "phone": "06 52 18 73 05",
     "userLastName": "MESKINI",
     "profilePicture": "",
-    "city": "Marseille"
+    "city": "Marseille",
+    "favorite": [
+      "5",
+      "0",
+      "4"
+    ]
   }
 ]

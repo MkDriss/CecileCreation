@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "nodemon server.js",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js --ignore db.sqlite --ignore public/products_pictures --ignore public/profiles_pictures --ignore json"
   },
   "author": "MkDriss",
   "license": "ISC",

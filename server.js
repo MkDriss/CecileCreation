@@ -18,6 +18,8 @@ var cart = require('./js/cart');
 var comments = require('./js/comments');
 var orderList = require('./js/orderList');
 const { setMaxIdleHTTPParsers } = require("http");
+const res = require("express/lib/response");
+const { SourceTextModule } = require("vm");
 
 // APP
 
@@ -134,6 +136,20 @@ app.get('/account', (req, res) => {
     res.render('account', { accountsInfos: user, admin: req.session.admin, css: '/account.css' });
 });
 
+app.get('/favorite', (req, res) => {
+    let favoritesProductId = account.getFavorites(req.session.id);
+    console.log(favoritesProductId)
+    let whishList = [];
+    for (let i = 0; i < favoritesProductId.length; i++) {
+        console.log(favoritesProductId[i].productId)
+        let product = products.read(favoritesProductId[i].productId);
+        product.productPicture = products.getProductPictures(product.productId)[0].pictureName;
+        whishList.push(product);
+    }
+
+    res.render('favorite', { favorites: whishList, css: '/favorite.css' });
+})
+
 app.get('/adminPanel', (req, res) => {
     if (req.session.admin === true) {
         res.render('adminPanel', { admin: req.session.admin, css: '/admin.css' });
@@ -232,10 +248,12 @@ app.get('/updateOrder/:id', (req, res) => {
             break;
         }
     }
+
     res.render('updateOrder', {
         admin: req.session.admin, products: productIdList, order: order,
         css: '/updateOrder.css', otherStates: otherStates, currentState: currentState
     });
+
 });
 
 
@@ -291,6 +309,15 @@ app.get('/addToCart/:id', (req, res) => {
         cart.addProduct(userId, product);
         return res.redirect('/cart');
     }
+});
+
+app.get('/addToFavorite/:productId', (req, res) => {
+    let productId = req.params.productId;
+    let userId = req.session.id;
+    let favorites = account.getFavorites(userId);
+    console.log(favorites)
+    account.addToFavorite(userId, productId);
+    return res.redirect('/favorite');
 });
 
 app.get('/removeFromCart/:productId', (req, res) => {
@@ -718,6 +745,8 @@ app.post('/updateProduct/:id', uploadProduct.any('updatePicture'), (req, res) =>
 
     return res.redirect('/shop');
 });
+
+
 
 app.post('/searchProduct', (req, res) => {
     let search = req.body.search;

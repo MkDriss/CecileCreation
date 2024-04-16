@@ -10,17 +10,26 @@ let loadAccount = function (filename) {
       //console.log(accounts);
       db.prepare('DROP TABLE IF EXISTS user').run();
       console.log('Account table dropped');
+      db.prepare('DROP TABLE IF EXISTS admin').run();
+      console.log('Admin table dropped');
+      db.prepare('DROP TABLE IF EXISTS favorites').run();
+      console.log('Favorites table dropped');
       db.prepare('CREATE TABLE IF NOT EXISTS user (id TEXT PRIMARY KEY,' +
             'username TEXT, userLastName TEXT, email TEXT, password TEXT, adress TEXT, city TEXT,zipCode TEXT, phone TEXT, profilePicture TEXT)').run();
-
-
+      db.prepare('CREATE TABLE IF NOT EXISTS admin (id TEXT PRIMARY KEY)').run();
+      db.prepare('CREATE TABLE IF NOT EXISTS favorites (userId TEXT, productId TEXT)').run();
 
       let insertAccount = db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+      let insertFavorite = db.prepare('INSERT INTO favorites VALUES (?, ?)');
       let transaction = db.transaction((accounts) => {
-
             for (let i = 0; i < accounts.length; i++) {
                   let account = accounts[i];
                   insertAccount.run(account.id, account.username, account.userLastName, account.email, account.password, account.adress, account.city, account.zipCode, account.phone, account.profilePicture);
+                  if (account.favorite.length > 0) {
+                        for (let j = 0; j < account.favorite.length; j++) {
+                              insertFavorite.run(account.id, account.favorite[j]);
+                        }
+                  }
             }
       });
 
@@ -81,11 +90,43 @@ exports.getIdFromEmail = function (email) {
       return db.prepare('SELECT id FROM user WHERE email = ?').get(email);
 }
 
+exports.getFavorites = function (id) {
+      return db.prepare('SELECT productId FROM favorites WHERE userId = ?').all(id);
+}
+
 
 exports.list = function () {
       return db.prepare('SELECT * FROM user').all();
 }
 
+// SET
+
+exports.setAdmin = function (id) {
+      db.prepare('INSERT INTO admin VALUES (?)').run(id);
+}
+
+// ADD
+
+exports.addToFavorite = function (userId, productId) {
+      fs.readFile('json/accounts.json', function (err, data) {
+            if (err) throw err;
+            let accountsList = JSON.parse(data);
+            for (let i = 0; i < accountsList.length; i++) {
+                  let account = accountsList[i];
+                  if (account.id === userId) {
+                        if (!account.favorite.includes(productId)){ 
+                              console.log("bonjour")
+                              account.favorite.push(productId); 
+                        }
+                  }
+            }
+            fs.writeFileSync('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
+                  if (err) throw err;
+                  console.log(err);
+            });
+      });
+      db.prepare('INSERT INTO favorites VALUES (?, ?)').run(userId, productId);
+}
 
 //CHECK 
 
@@ -181,10 +222,31 @@ exports.updateAccountPassword = function (password, email) {
 }
 
 
-//DELETE
+//DELETE & REMOVE
 
 exports.delete = function (email) {
       db.prepare('DELETE FROM user WHERE email = ?').run(email);
+}
+
+exports.removeFavorite = function (userId, productId) {
+      fs.readFile('json/accounts.json', function (err, data) {
+            if (err) throw err;
+            let accountsList = JSON.parse(data);
+            for (let i = 0; i < accountsList.length; i++) {
+                  let account = accountsList[i];
+                  if (account.id === userId) {
+                        let index = account.favorite.indexOf(productId);
+                        if (index > -1) {
+                              account.favorite.splice(index, 1);
+                        }
+                  }
+            }
+            fs.writeFileSync('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
+                  if (err) throw err;
+                  console.log(err);
+            });
+      });
+      db.prepare('DELETE FROM favorites WHERE userId = ? AND productId = ?').run(userId, productId);
 }
 
 
