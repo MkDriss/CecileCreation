@@ -9,11 +9,24 @@
     "phone": "06 52 18 73 05",
     "userLastName": "MESKINI",
     "profilePicture": "",
+    "admin": 1,
     "city": "Marseille",
-    "favorite": [
-      "5",
-      "0",
+    "wishlist": []
+  },
+  {
+    "id": "cf62756d6e8c9ce1642fa09b300844b7ade702bcf73bf1bca0e67c41881e1239",
+    "username": "mathi",
+    "userLastName": "",
+    "email": "mathi@gmail.com",
+    "password": "m",
+    "admin": "0",
+    "adress": "",
+    "city": "",
+    "wishlist": [
       "4"
-    ]
+    ],
+    "zipCode": "",
+    "phone": "",
+    "profilePicture": "defaultAccountIco.png"
   }
 ]

@@ -14,18 +14,33 @@
                   <input type="submit" value="Search" id="submit">
             </form>
 
-            <div id="productsList">
-                  {{#products}}
-                  <div id="product">
-                        <a href="/readProduct/{{productId}}" id="productLink">
-                              <img src="{{productPicture}}" alt="ProductPicture" id="productPicture">
-                              <div class="productInfos">
-                                    <div id="name">{{productName}}</div>
+            <div id="shopContainer">
+                  <div id="productsList">
+                        {{#products}}
+                        <div id="product">
+                              <a href="/readProduct/{{productId}}" class="productLink">
+                                    <img src="{{productPicture}}" alt="ProductPicture" id="productPicture">
+                                    <div class="productInfos">
+                                          <div id="name">{{productName}}</div>
+                                    </div>
+                              </a>
+                              <div class="bottomCard">
                                     <div id="price">{{productPrice}} €</div>
+                                    {{#authenticated}}
+                                    <form action="/addToWishlist/{{productId}}" method="POST" id="addToWishlistForm">
+                                          <input type="image" src="wishlist.svg" class="wishlistIcoProducts">
+                                    </form>
+                                    {{/authenticated}}
+                                    {{^authenticated}}
+                                    <a href="/login">
+                                          <img src="wishlist.svg" alt="wishlist" class="wishlistIcoProducts">
+                                    </a>
+                                    {{/authenticated}}
                               </div>
-                        </a>
+                        </div>
+                        {{/products}}
                   </div>
-                  {{/products}}
+
             </div>
             {{^products}}
             <div id="noProduct">No Products Found</div>

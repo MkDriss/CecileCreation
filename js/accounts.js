@@ -12,22 +12,21 @@ let loadAccount = function (filename) {
       console.log('Account table dropped');
       db.prepare('DROP TABLE IF EXISTS admin').run();
       console.log('Admin table dropped');
-      db.prepare('DROP TABLE IF EXISTS favorites').run();
-      console.log('Favorites table dropped');
+      db.prepare('DROP TABLE IF EXISTS wishlist').run();
+      console.log('wishlist table dropped');
       db.prepare('CREATE TABLE IF NOT EXISTS user (id TEXT PRIMARY KEY,' +
-            'username TEXT, userLastName TEXT, email TEXT, password TEXT, adress TEXT, city TEXT,zipCode TEXT, phone TEXT, profilePicture TEXT)').run();
-      db.prepare('CREATE TABLE IF NOT EXISTS admin (id TEXT PRIMARY KEY)').run();
-      db.prepare('CREATE TABLE IF NOT EXISTS favorites (userId TEXT, productId TEXT)').run();
+            'username TEXT, userLastName TEXT, email TEXT, password TEXT, admin TEXT, adress TEXT, city TEXT, zipCode TEXT, phone TEXT, profilePicture TEXT)').run();
+      db.prepare('CREATE TABLE IF NOT EXISTS wishlist (userId TEXT, productId TEXT)').run();
 
-      let insertAccount = db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-      let insertFavorite = db.prepare('INSERT INTO favorites VALUES (?, ?)');
+      let insertAccount = db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+      let insertWishlist = db.prepare('INSERT INTO wishlist VALUES (?, ?)');
       let transaction = db.transaction((accounts) => {
             for (let i = 0; i < accounts.length; i++) {
                   let account = accounts[i];
-                  insertAccount.run(account.id, account.username, account.userLastName, account.email, account.password, account.adress, account.city, account.zipCode, account.phone, account.profilePicture);
-                  if (account.favorite.length > 0) {
-                        for (let j = 0; j < account.favorite.length; j++) {
-                              insertFavorite.run(account.id, account.favorite[j]);
+                  insertAccount.run(account.id, account.username, account.userLastName, account.email, account.password, account.admin, account.adress, account.city, account.zipCode, account.phone, account.profilePicture);
+                  if (account.wishlist.length > 0) {
+                        for (let j = 0; j < account.wishlist.length; j++) {
+                              insertWishlist.run(account.id, account.wishlist[j]);
                         }
                   }
             }
@@ -47,8 +46,10 @@ exports.create = function (id, email, username, password) {
             "userLastName": "",
             "email": email,
             "password": password,
+            "admin": "0",
             "adress": "",
             "city": "",
+            "wishlist": [],
             "zipCode": "",
             "phone": "",
             "profilePicture": "defaultAccountIco.png"
@@ -64,7 +65,7 @@ exports.create = function (id, email, username, password) {
             });
       });
       try {
-            db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, "", email, password, "", "", "", "", "defaultAccountIco.png");
+            db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, "", email, password, 0,"", "", "", "", "defaultAccountIco.png");
             console.log('Account created');
       } catch (err) {
             console.log(err);
@@ -90,8 +91,8 @@ exports.getIdFromEmail = function (email) {
       return db.prepare('SELECT id FROM user WHERE email = ?').get(email);
 }
 
-exports.getFavorites = function (id) {
-      return db.prepare('SELECT productId FROM favorites WHERE userId = ?').all(id);
+exports.getWishlist = function (id) {
+      return db.prepare('SELECT productId FROM wishlist WHERE userId = ?').all(id);
 }
 
 
@@ -102,21 +103,35 @@ exports.list = function () {
 // SET
 
 exports.setAdmin = function (id) {
-      db.prepare('INSERT INTO admin VALUES (?)').run(id);
-}
-
-// ADD
-
-exports.addToFavorite = function (userId, productId) {
       fs.readFile('json/accounts.json', function (err, data) {
             if (err) throw err;
             let accountsList = JSON.parse(data);
             for (let i = 0; i < accountsList.length; i++) {
                   let account = accountsList[i];
                   if (account.id === userId) {
-                        if (!account.favorite.includes(productId)){ 
-                              console.log("bonjour")
-                              account.favorite.push(productId); 
+                        account.admin = 1;
+                  }
+            }
+            fs.writeFileSync('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
+                  if (err) throw err;
+                  console.log(err);
+            });
+      });
+      db.prepare('UPDATE user SET admin = 1 WHERE id = ?').run(id);
+}
+
+// ADD
+
+exports.addToWishlist = function (userId, productId) {
+      fs.readFile('json/accounts.json', function (err, data) {
+            if (err) throw err;
+            let accountsList = JSON.parse(data);
+            for (let i = 0; i < accountsList.length; i++) {
+                  let account = accountsList[i];
+                  if (account.id === userId) {
+                        if (!account.wishlist.includes(productId)){ 
+                              db.prepare('INSERT INTO wishlist VALUES (?, ?)').run(userId, productId);
+                              account.wishlist.push(productId); 
                         }
                   }
             }
@@ -125,7 +140,7 @@ exports.addToFavorite = function (userId, productId) {
                   console.log(err);
             });
       });
-      db.prepare('INSERT INTO favorites VALUES (?, ?)').run(userId, productId);
+      
 }
 
 //CHECK 
@@ -149,45 +164,9 @@ exports.checkPassword = function (email, password) {
       return 'false';
 }
 
-exports.checkAdmin = function (id) {
-      let admins = JSON.parse(fs.readFileSync('json/admin.json'));
-
-      for (let i = 0; i < admins.length; i++) {
-            let adminsId = admins[i].id;
-            if (adminsId == id) {
-                  return true;
-            }
-      }
-      return false;
-}
-
 //UPDATE
 
 exports.updateAccount = function (id, username, userLastName, email, adress, city, zipCode, phone, pictureName) {
-
-      if (this.checkAdmin(id)) {
-            fs.readFile('json/admin.json', function (err, data) {
-                  if (err) throw err;
-                  let adminsList = JSON.parse(data);
-                  for (let i = 0; i < adminsList.length; i++) {
-                        let admin = adminsList[i];
-                        if (admin.id == id) {
-                              admin.username = username;
-                              admin.userLastName = userLastName;
-                              admin.email = email;
-                              admin.adress = adress;
-                              admin.city = city;
-                              admin.zipCode = zipCode;
-                              admin.phone = phone;
-                              admin.profilePicture = pictureName;
-                        }
-                  }
-                  fs.writeFileSync('json/admin.json', JSON.stringify(adminsList, null, 2), function (err) {
-                        if (err) throw err;
-                        console.log(err);
-                  });
-            });
-      }
 
       fs.readFile('json/accounts.json', function (err, data) {
             if (err) throw err;
@@ -213,7 +192,6 @@ exports.updateAccount = function (id, username, userLastName, email, adress, cit
 
       db.prepare('UPDATE user SET username = ?, userLastName = ?, email = ?, adress = ?, city = ?, zipCode = ?, phone = ?, profilePicture = ? WHERE id = ?').run(username, userLastName, email, adress, city, zipCode, phone, pictureName, id);
       console.log("Account updated");
-
 }
 
 exports.updateAccountPassword = function (password, email) {
@@ -228,16 +206,16 @@ exports.delete = function (email) {
       db.prepare('DELETE FROM user WHERE email = ?').run(email);
 }
 
-exports.removeFavorite = function (userId, productId) {
+exports.removeFromWishlist = function (userId, productId) {
       fs.readFile('json/accounts.json', function (err, data) {
             if (err) throw err;
             let accountsList = JSON.parse(data);
             for (let i = 0; i < accountsList.length; i++) {
                   let account = accountsList[i];
                   if (account.id === userId) {
-                        let index = account.favorite.indexOf(productId);
+                        let index = account.wishlist.indexOf(productId);
                         if (index > -1) {
-                              account.favorite.splice(index, 1);
+                              account.wishlist.splice(index, 1);
                         }
                   }
             }
@@ -246,7 +224,7 @@ exports.removeFavorite = function (userId, productId) {
                   console.log(err);
             });
       });
-      db.prepare('DELETE FROM favorites WHERE userId = ? AND productId = ?').run(userId, productId);
+      db.prepare('DELETE FROM wishlist WHERE userId = ? AND productId = ?').run(userId, productId);
 }
 
 

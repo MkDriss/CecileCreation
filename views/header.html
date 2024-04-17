@@ -21,7 +21,10 @@
             <div id="rightSide">
 
                   {{#authenticated}}
-                  <a href="/favorite"><img src="/favorite.svg" class="icoHeader" id="favoriteIco" alt="favoriteimg"></a>
+                  <a href="/wishlist"><img src="/wishlist.svg" class="icoHeader" id="wishlistIco" alt="wishlistimg"></a>
+                  {{/authenticated}}
+                  {{^authenticated}}
+                  <a href="/login"><img src="/wishlist.svg" class="icoHeader" id="wishlistIco" alt="wishlistimg"></a>
                   {{/authenticated}}
 
 

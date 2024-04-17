@@ -1,19 +1,25 @@
 #productsList {
       display: grid;
-      justify-items: center;
+      justify-content: center;
       grid-template-columns: repeat(4, 1fr);
-      justify-content: space-between;
-      width: 80%;
-      margin-bottom: 100px;
+      width: 100%;
+      padding-top: 50px
 }
 
-#productPicture,
-#productInfos,
-#productLink {
+#productPicture {
       width: 300px;
       height: 400px;
       transition: transform .2s;
 }
+
+.productInfos a , .productLink{
+      text-decoration: none;
+      color: #8e7d68;
+  }
+  
+  .productInfos a:hover, .productLink:hover{
+      text-decoration: underline;
+  }
 
 #productPicture {
       object-fit: cover;
@@ -21,7 +27,6 @@
 }
 
 #name {
-      width: 80%;
       font-size: 15px;
       margin: 20px 0px;
       text-align: justify;
@@ -37,9 +42,9 @@
       justify-content: center;
       align-items: center;
       width: 350px;
-      border-radius: 10px;
-      padding: 30px 5px 150px 5px;
-      margin: 0px 15px 30px 15px;
+      border-radius: 5px;
+      padding: 30px 5px 20px 5px;
+      margin: 0px 15px 150px 15px;
       box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
 }
 
@@ -47,9 +52,21 @@
       transform: scale(1.05);
 }
 
-#productLink {
-      text-decoration: none;
-      color: #8e7d68;
+#shopContent {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+}
+
+#shopContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+}
+
+#price {
+      font-size: 20px;
 }
 
 #title {
@@ -92,6 +109,23 @@ select {
       width: 25%;
 }
 
+.wishlistIcoProducts {
+      width: 30px;
+      height: 30px;
+      transition: transform .2s;
+}
+
+.wishlistIcoProducts:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.bottomCard {
+      display: flex;
+      justify-content: space-between;
+      width: 300px;
+}
+
 input[type="submit"] {
       display: flex;
       justify-content: center;
@@ -112,16 +146,4 @@ input[type="submit"] {
 input[type="submit"]:hover {
       background-color: #8e7d68;
       cursor: pointer;
-}
-
-#shopContent {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
-}
-
-#price {
-      font-size: 20px;
-      margin-bottom: 20px;
 }

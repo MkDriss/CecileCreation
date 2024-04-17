@@ -1,0 +1,121 @@
+#wishlistTitle {
+    display: flex;
+    justify-content: center;
+    margin-top: 150px;
+
+    font-size: 30px;
+}
+
+#wishlistContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#wishlist {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: space-between;
+    margin-bottom: 100px;
+    margin-top: 100px;
+}
+
+#bottomCard{
+    display: flex;
+    justify-content: space-between;
+}
+
+.productPicture{
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform .2s;
+}
+
+.productInfos{
+    width: 300px;
+}
+
+
+.name {
+    font-size: 15px;
+    margin: 20px 0px;
+    text-align: justify;
+}
+
+.name:hover {
+    text-decoration: underline;
+}
+
+.wishlistItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    border-radius: 10px;
+    padding: 30px 5px 20px 5px;
+    margin: 0px 15px 30px 15px;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+}
+
+.productPicture:hover {
+    transform: scale(1.05);
+}
+
+.productLink {
+    text-decoration: none;
+    color: #8e7d68;
+}
+
+.wishlistfilled{
+    width: 30px;
+    height: 30px;
+    transition: transform .2s;
+}
+
+.wishlistfilled:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.price{
+    font-size: 20px;
+}
+
+#emptyWishlist{
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    margin: 50px 0px;
+}
+
+#emptyWishlistContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#goShop{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 35px;
+    font-weight: 600;
+    border-radius: 5px;
+    margin: 15px 0px;
+    background-color: #a8957d;
+    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    color: whitesmoke;
+    border: none;
+    text-decoration: none;
+}
+
+#goShop:hover{
+    background-color: #8e7d68;
+    
+}

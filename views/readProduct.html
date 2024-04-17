@@ -22,13 +22,13 @@
                   if ((slideIndex - 1) < 0) {
                         slideIndex = slides.length - 1
                   } else {
-                        slideIndex --;
+                        slideIndex--;
                   }
             } else if (n > 0) {
                   if ((slideIndex + 1) > (slides.length - 1)) {
                         slideIndex = 0;
                   } else {
-                        slideIndex ++;
+                        slideIndex++;
                   }
             }
 
@@ -72,10 +72,13 @@
                               {{/productPictures}}
                               <button onclick="showSlides(1)" class="next">&#10095;</button>
                         </div>
-                        <div id="pictures" >
-                              <a onclick="showSlidesOnClick()" class="otherPicturesLink"><img src = "/{{frontPicture}}" alt="frontProduct" id="0" class="otherPictures" style="border: 2px solid #8e7d68"></a>
+                        <div id="pictures">
+                              <a onclick="showSlidesOnClick()" class="otherPicturesLink"><img src="/{{frontPicture}}"
+                                          alt="frontProduct" id="0" class="otherPictures"
+                                          style="border: 2px solid #8e7d68"></a>
                               {{#productPictures}}
-                              <a onclick="showSlidesOnClick()" class="otherPicturesLink"><img src="/{{pictureName}}" alt="otherProduct" id="{{pictureId}}" class="otherPictures"></a>
+                              <a onclick="showSlidesOnClick()" class="otherPicturesLink"><img src="/{{pictureName}}"
+                                          alt="otherProduct" id="{{pictureId}}" class="otherPictures"></a>
                               {{/productPictures}}
                         </div>
                   </div>
@@ -118,9 +121,11 @@
                                     </div>
                               </div>
 
-                              <div>
+                              <div id="buttons">
                                     <a class="button" id="addToCart" href="/addToCart/{{productId}}">Add to cart</a>
-                                    <a class="button" id="addToFavorite" href="/addToFavorite/{{productId}}"><img src="/favorite.svg" alt="favoriteimg"></a>
+                                    <form action="/addToWishlist/{{productId}}" method="POST">
+                                          <input type="image" src="/wishlist.svg" id="wishlistico">
+                                    </form>
                               </div>
                         </div>
                   </div>

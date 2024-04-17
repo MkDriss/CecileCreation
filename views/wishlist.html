@@ -1,0 +1,36 @@
+{{>header}}
+
+<div id="wishlistContainer">
+      <h1 id="wishlistTitle">Wish List</h1>
+
+      <div id="wishlistContent">
+            {{^isEmpty}}
+            <div id="wishlist">
+                  {{#wishlist}}
+
+                  <div class="wishlistItem">
+                        <a href="/readProduct/{{productId}}" class="productLink">
+                              <img src="{{productPicture}}" alt="ProductPicture" class="productPicture">
+                        </a>
+                        <div class="productInfos">
+                              <div class="name">{{productName}}</div>
+                              <div id="bottomCard">
+                                    <div class="price">{{productPrice}} €</div>
+                                    <form action="/removeFromWishlist/{{productId}}" method="POST">
+                                          <input type="image" src="wishlistfilled.svg" class="wishlistfilled">
+                                    </form>
+                              </div>
+                        </div>
+                  </div>
+                  {{/wishlist}}
+            </div>
+            {{/isEmpty}}
+            {{#isEmpty}}
+            <div id="emptyWishlistContainer">
+                  <div id="emptyWishlist">Let's Start a Wishlist</div>
+                  <a href="/shop" id="goShop">Go to the Shop</a>
+            </div>
+            {{/isEmpty}}
+      </div>
+</div>
+{{>footer}}

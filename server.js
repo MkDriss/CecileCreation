@@ -136,18 +136,17 @@ app.get('/account', (req, res) => {
     res.render('account', { accountsInfos: user, admin: req.session.admin, css: '/account.css' });
 });
 
-app.get('/favorite', (req, res) => {
-    let favoritesProductId = account.getFavorites(req.session.id);
-    console.log(favoritesProductId)
+app.get('/wishlist', (req, res) => {
+    let wishlistProductId = account.getWishlist(req.session.id);
     let whishList = [];
-    for (let i = 0; i < favoritesProductId.length; i++) {
-        console.log(favoritesProductId[i].productId)
-        let product = products.read(favoritesProductId[i].productId);
+    for (let i = 0; i < wishlistProductId.length; i++) {
+        let product = products.read(wishlistProductId[i].productId);
         product.productPicture = products.getProductPictures(product.productId)[0].pictureName;
         whishList.push(product);
     }
+    let isEmpty = whishList.length === 0;
 
-    res.render('favorite', { favorites: whishList, css: '/favorite.css' });
+    res.render('wishlist', { wishlist: whishList, isEmpty: isEmpty, css: '/wishlist.css' });
 })
 
 app.get('/adminPanel', (req, res) => {
@@ -292,7 +291,6 @@ app.get('/cart', (req, res) => {
 });
 
 app.get('/addToCart/:id', (req, res) => {
-
     if (req.session.authenticated === false || req.session.authenticated === undefined) {
         return res.render('login', { msg: "You must be logged in to add a product to your cart", css: '/login.css', productId: req.params.id });
     }
@@ -309,15 +307,6 @@ app.get('/addToCart/:id', (req, res) => {
         cart.addProduct(userId, product);
         return res.redirect('/cart');
     }
-});
-
-app.get('/addToFavorite/:productId', (req, res) => {
-    let productId = req.params.productId;
-    let userId = req.session.id;
-    let favorites = account.getFavorites(userId);
-    console.log(favorites)
-    account.addToFavorite(userId, productId);
-    return res.redirect('/favorite');
 });
 
 app.get('/removeFromCart/:productId', (req, res) => {
@@ -499,7 +488,7 @@ app.post('/login', (req, res) => {
         req.session.email = email;
         req.session.username = account.read(req.session.id).username;
         req.session.authenticated = true;
-        req.session.admin = account.checkAdmin(req.session.id);
+        req.session.admin = account.read(req.session.id).admin;
 
         console.log(req.session.username + ' connected');
         if (productId != undefined) {
@@ -693,6 +682,13 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
     return res.redirect('/addProduct');
 });
 
+app.post('/addToWishlist/:productId', (req, res) => {
+    let productId = req.params.productId;
+    let userId = req.session.id;
+    account.addToWishlist(userId, productId);
+    return res.redirect('/wishlist');
+});
+
 app.post('/updateProduct/:id', uploadProduct.any('updatePicture'), (req, res) => {
     let productId = req.params.id;
     let name = req.body.productName;
@@ -868,6 +864,13 @@ app.post('/deleteProduct/:id', (req, res) => {
     let productId = req.params.id;
     products.delete(productId);
     res.redirect('/adminProductList');
+});
+
+app.post('/removeFromWishlist/:productId', (req, res) => {
+    let productId = req.params.productId;
+    let userId = req.session.id;
+    account.removeFromWishlist(userId, productId);
+    return res.redirect('/wishlist');
 });
 
 //LISTENING

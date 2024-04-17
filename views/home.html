@@ -29,18 +29,27 @@
 
 <div id="shop">
       <div id="shopContent">
-            <div id="productsList">
-                  {{#products}}
-                  <div id="product">
-                        <a href="/readProduct/{{productId}}" id="productLink">
-                              <img src="{{productPicture}}" alt="ProductPicture" id="productPicture">
-                              <div class="productInfos">
-                                    <div id="name">{{productName}}</div>
+            <div id="shopContainer">
+                  <div id="productsList">
+                        {{#products}}
+                        <div id="product">
+                              <a href="/readProduct/{{productId}}" class="productLink">
+                                    <img src="{{productPicture}}" alt="ProductPicture" id="productPicture">
+                                    <div class="productInfos">
+                                          <div id="name">{{productName}}</div>
+                                    </div>
+                              </a>
+                              <div class="bottomCard">
+
                                     <div id="price">{{productPrice}} €</div>
+
+                                    <form action="/addToWishlist/{{productId}}" method="POST" id="addToWishlistForm">
+                                          <input type="image" src="wishlist.svg" class="wishlistIcoProducts">
+                                    </form>
                               </div>
-                        </a>
+                        </div>
+                        {{/products}}
                   </div>
-                  {{/products}}
 
             </div>
       </div>
