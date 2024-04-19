@@ -7,8 +7,13 @@
 }
 
 #title {
-    margin-top: 150px;
-    font-size: 30px;
+    position: absolute;
+    top: 350px;
+    font-size: 70px;
+    color: var(--title-color);
+    display: flex;
+    font-family: "Abril Fatface";
+    flex-direction: column;
 }
 
 #contactUs {
@@ -44,6 +49,13 @@
     align-items: center;
     margin-top: 50px;
     line-height: 2;
+}
+
+#bg_2{
+    width: 100%;
+    height:700px;
+    object-fit: cover;
+    object-position: 40% 80%;
 }
 
 p {

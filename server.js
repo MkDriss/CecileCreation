@@ -126,18 +126,7 @@ function calculateShippingCost(userCart) {
 
 
 app.get('/', (req, res) => {
-    let randomId = Math.floor(Math.random() * shop.list().length);
-    let productsList = shop.list();
-    let trendProduct = shop.read(productsList[randomId].productId);
-    let trendProductPicture = shop.getProductPictures(trendProduct.productId)[0].pictureName;
-    for (let product of productsList) {
-        if (!(account.isInWishlist(req.session.id, product.productId))) {
-            product.isInWishlist = false;
-        } else {
-            product.isInWishlist = true;
-        }
-    }
-    res.render('home', { trendProduct: trendProduct, trendProductPicture: trendProductPicture, products: productsList, css: '/home.css' });
+    res.render('home', {css: '/home.css'});
 });
 
 app.get('/home', (req, res) => {

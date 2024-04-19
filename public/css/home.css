@@ -1,38 +1,37 @@
-
-
-.wishlistIcoProducts{
+.wishlistIcoProducts {
     width: 30px;
     height: 30px;
     transition: transform .2s;
 }
 
-.wishlistIcoProducts:hover{
+.wishlistIcoProducts:hover {
     transform: scale(1.1);
     cursor: pointer;
 }
 
-.bottomCard{
+.bottomCard {
     display: flex;
     justify-content: space-between;
     width: 300px;
 }
 
-#homeTitle{
+#homeTitle {
     position: absolute;
     top: 350px;
     left: 100px;
     font-size: 80px;
-    color: var(--background-color);
+    color: var(--title-color);
     display: flex;
     font-family: "Abril Fatface";
     flex-direction: column;
 }
 
-#homePage{
+#homePage {
     margin-top: 100px;
 }
 
-#homePagePicture1, #homePagePicture2{
+#homePagePicture1,
+#homePagePicture2 {
     width: 700px;
     height: 600px;
     object-fit: cover;
@@ -40,30 +39,39 @@
     object-position: 60%
 }
 
-#hp1Container{
+#hp1Container, #hp2Container {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 100px;
-    margin-left: 300px;
+    justify-content: center;
+    margin-top: 150px;
     gap: 100px;
+    width: 1400px;
 }
 
 #hp2Container{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 100px;
-    margin-right: 300px;
-    gap: 100px;
+    margin-bottom: 100px;
 }
 
-#bg_1{
+.hpBox{
+    display: flex;
+    justify-content: center;
     width: 100%;
 }
 
-#seeMore {
-    position: absolute;
+
+#homePagetxt1,
+#homePagetxt2 {
+    font-size: 20px;
+    font-family: var(--font-family);
+    color: var(--color-text);
+    margin-top: 100px;
+    line-height: 2;
+    border-radius: 5px;
+}
+
+
+
+#linkToAnchorContainer1,
+#linkToAnchorContainer2 {
     display: flex;
     justify-content: center;
     height: 100px;
@@ -71,7 +79,11 @@
     top: 700px;
 }
 
-#seeMoreAnchor {
+#linkToAnchorContainer1 {
+    position: absolute;
+}
+
+.linkToAnchor {
     display: flex;
     justify-content: center;
     text-decoration: none;
@@ -81,13 +93,17 @@
     width: 200px;
     height: 20px;
     border-radius: 5px;
-    border : 3px solid #f5eee988;
+    border: 3px solid #dad4d088;
     backdrop-filter: blur(10px);
     transition: transform .2s;
 }
 
-#seeMoreAnchor:hover {
-    
+#linkToAnchor2 {
+    margin-top: 70px;
+    color: var(--color-text);
+}
+
+.linkToAnchor:hover {
     transform: translateY(-5px);
 }
 
@@ -116,18 +132,20 @@
     padding-top: 150px
 }
 
-#productPicture{
+#productPicture {
     width: 300px;
     height: 400px;
     transition: transform .2s;
 }
 
-.productInfos a , .productLink{
+.productInfos a,
+.productLink {
     text-decoration: none;
     color: #8e7d68;
 }
 
-.productInfos a:hover, .productLink:hover{
+.productInfos a:hover,
+.productLink:hover {
     text-decoration: underline;
 }
 
@@ -169,7 +187,7 @@
     align-items: center;
 }
 
-#shopContainer{
+#shopContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
