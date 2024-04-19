@@ -1,31 +1,21 @@
 {{>header}}
 
-{{#trendProduct}}
-<div id="trendProductBox">
-      <div id="trendProductContent">
-            <div id="trend">
-                  Product of the week
-            </div>
-            <div id="trendProduct">
-                  <a href="/readProduct/{{productId}}" id="trendProductLink">
-                        <img src=/{{trendProductPicture}} alt="ProductPicture" id="trendProductPicture">
-                  </a>
-                  <div id="trendProductRSide">
-                        <div id="trendProductInfos">
-                              <a href="/readProduct/{{productId}}" id="trendProductName">{{productName}}</a>
-                              <div id="trendProductPrice">{{productPrice}} €</div>
-                              <div id="trendProductDescription">{{productDescription}}</div>
-                        </div>
-                        <a class="button" id="addToCartLink" href="/addToCart/{{productId}}">Add to Cart</a>
-                  </div>
-            </div>
+<div id="homePage">
+      <img src="background_1.jpg" alt="bg_1" id="bg_1">
+      <div id="homeTitle">Welcome to our shop</div>
+      <div id="seeMore">
+            <a href="#shopContent" id="seeMoreAnchor">See More</a>
+      </div>
+      <div id="hp1Container">
+            <img src="homePagePicture1.jpg" alt="homePagePicture1" id="homePagePicture1">
+            <span>text</span>
+      </div>
+      <div id="hp2Container">
+            <span>text</span>
+            <img src="homePagePicture2.jpg" alt="homePagePicture2" id="homePagePicture2">
       </div>
 </div>
-{{/trendProduct}}
 
-<div id="seeMore">
-      <a href="#shopContent" id="seeMoreAnchor">See More</a>
-</div>
 
 <div id="shop">
       <div id="shopContent">
@@ -43,9 +33,19 @@
 
                                     <div id="price">{{productPrice}} €</div>
 
-                                    <form action="/addToWishlist/{{productId}}" method="POST" id="addToWishlistForm">
+                                    {{^isInWishlist}}
+                                    <form action="/addToWishlist/{{productId}}&home" method="POST"
+                                          id="addToWishlistForm">
                                           <input type="image" src="wishlist.svg" class="wishlistIcoProducts">
                                     </form>
+                                    {{/isInWishlist}}
+
+                                    {{#isInWishlist}}
+                                    <form action="/removeFromWishlist/{{productId}}&home" method="POST"
+                                          id="addToWishlistForm">
+                                          <input type="image" src="wishlistfilled.svg" class="wishlistIcoProducts">
+                                    </form>
+                                    {{/isInWishlist}}
                               </div>
                         </div>
                         {{/products}}

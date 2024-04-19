@@ -90,7 +90,10 @@
                                           <div id="productName">{{productName}}</div>
                                           <div id="productCategory">{{category}}</div>
                                     </div>
-                                    <div id="price">{{productPrice}} €</div>
+                                    <div>
+                                          <div id="price">{{productPrice}} €</div>
+                                          
+                                    </div>
                                     <div id="descriptionContainer">
                                           <button onclick="showElement('description')" class="showButton">Description
                                                 <img src="/right-arrow.png" alt="right_arrow" class="right-arrow"
@@ -102,7 +105,7 @@
                                           <button onclick="showElement('dimensions')" class="showButton">Dimensions <img
                                                       src="/right-arrow.png" alt="right_arrow" class="right-arrow"
                                                       style="rotate: 90deg;"></button>
-                                          <div id="dimensions" style="display: flex;"><img src="/regle.png"
+                                          <div id="dimensions" style="display: flex;"><img src="/rule.svg"
                                                       alt="dimensions.png" class="productInfosIcos"> {{productHeight}}
                                                 cm x {{productWidth}}
                                                 cm x
@@ -114,15 +117,17 @@
                                                       src="/right-arrow.png" alt="right_arrow" class="right-arrow"
                                                       style="rotate: 90deg;"></button>
 
-                                          <div id="material" style="display: flex;"><img src="/cube.png"
-                                                      alt="materials.png" class="productInfosIcos">{{productMaterial}}
+                                          <div id="material" style="display: flex;"><img src="/material.svg"
+                                                      alt="materials.svg" class="productInfosIcos">{{productMaterial}}
                                           </div>
 
                                     </div>
                               </div>
 
                               <div id="buttons">
-                                    <a class="button" id="addToCart" href="/addToCart/{{productId}}">Add to cart</a>
+                                    <form action="/addToCart/{{productId}}" method="POST" id="addToCartForm">
+                                          <input type="submit" class="button" id="addToCart" value="Add to Cart">
+                                    </form>
                                     <form action="/addToWishlist/{{productId}}" method="POST">
                                           <input type="image" src="/wishlist.svg" id="wishlistico">
                                     </form>

@@ -2,57 +2,66 @@
 
 <span id="title">Cart</span>
 <div id="cart">
-      <div id="content">
+      {{#passOrder}}
+      <form action="/cart" id="content" method="POST">
             <div id="left_container">
                   {{#cartProducts}}
                   <div class="item">
                         <div class="product">
                               <a href="/readProduct/{{productId}}" class="productLink">
-                                    <img src="/{{picture}}" alt="ProductPicture" id="productPicture">
+                                    <img src="/{{picture}}" alt="ProductPicture" class="productPicture">
                               </a>
                               <div class="productInfos">
                                     <div class="infosContainer">
-                                          <a href="/readProduct/{{productId}}" class="productLink">
-                                                <div id="name">{{productName}}</div>
-                                                <div id="price">{{productPrice}} €</div>
+                                          <a href="/readProduct/{{productId}}" class="productLink" class="name">
+                                                {{productName}}
                                           </a>
-                                          <div class="removeLink">
-                                                <a href="/removeFromCart/{{productId}}"><img src="bouton-fermer.png"
-                                                            class="ico" alt="delete"></a>
+                                          <div class="bottomCard">
+                                                <div class="price">{{productPrice}} €</div>
+                                                <div class="quantityContainer">
+                                                      <label for="quantity" class="quantityLabel">Qty:</label>
+                                                      <input type="number" name="quantity" id="quantity"
+                                                            value="{{quantity}}">
+                                                </div>
                                           </div>
+                                    </div>
+                                    <div class="removeLink">
+                                          <a href="/removeFromCart/{{productId}}&cart"><img src="cross.svg" class="ico"
+                                                      alt="delete"></a>
                                     </div>
 
                               </div>
                         </div>
                   </div>
-
                   {{/cartProducts}}
             </div>
-
-            {{#passOrder}}
-            <div id="middlebar"></div>
 
             <div id="right_container">
                   <div id="right_content">
                         <div id="numberOfItems">
-                              number of items: {{cartLength}}
+                              number of items: {{numberOfItems}}
                         </div>
                         <div id="deliveryInfosLinkBox">
                               <div id="totalPrice">
                                     Total Price : {{totalPrice}} €
                               </div>
-                              <a href="/deliveryInfos" id="deliveryInfosLink">Purchase</a>
+                              <input type="submit" name="purchase" id="purchaseButton" value="Purchase">
                         </div>
                   </div>
             </div>
-            {{/passOrder}}
-      </div>
-      {{^cartProducts}}
-      <div id="msg">
-            Your cart is Empty
-      </div>
+ 
+      </form>
+      {{/passOrder}}
+</div>
+{{^cartProducts}}
+<div id="emptyCart">
+      <img src="{{emptyCartPicture}}" alt="emptyCartPicturesvg" id="emptyCartPicture">
+      Your cart is Empty
+</div>
+<div id="goShopButtonContainer">
       <a href="/shop" id="goShop">Go shop</a>
-      {{/cartProducts}}
+</div>
+{{/cartProducts}}
 </div>
 
 {{>footer}}

@@ -10,20 +10,19 @@
       width: 300px;
       height: 400px;
       transition: transform .2s;
-}
-
-.productInfos a , .productLink{
-      text-decoration: none;
-      color: #8e7d68;
-  }
-  
-  .productInfos a:hover, .productLink:hover{
-      text-decoration: underline;
-  }
-
-#productPicture {
       object-fit: cover;
       border-radius: 10px;
+}
+
+.productInfos a,
+.productLink {
+      text-decoration: none;
+      color: #8e7d68;
+}
+
+.productInfos a:hover,
+.productLink:hover {
+      text-decoration: underline;
 }
 
 #name {
@@ -115,9 +114,9 @@ select {
       transition: transform .2s;
 }
 
-.wishlistIcoProducts:hover{
-    transform: scale(1.1);
-    cursor: pointer;
+.wishlistIcoProducts:hover {
+      transform: scale(1.1);
+      cursor: pointer;
 }
 
 .bottomCard {

@@ -13,13 +13,14 @@ const fs = require('fs');
 const app = express();
 
 var account = require('./js/accounts');
-var products = require('./js/products');
+var shop = require('./js/shop');
 var cart = require('./js/cart');
 var comments = require('./js/comments');
 var orderList = require('./js/orderList');
 const { setMaxIdleHTTPParsers } = require("http");
 const res = require("express/lib/response");
 const { SourceTextModule } = require("vm");
+const { off } = require("process");
 
 // APP
 
@@ -30,8 +31,9 @@ app.set('views', './views');
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(express.static('public/products_pictures/'));
-app.use(express.static('public/icons'));
-app.use(express.static('public/css'));
+app.use(express.static('public/icons/'));
+app.use(express.static('public/css/'));
+app.use(express.static('public/pictures/'));
 app.use(express.static('public/profiles_pictures/'));
 app.use(express.static('js'));
 app.use(cookieSession({ secret: 'j7G!wA4t&L,_T9kq5}M(NBF' }));
@@ -84,16 +86,18 @@ function createOrder(id, email, userName, userLastName, userAdress, userCity, us
 
     let orderProducts = "";
     let cartuser = cart.listProducts(id);
+    console.log(cartuser);
 
-    for (let i = 0; i < cartuser.length; i++) {
-        let product = JSON.parse(cartuser[i].products);
-        orderProducts += product.productId;
-        if (i < cartuser.length - 1) {
+    for (let i = 0 ; i < cartuser.length; i++) {
+        orderProducts += cartuser[i].productId;
+        if ( i < cartuser.length - 1) {
             orderProducts += ', ';
         }
     }
 
-    let state = "Pendding";
+    console.log(orderProducts);
+
+    let state = "In Process";
     let date = getDateOrder();
     let price = cart.getTotalPrice(id);
 
@@ -104,15 +108,35 @@ function createOrder(id, email, userName, userLastName, userAdress, userCity, us
 }
 
 
+function paramsParser(params) {
+    paramlist = (String(params)).split('&');
+    return paramlist;
+}
+
+
+function calculateShippingCost(userCart) {
+    let shippingCost = 0;
+    for (product of userCart) {
+        shippingCost += product.shippingCost;
+    }
+    return shippingCost;
+}
 
 //GET METHODS
 
 
 app.get('/', (req, res) => {
-    let randomId = Math.floor(Math.random() * products.list().length);
-    let productsList = products.list();
-    let trendProduct = products.read(productsList[randomId].productId);
-    let trendProductPicture = products.getProductPictures(trendProduct.productId)[0].pictureName;
+    let randomId = Math.floor(Math.random() * shop.list().length);
+    let productsList = shop.list();
+    let trendProduct = shop.read(productsList[randomId].productId);
+    let trendProductPicture = shop.getProductPictures(trendProduct.productId)[0].pictureName;
+    for (let product of productsList) {
+        if (!(account.isInWishlist(req.session.id, product.productId))) {
+            product.isInWishlist = false;
+        } else {
+            product.isInWishlist = true;
+        }
+    }
     res.render('home', { trendProduct: trendProduct, trendProductPicture: trendProductPicture, products: productsList, css: '/home.css' });
 });
 
@@ -140,8 +164,8 @@ app.get('/wishlist', (req, res) => {
     let wishlistProductId = account.getWishlist(req.session.id);
     let whishList = [];
     for (let i = 0; i < wishlistProductId.length; i++) {
-        let product = products.read(wishlistProductId[i].productId);
-        product.productPicture = products.getProductPictures(product.productId)[0].pictureName;
+        let product = shop.read(wishlistProductId[i].productId);
+        product.productPicture = shop.getProductPictures(product.productId)[0].pictureName;
         whishList.push(product);
     }
     let isEmpty = whishList.length === 0;
@@ -151,7 +175,9 @@ app.get('/wishlist', (req, res) => {
 
 app.get('/adminPanel', (req, res) => {
     if (req.session.admin === true) {
-        res.render('adminPanel', { admin: req.session.admin, css: '/admin.css' });
+        res.render('adminPanel', { admin: req.session.admin, css: '/adminPanel.css' });
+    } else {
+        res.redirect('/account');
     }
 });
 
@@ -177,13 +203,24 @@ app.get('/orders', (req, res) => {
 });
 
 app.get('/shop', (req, res) => {
-    let categories = products.getCategories();
-    res.render('shop', { products: products.list(), css: '/shop.css', categories: categories });
+    let categories = shop.getCategories();
+    let productsList = shop.list();
+    for (let product of productsList) {
+        if (!(account.isInWishlist(req.session.id, product.productId))) {
+            product.isInWishlist = false;
+        } else {
+            product.isInWishlist = true;
+        }
+    }
+    res.render('shop', { products: productsList, css: '/shop.css', categories: categories });
 });
 
 app.get('/addProduct', (req, res) => {
-    let productMaterials = products.getMaterials();
-    res.render('addProduct', { admin: req.session.admin, css: '/addProduct.css', categories: products.getCategories(), materials: productMaterials });
+    let productMaterials = shop.getMaterials();
+    res.render('addProduct', {
+        admin: req.session.admin, css: '/addProduct.css', categories: shop.getCategories(),
+        materials: productMaterials
+    });
 });
 
 app.get('/updateAccount', (req, res) => {
@@ -196,7 +233,7 @@ app.get('/updateAccount', (req, res) => {
 
 
 app.get('/updateProduct/:id', (req, res) => {
-    let product = products.read(req.params.id)
+    let product = shop.read(req.params.id)
     let currentCategory = product.productCategory;
     let currentMaterial = product.productMaterial
     if (currentCategory === "None") {
@@ -207,7 +244,7 @@ app.get('/updateProduct/:id', (req, res) => {
     }
 
 
-    let productCategories = products.getCategories();
+    let productCategories = shop.getCategories();
     for (let i = 0; i < productCategories.length; i++) {
         if (productCategories[i].productCategory === product.productCategory) {
             productCategories.splice(i, 1);
@@ -215,7 +252,7 @@ app.get('/updateProduct/:id', (req, res) => {
         }
     }
 
-    let productMaterials = products.getMaterials();
+    let productMaterials = shop.getMaterials();
     for (let i = 0; i < productMaterials.length; i++) {
         if (productMaterials[i].productMaterial === currentMaterial) {
             productMaterials.splice(i, 1);
@@ -223,7 +260,10 @@ app.get('/updateProduct/:id', (req, res) => {
         }
     }
 
-    res.render('updateProduct', { products: product, css: '/updateProduct.css', productPictures: products.getProductPictures(req.params.id), admin: req.session.admin, categories: productCategories, materials: productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial });
+    res.render('updateProduct', {
+        products: product, css: '/updateProduct.css', productPictures: shop.getProductPictures(req.params.id),
+        admin: req.session.admin, categories: productCategories, materials: productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial
+    });
 });
 
 app.get('/updateOrder/:id', (req, res) => {
@@ -233,14 +273,14 @@ app.get('/updateOrder/:id', (req, res) => {
     productIdList = order.products.split(', ');
 
     for (let i = 0; i < productIdList.length; i++) {
-        let product = products.read(productIdList[i]);
-        product.picture = products.getProductPictures(product.productId)[0].pictureName;
+        let product = shop.read(productIdList[i]);
+        product.picture = shop.getProductPictures(product.productId)[0].pictureName;
         productIdList[i] = product;
         console.log(productIdList[i])
     }
 
 
-    otherStates = [{ state: "Pendding" }, { state: "In progress" }, { state: "Delivered" }, { state: "Cancelled" }]
+    otherStates = [{ state: "In Progress" }, { state: "Shipped" }, { state: "Delivered" }, { state: "Cancelled" }]
     for (let i = 0; i < otherStates.length; i++) {
         if (otherStates[i].state === currentState) {
             otherStates.splice(i, 1);
@@ -258,7 +298,7 @@ app.get('/updateOrder/:id', (req, res) => {
 
 app.get('/deleteProduct/:id', (req, res) => {
     let productId = req.params.id;
-    let product = products.read(productId);
+    let product = shop.read(productId);
     res.render('deleteProduct', { products: product, css: '/deleteProduct.css', admin: req.session.admin });
 });
 
@@ -269,110 +309,89 @@ app.get('/cart', (req, res) => {
     else {
         let cartuser = cart.listProducts(req.session.id);
 
+        let emptyCartPictures = ['man-shopping.svg', 'woman-shopping.svg'];
+
         if (cartuser == undefined || cartuser.length == 0) {
             console.log("Cart is empty");
-            res.render('cart', { cartId: req.session.id, css: '/cart.css' });
+            randomIndex = Math.floor(Math.random() * 2);
+            res.render('cart', { cartId: req.session.id, emptyCartPicture: emptyCartPictures[randomIndex], css: '/cart.css' });
         }
         else {
             let cartProductsInfos = []
-            for (let i = 0; i < cartuser.length; i++) {
-                productInfos = JSON.parse(cartuser[i].products);
-                productInfos.picture = products.getproductInfos = JSON.parse(cartuser[i].products);
-                productInfos.picture = products.getProductPictures(productInfos.productId)[0].pictureName;
+            let numberOfItems = 0;
+            for (let product of cartuser) {
+                productInfos = shop.read(product.productId);
+                productInfos.picture = shop.getProductPictures(productInfos.productId)[0].pictureName;
+                productInfos.quantity = cart.getQuantity(req.session.id, product.productId);
                 cartProductsInfos.push(productInfos);
+                numberOfItems += productInfos.quantity;
             }
             let totalPrice = cart.getTotalPrice(req.session.id);
             let passOrder = cartuser.length > 0;
 
-            res.render('cart', { css: '/cart.css', cartLength: cartuser.length, cartId: req.session.id, cartProducts: cartProductsInfos, totalPrice: totalPrice, passOrder: passOrder });
+            res.render('cart', {
+                css: '/cart.css', numberOfItems: numberOfItems, cartId: req.session.id, cartProducts: cartProductsInfos,
+                totalPrice: totalPrice, passOrder: passOrder
+            });
         }
     }
 
 });
 
-app.get('/addToCart/:id', (req, res) => {
-    if (req.session.authenticated === false || req.session.authenticated === undefined) {
-        return res.render('login', { msg: "You must be logged in to add a product to your cart", css: '/login.css', productId: req.params.id });
-    }
 
-    let id = req.params.id;
-    let userId = req.session.id;
-    if (id == undefined || userId == undefined) {
-        console.log("Product or User not found");
-        return res.redirect('/cart');
-    }
-
-    else {
-        let product = JSON.stringify(products.read(id));
-        cart.addProduct(userId, product);
-        return res.redirect('/cart');
-    }
-});
-
-app.get('/removeFromCart/:productId', (req, res) => {
-    let productId = req.params.productId;
+app.get('/removeFromCart/:p', (req, res) => {
+    let paramlist = paramsParser(req.params.p);
+    let productId = paramlist[0];
+    let callBackURL = '/' + paramlist[1];
     let cartId = req.session.id;
-    if (productId == undefined) {
-        console.log("Product not found");
-        return res.redirect('/cart');
+    if (productId == undefined || cartId == undefined) {
+        console.log("Product or cart not found");
+        return res.redirect(callBackURL);
     }
     else {
-        let product = JSON.stringify(products.read(productId));
-        cart.removeProduct(cartId, product);
+        cart.removeProduct(cartId, productId);
         console.log("Product removed from cart");
-        return res.redirect('/cart');
-    }
-});
-
-app.get('/removeFromSummary/:productId', (req, res) => {
-    let productId = req.params.productId;
-    let cartId = req.session.id;
-    if (productId == undefined) {
-        console.log("Product not found");
-        return res.redirect('/orderSummary');
-    }
-    else {
-        let product = JSON.stringify(products.read(productId));
-        cart.removeProduct(cartId, product);
-        console.log("Product removed from cart");
-        return res.redirect('/orderSummary');
+        return res.redirect(callBackURL);
     }
 });
 
 app.get('/readProduct/:productId', (req, res) => {
-    let productId = req.params.productId;
+    paramlist = paramsParser(req.params.productId);
+    let productId = paramlist[0];
     if (productId == undefined) {
         console.log("Product not found");
         return res.redirect('/shop');
     }
-    else {
-        let product = products.read(productId);
-        let commentsList = comments.list(productId);
-        let prod = products.list();
-        let otherProducts = [];
+    let product = shop.read(productId);
+    let commentsList = comments.list(productId);
+    let prod = shop.list();
+    let otherProducts = [];
 
-        for (let i = 0; i < prod.length; i++) {
-            if (prod[i].productId != productId && !otherProducts.includes(prod[i])) {
-                otherProducts.push(prod[i]);
-            }
-            if (otherProducts.length == 4) {
-                break;
-            }
+    for (let i = 0; i < prod.length; i++) {
+        if (prod[i].productId != productId && !otherProducts.includes(prod[i])) {
+            otherProducts.push(prod[i]);
         }
-
-        let category = product.productCategory;
-        if (category == "None") {
-            category = "";
+        if (otherProducts.length == 4) {
+            break;
         }
-
-        if (product.productMaterial === "None") {
-            product.productMaterial = "";
-        }
-
-        let otherProductsList = (products.getProductPictures(productId)).slice(1);
-        let countPictures = products.getProductPictures(productId)
-        return res.render('readProduct', { products: product, frontPicture: products.getProductPictures(productId)[0].pictureName, countPictures: countPictures, productPictures: otherProductsList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css' });
     }
+
+
+    let category = product.productCategory;
+    if (category == "None" || category == undefined) {
+        category = "";
+    }
+
+    if (product.productMaterial === "None" || product.productMaterial === undefined) {
+        product.productMaterial = "";
+    }
+
+    let otherProductsList = (shop.getProductPictures(productId)).slice(1);
+    let countPictures = shop.getProductPictures(productId)
+    return res.render('readProduct', {
+        products: product, frontPicture: shop.getProductPictures(productId)[0].pictureName,
+        countPictures: countPictures, productPictures: otherProductsList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css'
+    });
 });
 
 app.get('/deleteComment/:commentId', (req, res) => {
@@ -403,10 +422,19 @@ app.get('/aboutUs', (req, res) => {
     res.render('aboutUs', { css: '/aboutUs.css' });
 });
 
+app.get('/checkout', (req, res) => {
+    try {
+        res.render('checkout', { css: '/checkout.css', authenticated: req.session.authenticated });
+    }
+    catch (err) {
+        res.redirect('/cart');
+    }
+});
+
 
 app.get('/deliveryInfos', (req, res) => {
-    let cartuser = cart.listProducts(req.session.id);
 
+    let cartuser = cart.listProducts(req.session.id);
     if (req.session.id == undefined || req.session.id == null) {
         res.redirect('/login');
     }
@@ -419,16 +447,29 @@ app.get('/deliveryInfos', (req, res) => {
     }
 
     let cartProductsInfos = []
-    for (let i = 0; i < cartuser.length; i++) {
-        productInfos = JSON.parse(cartuser[i].products);
-        productInfos.picture = products.getproductInfos = JSON.parse(cartuser[i].products);
-        productInfos.picture = products.getProductPictures(productInfos.productId)[0].pictureName;
+    for (let product of cartuser) {
+        productInfos = shop.read(product.productId);
+        productInfos.picture = shop.getProductPictures(productInfos.productId)[0].pictureName;
+        productInfos.quantity = cart.getQuantity(req.session.id, product.productId);
+        productInfos.priceWithQuantity = productInfos.productPrice * productInfos.quantity;
         cartProductsInfos.push(productInfos);
     }
 
     let userAccountInfos = account.read(req.session.id);
 
-    res.render('deliveryInfos', { cartItems: cartProductsInfos, userAccountInfos: userAccountInfos, totalPrice: totalPrice, css: '/deliveryInfos.css' });
+    let shippingCost = calculateShippingCost(cartProductsInfos);
+    let totalPriceWithShippingCost = totalPrice + shippingCost;
+
+    if (shippingCost == 0) {
+        shippingCost = "Free";
+    } else {
+        shippingCost += " €";
+    }
+
+    res.render('deliveryInfos', {
+        cartItems: cartProductsInfos, userAccountInfos: userAccountInfos, totalPrice: totalPrice,
+        shippingCost: shippingCost, totalPriceWithShippingCost: totalPriceWithShippingCost, css: '/deliveryInfos.css'
+    });
 });
 
 
@@ -438,8 +479,8 @@ app.get('/orderDetails/:id', (req, res) => {
     let orderProductsId = order.products.split(', ');
     let productsList = [];
     for (let i = 0; i < orderProductsId.length; i++) {
-        let product = products.read(orderProductsId[i])
-        product.picture = products.getProductPictures(product.productId)[0].pictureName;
+        let product = shop.read(orderProductsId[i])
+        product.picture = shop.getProductPictures(product.productId)[0].pictureName;
         productsList.push(product);
     }
     res.render('orderDetails', { order: order, css: '/orderDetails.css', products: productsList });
@@ -454,21 +495,14 @@ app.get('/allOrders', (req, res) => {
 
 app.get('/adminProductList', (req, res) => {
     if (req.session.admin === true) {
-        res.render('adminProductList', { products: products.list(), css: '/adminProductList.css', admin: req.session.admin })
+        res.render('adminProductList', { products: shop.list(), css: '/adminProductList.css', admin: req.session.admin })
     }
 });
 
-app.get('/checkout', (req, res) => {
-    try {
-        res.render('checkout', { css: '/checkout.css', authenticated: req.session.authenticated });
-    }
-    catch (err) {
-        res.redirect('/cart');
-    }
-});
 
 app.get('/createOrder', (req, res) => {
-    createOrder(req.session.id, req.session.email, req.session.username, req.session.userLastName, req.session.userAdress, req.session.userCity, req.session.userPostCode, req.session.userPhoneNumber, req.session.orderCommentary);
+    createOrder(req.session.id, req.session.email, req.session.username, req.session.userLastName, req.session.userAdress,
+        req.session.userCity, req.session.userPostCode, req.session.userPhoneNumber, req.session.orderCommentary);
     res.redirect('/orders');
 });
 
@@ -488,7 +522,9 @@ app.post('/login', (req, res) => {
         req.session.email = email;
         req.session.username = account.read(req.session.id).username;
         req.session.authenticated = true;
-        req.session.admin = account.read(req.session.id).admin;
+        if (account.read(req.session.id).admin === 1) {
+            req.session.admin = true;
+        } else { req.session.admin = false; }
 
         console.log(req.session.username + ' connected');
         if (productId != undefined) {
@@ -659,15 +695,16 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
         return res.redirect('/addProduct');
     }
 
-    else if (products.read(name) != undefined) {
+    else if (shop.read(name) != undefined) {
         console.log("Product already exists")
         return res.redirect('/addProduct');
     }
 
-    else if (products.read(name) == undefined) {
+    else if (shop.read(name) == undefined) {
         name = convertInAlphabet(name);
         let productId = crypto.randomBytes(5).toString("hex");
-        products.create(productId, name, productCategory, productHeight, productWidth, productDepth, productMaterial, price, description, pictureData);
+        shop.create(productId, name, productCategory, productHeight, productWidth, productDepth, productMaterial, price,
+            description, pictureData);
         for (let i = 0; i < pictureData.length; i++) {
             let tmp_path = pictureData[i].path;
             let target_path = 'public/products_pictures/' + name + '_' + i + '_' + productId + '.png';
@@ -682,11 +719,32 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
     return res.redirect('/addProduct');
 });
 
-app.post('/addToWishlist/:productId', (req, res) => {
+app.post('/addToCart/:productId', (req, res) => {
+    paramlist = paramsParser(req.params.productId);
+    if (req.session.authenticated === false || req.session.authenticated === undefined) {
+        return res.render('login', { msg: "You must be logged in to add a product to your cart", css: '/login.css', productId: paramlist[0] });
+    }
+
     let productId = req.params.productId;
     let userId = req.session.id;
+    if (productId == undefined || userId == undefined) {
+        console.log("Product or User not found");
+        return res.redirect('/cart');
+    }
+
+    else {
+        cart.addProduct(userId, productId, 1);
+        return res.redirect('/cart');
+    }
+});
+
+app.post('/addToWishlist/:p', (req, res) => {
+    paramlist = paramsParser(req.params.p);
+    let callBackURL = '/' + paramlist[1];
+    let productId = paramlist[0];
+    let userId = req.session.id;
     account.addToWishlist(userId, productId);
-    return res.redirect('/wishlist');
+    return res.redirect(callBackURL);
 });
 
 app.post('/updateProduct/:id', uploadProduct.any('updatePicture'), (req, res) => {
@@ -725,9 +783,9 @@ app.post('/updateProduct/:id', uploadProduct.any('updatePicture'), (req, res) =>
         return res.redirect('/updateProduct/' + productId);
     }
 
-    else if (products.read(productId) != undefined) {
+    else if (shop.read(productId) != undefined) {
         name = convertInAlphabet(name);
-        products.update(productId, name, category, price, productHeight, productWidth, productDepth, productMaterial, description, pictureData);
+        shop.update(productId, name, category, price, productHeight, productWidth, productDepth, productMaterial, description, pictureData);
         for (let i = 0; i < pictureData.length; i++) {
             let tmp_path = pictureData[i].path;
             let target_path = 'public/products_pictures/' + name + '_' + i + '_' + productId + '.png';
@@ -744,9 +802,44 @@ app.post('/updateProduct/:id', uploadProduct.any('updatePicture'), (req, res) =>
 
 
 
+app.post('/cart', (req, res) => {
+    let quantities = req.body.quantity;
+    let cartuser = cart.listProducts(req.session.id);
+
+    for (let i = 0; i < cartuser.length; i++) {
+        let quantity = quantities[i];
+        if (quantity == undefined) {
+            quantity = 1;
+        }
+        else if (quantities[i] <= 0) {
+            cart.removeProduct(req.session.id, cartuser[i].productId);
+        } else if (quantities[i] != cart.getQuantity(req.session.id, cartuser[i].productId)) {
+            cart.updateQuantity(req.session.id, cartuser[i].productId, quantity);
+        }
+    }
+
+    res.redirect('/deliveryInfos');
+});
+
+
+app.post('/deliveryInfos', (req, res) => {
+    let user = account.read(req.session.id);
+    req.session.email = user.email;
+    req.session.userName = req.body.name;
+    req.session.userLastName = req.body.lastName;
+    req.session.userAdress = req.body.adress;
+    req.session.userCity = req.body.city;
+    req.session.userPostCode = req.body.postCode;
+    req.session.userPhoneNumber = req.body.phoneNumber;
+    req.session.orderCommentary = req.body.orderCommentary;
+
+    res.redirect('/checkout');
+});
+
+
 app.post('/searchProduct', (req, res) => {
     let search = req.body.search;
-    let productsList = products.list();
+    let productsList = shop.list();
     let productsFoundbyCategory = [];
     let productsFoundbySearch = [];
     let category = req.body.productCategory;
@@ -763,9 +856,9 @@ app.post('/searchProduct', (req, res) => {
             }
         }
         if (productsFoundbySearch.length > 0) {
-            return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: products.getCategories() });
+            return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: shop.getCategories() });
         }
-        return res.render('shop', { products: productsFoundbyCategory, css: '/shop.css', categories: products.getCategories() });
+        return res.render('shop', { products: productsFoundbyCategory, css: '/shop.css', categories: shop.getCategories() });
     }
 
     else if (search != undefined) {
@@ -774,7 +867,7 @@ app.post('/searchProduct', (req, res) => {
                 productsFoundbySearch.push(productsList[i]);
             }
         }
-        return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: products.getCategories() });
+        return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: shop.getCategories() });
     }
 });
 
@@ -807,18 +900,7 @@ app.post('/addComment', (req, res) => {
 });
 
 
-app.post('/deliveryInfos', (req, res) => {
-    let user = account.read(req.session.id);
-    req.session.email = user.email;
-    req.session.userName = req.body.name;
-    req.session.userLastName = req.body.lastName;
-    req.session.userAdress = req.body.adress;
-    req.session.userCity = req.body.city;
-    req.session.userPostCode = req.body.postCode;
-    req.session.userPhoneNumber = req.body.phoneNumber;
-    req.session.orderCommentary = req.body.orderCommentary;
-    res.redirect('/checkout');
-});
+
 
 app.post("/create-payment-intent", async (req, res) => {
     if (req.session.id == undefined) {
@@ -862,15 +944,17 @@ app.post('/deleteOrder/:id', (req, res) => {
 
 app.post('/deleteProduct/:id', (req, res) => {
     let productId = req.params.id;
-    products.delete(productId);
+    shop.delete(productId);
     res.redirect('/adminProductList');
 });
 
-app.post('/removeFromWishlist/:productId', (req, res) => {
-    let productId = req.params.productId;
+app.post('/removeFromWishlist/:p', (req, res) => {
+    let paramlist = paramsParser(req.params.p);
+    let callBackURL = '/' + paramlist[1];
+    let productId = paramlist[0];
     let userId = req.session.id;
     account.removeFromWishlist(userId, productId);
-    return res.redirect('/wishlist');
+    return res.redirect(callBackURL);
 });
 
 //LISTENING

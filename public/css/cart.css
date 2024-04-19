@@ -11,47 +11,32 @@
     justify-content: center;
     width: 80%;
     margin-top: 50px;
+    gap: 150px;
 }
 
-#middleBar {
-    display: flex;
-    width: 2px;
-    height: 100%;
-    background-color: #867763;
-}
-
-#left_container {
-    width: 45%;
-}
-
-#right_container {
-    width: 45%;
-}
-
-#productPicture,
+.productPicture,
 .productInfos {
     width: 120px;
     height: 150px;
     object-fit: cover;
 }
 
-#productPicture {
+.productPicture {
     border-radius: 10px;
     transition: transform 0.2s;
 }
 
-#productPicture:hover {
+.productPicture:hover {
     transform: scale(1.05);
 }
 
 .productLink {
     text-decoration: none;
-    color: #8e7d68;
+    color: var(--primary-color);
 }
 
-.ico {
-    width: 30px;
-    height: 30px;
+.productLink:hover {
+    text-decoration: underline;
 }
 
 #totalPrice {
@@ -59,15 +44,44 @@
     font-size: 20px;
 }
 
-#name {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    margin: 10px 0px;
+#right_container{
+    margin-top: 30px;
 }
 
-#name:hover {
+.name:hover {
     text-decoration: underline;
+}
+
+.bottomCard{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+input[type="number"] {
+    width: 30px;
+    height: 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: var(--font-family);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.price{
+    font-weight: bold;
+    font-size: 20px;
+    color: var(--primary-color);
+}
+
+.quantityContainer{
+    color: var(--primary-color);
+}
+
+.quantityLabel{
+    font-family: var(--font-family);
 }
 
 .product {
@@ -75,7 +89,7 @@
     flex-direction: row;
     justify-content: center;
     margin: 10px 0px;
-    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    box-shadow: var(--box-shadow);
     border-radius: 20px;
     padding: 20px;
     width: 550px;
@@ -83,28 +97,31 @@
 
 .productInfos {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding-right: 20px;
+    flex-direction: row;
+    align-items: flex-start;
     padding-left: 10px;
     width: 100%;
 }
 
 .infosContainer {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 #title,
-#msg {
+#emptyCart {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 20px;
     font-size: 30px;
+}
+
+
+#emptyCartPicture{
+    margin-bottom: 20px;
 }
 
 #goShop {
@@ -115,11 +132,17 @@
     height: 40px;
     border-radius: 5px;
     margin: 25px 0px;
-    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
-    color: #8e7d68;
+    box-shadow: var(--box-shadow);
+    color: var(--primary-color);
     border: none;
     text-decoration: none;
     font-size: 20px;
+}
+
+#goShopButtonContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -127,52 +150,37 @@
     margin-top: 150px;
 }
 
-.item {
-    display: flex;
-    flex-direction: column;
-}
-
-#login {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-    margin-bottom: 70px;
-    font-size: 30px;
-    text-decoration: none;
-}
-
 #deliveryInfosLinkBox {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
-#deliveryInfosLink {
-    margin-top: 30px;
-    border: none;
-    text-decoration: none;
-    font-weight: 600;
-    color: whitesmoke;
-    background-color: #a8957d;
-    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    height: 35px;
-    border-radius: 5px;
-    margin-bottom: 100px;
-}
 
-#deliveryInfosLink:hover {
-    cursor: pointer;
-    background-color: #8e7d68;
-}
 
 #numberOfItems {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
     font-size: 20px;
+}
+
+#purchaseButton, #goShop{
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    margin: 25px 0px;
+    box-shadow: var(--box-shadow);
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    border: none;
+    font-family: var(--font-family);
+    text-decoration: none;
+    font-size: 20px;
+}
+
+#purchaseButton:hover , #goShop:hover{
+    cursor: pointer;
+    background-color: var(--button-hover);
+    color: var(--background-color);
 }

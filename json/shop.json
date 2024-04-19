@@ -4,6 +4,7 @@
     "productName": "The Aristocats fabric nursery bag for girls",
     "productCategory": "SchoolBag",
     "productPrice": "46",
+    "shippingCost": "0",
     "productHeight": "28",
     "productWidth": "24",
     "productDepth": "5",
@@ -11,7 +12,7 @@
     "productPicture": [
       {
         "pictureName": "il_794xN.4114713909_6ngb.jpg",
-        "pictureId": "0"
+        "pictureId": 0
       }
     ],
     "productMaterial": "whool"
@@ -21,6 +22,7 @@
     "productName": "Personalized kindergarten schoolbag",
     "productCategory": "SchoolBag",
     "productPrice": "50",
+    "shippingCost": 5.99,
     "productHeight": "28",
     "productWidth": "24",
     "productDepth": "10",
@@ -29,7 +31,7 @@
     "productPicture": [
       {
         "pictureName": "il_794xN.2635023791_n9p1.jpg",
-        "pictureId": "0"
+        "pictureId": 0
       }
     ]
   },
@@ -37,6 +39,7 @@
     "productId": "4",
     "productName": "Children's fabric backpack",
     "productPrice": "60",
+    "shippingCost": 0.00,
     "productHeight": "28",
     "productWidth": "24",
     "productDepth": "5",
@@ -55,6 +58,7 @@
     "productName": "The Little Prince children's backpack",
     "productCategory": "BackPack",
     "productPrice": "70",
+    "shippingCost": 0.00,
     "productHeight": "28",
     "productWidth": "24",
     "productDepth": "5",
@@ -63,7 +67,7 @@
     "productPicture": [
       {
         "pictureName": "il_794xN.3443932700_onzs.jpg",
-        "pictureId": "0"
+        "pictureId": 0
       }
     ]
   }

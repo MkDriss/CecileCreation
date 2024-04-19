@@ -2,17 +2,19 @@
 {{#admin}}
 <div id="adminProductList">
       <span id="title">All of your Products</span>
-      <div id="shopContent">
+      <div id="adminProductListContent">
             <div id="productsList">
                   {{#products}}
                   <div id="product">
-                        <a href="/updateProduct/{{productId}}" id="productLink">
+                        <a href="/updateProduct/{{productId}}" class="productLink">
                               <img src="{{productPicture}}" alt="ProductPicture" id="productPicture">
                               <div class="productInfos">
                                     <div id="name">{{productName}}</div>
-                                    <div id="price">{{productPrice}} €</div>
                               </div>
                         </a>
+                        <div id="bottomCard">
+                              <div id="price">{{productPrice}} €</div>
+                        </div>
                   </div>
                   {{/products}}
                   <div id="addProductDiv">

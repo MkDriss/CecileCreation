@@ -14,17 +14,19 @@
 {{#admin}}
 <div id="addProduct">
       <div id="container">
-            <div id="title">Add Product</div>
+            <div id="title">Add a new Product</div>
             <form id="form" action="/addProduct" method="POST" enctype="multipart/form-data">
-                  <div>
-                        <input type="text" id="name" name="name" placeholder="Name" required>
-                  </div>
+
+                  <input type="text" id="name" name="name" placeholder="Name" required>
+                  <textarea name="description" id="description" cols="60" rows="5" placeholder="Enter a description"
+                  required></textarea>
                   <select name="productCategory" id="productCategory" onchange="showDiv('newCategory',this)">
                         <option name="productCategory" id="defaultCategory" value="None">Select a Category</option>
                         {{#categories}}
-                        <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">{{productCategory}}</option>
-                              {{/categories}}
-                        
+                        <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">
+                              {{productCategory}}</option>
+                        {{/categories}}
+
                         <option name="addCategory" id="addCategory" value="addCategory">New Category</option>
                   </select>
                   <input type="text" name="newCategory" id="newCategory" placeholder="New Category"
@@ -37,29 +39,28 @@
                               <span>x</span>
                               <input type="number" name="depth" id="depth" placeholder="Depth" required>
                         </div>
-                        <select name="productMaterial" id="productMaterial" onchange="showDiv('newProductMaterial',this)" required>
+                        <select name="productMaterial" id="productMaterial"
+                              onchange="showDiv('newProductMaterial',this)" required>
                               <option name="productMaterial" id="defaultproductMaterial" value="None">Select a Material
                               </option>
                               {{#currentMaterial}}
-                                <option name="productMaterial" id="productMaterial" value="{{productMaterial}}"
-                                    selected>
+                              <option name="productMaterial" id="productMaterial" value="{{productMaterial}}" selected>
                                     {{productMaterial}}</option>
-                                {{/currentMaterial}}
-                                {{#materials}}
-                                <option name="productMaterial" id="{{productMaterial}}" value="{{productMaterial}}">
+                              {{/currentMaterial}}
+                              {{#materials}}
+                              <option name="productMaterial" id="{{productMaterial}}" value="{{productMaterial}}">
                                     {{productMaterial}}</option>
-                                {{/materials}}
-                                <option name="addProductMaterial" id="addProductMaterial" value="addProductMaterial">New
+                              {{/materials}}
+                              <option name="addProductMaterial" id="addProductMaterial" value="addProductMaterial">New
                                     Material</option>
                         </select>
                         <input type="text" name="newProductMaterial" id="newProductMaterial" placeholder="New Material"
                               style="display: none;">
                   </div>
                   <input type="number" id="price" name="price" step=".01" placeholder="Price" required>
-                  <div>
-                        <textarea name="description" id="description" cols="60" rows="5"
-                              placeholder="Enter a description" required></textarea>
-                  </div>
+
+                 
+
                   <div id="buttons">
                         <label for="uploadPicture" class="button">Upload Picture</label>
                         <input type="file" id="uploadPicture" name="uploadPicture[]"

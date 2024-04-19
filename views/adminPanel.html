@@ -1,25 +1,25 @@
 {{>header}}
 
 {{#authenticated}}
-{{#admin}}
+    {{#admin}}
 
-<div id="container">
-    <div id="box">
-        <div id="title">Admin Panel</div>
-        <a href="/adminProductList" class="button">Product List</a>
-        <a href="/allOrders" class="button">Order List</a>
-        <a href="/account" class="button">Back</a>
+    <div id="container">
+        <div id="box">
+            <div id="title">Admin Panel</div>
+            <a href="/adminProductList" class="button">Product List</a>
+            <a href="/allOrders" class="button">Order List</a>
+            <a href="/account" class="button">Back</a>
+        </div>
     </div>
-</div>
 
-{{/admin}}
+    {{/admin}}
 
 
-{{^admin}}
-<div>
-    <h1>You don't have the access to this page</h1>
-</div>
-{{/admin}}
+    {{^admin}}
+    <div>
+        <h1>You don't have the access to this page</h1>
+    </div>
+    {{/admin}}
 {{/authenticated}}
 
 {{>footer}}

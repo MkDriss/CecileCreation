@@ -19,10 +19,11 @@
     "userLastName": "",
     "email": "mathi@gmail.com",
     "password": "m",
-    "admin": "0",
+    "admin": 0,
     "adress": "",
     "city": "",
     "wishlist": [
+      "5",
       "4"
     ],
     "zipCode": "",

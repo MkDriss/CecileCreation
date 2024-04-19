@@ -1,10 +1,10 @@
 form {
-  font-family: 'Raleway';
+  font-family: var(--font-family);
   margin-top: 200px;
   width: 30vw;
   min-width: 500px;
   align-self: center;
-  box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+  box-shadow: var(--box-shadow);
   border-radius: 10px;
   padding: 40px;
 }
@@ -25,23 +25,11 @@ form {
   margin-bottom: 24px;
 }
 
-input[type="text"],
-select {
-  width: 100%;
-  height: 35px;
-  border-radius: 5px;
-  border: none;
-  padding-left: 10px;
-  font-size: 15px;
-  color: #8e7d68;
-  box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
-}
-
 /* Buttons and links */
 button {
-  background: #a8957d;
-  color: white;
-  font-family: 'Raleway';
+  background: var(--secondary-color);
+  color: var(--background-color);
+  font-family: var(--font-family);
   border-radius: 4px;
   border: 0;
   padding: 12px 16px;
@@ -50,7 +38,7 @@ button {
   cursor: pointer;
   display: block;
   transition: all 0.2s ease;
-  box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: var(--box-shadow);
   width: 100%;
 }
 
@@ -64,15 +52,15 @@ button {
   font-size: 16px;
   font-weight: 600;
   margin: 15px 0px;
-  background-color: #a8957d;
-  box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
-  color: whitesmoke;
+  background-color: var(--secondary-color);
+  box-shadow: var(--box-shadow);
+  color: var(--background-color);
   border: none;
   text-decoration: none;
 }
 
 .button:hover {
-  background-color: #8e7d68;
+  background-color: var(--button-hover);
   cursor: pointer;
 }
 
@@ -120,7 +108,7 @@ button:disabled {
 .spinner:before {
   width: 10.4px;
   height: 20.4px;
-  background: #8e7d68;
+  background: var(--primary-color);
   border-radius: 20.4px 0 0 20.4px;
   top: -0.2px;
   left: -0.2px;
@@ -133,7 +121,7 @@ button:disabled {
 .spinner:after {
   width: 10.4px;
   height: 10.2px;
-  background: #5469d4;
+  background: var(--primary-color);
   border-radius: 0 10.2px 10.2px 0;
   top: -0.1px;
   left: 10.2px;

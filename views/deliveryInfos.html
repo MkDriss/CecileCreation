@@ -4,7 +4,7 @@
 
 <div id="infos">
     <div id="left_container">
-        <form action="deliveryInfos" method="POST" id="infoForm">
+        <form action="/deliveryInfos" method="POST" id="infoForm">
             {{#userAccountInfos}}
             <div id="nameInfos">
                 <input type="text" name="name" id="name" class="nameInput" placeholder="Name" value="{{username}}"
@@ -25,28 +25,32 @@
                 <textarea name="orderCommentary" id="orderCommentary" cols="30" rows="10"
                     placeholder="Write a comment"></textarea>
             </div>
-            <div>
-                <input type="submit" id="submitbutton" class="input" value="Continue">
-            </div>
+            <input type="submit" id="submitbutton" class="input" value="Continue">
             {{/userAccountInfos}}
         </form>
     </div>
-    <div id="middlebar"></div>
-
     <div id="OrderSummary">
         <div id="summaryTitle">Order Summary</div>
         <div id="total">
+            <div id="itemsPrices">
+                {{#cartItems}}
+                <div class="price">
+                    <span>{{productName}} x {{quantity}} </span>
+                    <span>{{priceWithQuantity}} €</span>
+                </div>
+                {{/cartItems}}
+            </div>
             <div id="subtotalPrice" class="price">
                 <span>Subtotal </span>
                 <span>{{totalPrice}} €</span>
             </div>
             <div id="shippingCostTotal" class="price">
                 <span>Shipping Cost </span>
-                <span>Free</span>
+                <span>{{shippingCost}}</span>
             </div>
             <div id="totalPrice" class="price">
                 <span>Total Price</span>
-                <span>{{totalPrice}} €</span>
+                <span>{{totalPriceWithShippingCost}} €</span>
             </div>
         </div>
 
@@ -63,8 +67,11 @@
                             <div class="otherProductInfosContainer">
                                 <a href="/readProduct/{{productId}}" class="productLink">
                                     <div class="otherProductName">{{productName}}</div>
-                                    <div class="otherProductPrice">{{productPrice}} €</div>
                                 </a>
+                                <div class="bottomCard">
+                                    <div class="otherProductPrice">{{productPrice}} €</div>
+                                    <div class="quantity">Qty: {{quantity}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -75,6 +82,5 @@
         </div>
     </div>
 </div>
-
 
 {{>footer}}

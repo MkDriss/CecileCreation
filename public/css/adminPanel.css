@@ -1,19 +1,7 @@
-#aboutUs {
+#container {
+    margin-top: 250px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 50px;
-}
-
-#title {
-    margin-top: 150px;
-    font-size: 30px;
-}
-
-#contactUs {
-    text-decoration: none;
-    color: var(--primary-color);
 }
 
 .button {
@@ -22,9 +10,9 @@
     align-items: center;
     width: 200px;
     height: 35px;
-    border-radius: 5px;
-    margin: 20px 0px;
     font-weight: 400;
+    border-radius: 5px;
+    margin: 15px 0px;
     background-color: var(--secondary-color);
     box-shadow: var(--box-shadow);
     color: var(--background-color);
@@ -33,20 +21,23 @@
 }
 
 .button:hover {
-    cursor: pointer;
     background-color: var(--button-hover);
 }
 
-#content {
+#box {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    justify-content: center;
     align-items: center;
-    margin-top: 50px;
-    line-height: 2;
+    border-radius: 5px;
+    width: 400px;
+    height: 300px;
+    padding: 20px;
+    box-shadow: var(--box-shadow);
 }
 
-p {
-    font-size: 20px;
-    text-align: justify;
+#title {
+    font-size: 30px;
+    color: var(--text-color);
+    margin-bottom: 20px;
 }

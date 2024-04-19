@@ -1,6 +1,7 @@
 'use strict';
 
 const Sqlite = require('better-sqlite3');
+const exp = require('constants');
 const fs = require('fs');
 let db = new Sqlite('db.sqlite');
 
@@ -15,7 +16,7 @@ let loadAccount = function (filename) {
       db.prepare('DROP TABLE IF EXISTS wishlist').run();
       console.log('wishlist table dropped');
       db.prepare('CREATE TABLE IF NOT EXISTS user (id TEXT PRIMARY KEY,' +
-            'username TEXT, userLastName TEXT, email TEXT, password TEXT, admin TEXT, adress TEXT, city TEXT, zipCode TEXT, phone TEXT, profilePicture TEXT)').run();
+            'username TEXT, userLastName TEXT, email TEXT, password TEXT, admin INT, adress TEXT, city TEXT, zipCode TEXT, phone TEXT, profilePicture TEXT)').run();
       db.prepare('CREATE TABLE IF NOT EXISTS wishlist (userId TEXT, productId TEXT)').run();
 
       let insertAccount = db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
@@ -65,14 +66,12 @@ exports.create = function (id, email, username, password) {
             });
       });
       try {
-            db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, "", email, password, 0,"", "", "", "", "defaultAccountIco.png");
+            db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, "", email, password, 0, "", "", "", "", "defaultAccountIco.png");
             console.log('Account created');
       } catch (err) {
             console.log(err);
       }
-
 };
-
 
 //READ 
 
@@ -123,15 +122,18 @@ exports.setAdmin = function (id) {
 // ADD
 
 exports.addToWishlist = function (userId, productId) {
+      if (userId == undefined || productId == undefined) {
+            return;
+      }
       fs.readFile('json/accounts.json', function (err, data) {
             if (err) throw err;
             let accountsList = JSON.parse(data);
             for (let i = 0; i < accountsList.length; i++) {
                   let account = accountsList[i];
                   if (account.id === userId) {
-                        if (!account.wishlist.includes(productId)){ 
+                        if (!account.wishlist.includes(productId)) {
                               db.prepare('INSERT INTO wishlist VALUES (?, ?)').run(userId, productId);
-                              account.wishlist.push(productId); 
+                              account.wishlist.push(productId);
                         }
                   }
             }
@@ -140,7 +142,7 @@ exports.addToWishlist = function (userId, productId) {
                   console.log(err);
             });
       });
-      
+
 }
 
 //CHECK 
@@ -162,6 +164,18 @@ exports.checkPassword = function (email, password) {
             return 'true';
       }
       return 'false';
+}
+
+exports.isInWishlist = function (userId, productId) {
+      if (userId == undefined || productId == undefined) {
+            return false;
+      }
+      if (db.prepare('SELECT * FROM wishlist WHERE userId = ? AND productId = ?').get(userId, productId) == undefined) {
+
+            return false;
+      }
+
+      return true;
 }
 
 //UPDATE
