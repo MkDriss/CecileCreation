@@ -109,7 +109,7 @@ function createOrder(id, email, userName, userLastName, userAdress, userCity, us
 
 
 function paramsParser(params) {
-    paramlist = (String(params)).split('&');
+    paramlist = (String(params)).split('/');
     return paramlist;
 }
 
