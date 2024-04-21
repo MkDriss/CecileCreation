@@ -143,17 +143,35 @@
             <a href="#otherProductsBox" id="otherProductsLink">Other Products</a>
             <div id="otherProductsBox">
                   {{#otherProducts}}
+
                   <div id="otherProduct">
-                        <a href="/readProduct/{{productId}}" class="productLink">
+                        <a href="/shop/{{productId}}" class="productLink">
                               <img src="/{{productPicture}}" alt="ProductPicture" id="otherProductPicture">
+                              <div class="productInfos">
+                                    <div id="name">{{productName}}</div>
+                              </div>
                         </a>
                         <div class="otherProductInfos">
-                              <div class="otherProductInfosContainer">
-                                    <a href="/readProduct/{{productId}}" class="otherProductLink">
-                                          <div id="otherProductName">{{productName}}</div>
-                                          <div id="otherProductPrice">{{productPrice}} €</div>
-                                    </a>
-                              </div>
+                              <div id="price">{{productPrice}} €</div>
+                              {{#authenticated}}
+                                    {{^isInWishlist}}
+                                    <form action="/addToWishlist/{{productId}}&shop" method="POST" id="addToWishlistForm">
+                                          <input type="image" src="wishlist.svg" class="wishlistIcoProducts">
+                                    </form>
+                                    {{/isInWishlist}}
+                                    
+                                    {{#isInWishlist}}
+                                    <form action="/removeFromWishlist/{{productId}}&shop" method="POST"
+                                          id="addToWishlistForm">
+                                          <input type="image" src="wishlistfilled.svg" class="wishlistIcoProducts">
+                                    </form>
+                                    {{/isInWishlist}}
+                              {{/authenticated}}
+                              {{^authenticated}}
+                              <a href="/login">
+                                    <img src="wishlist.svg" alt="wishlist" class="wishlistIcoProducts">
+                              </a>
+                              {{/authenticated}}
                         </div>
                   </div>
                   {{/otherProducts}}

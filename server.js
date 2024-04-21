@@ -344,13 +344,15 @@ app.get('/removeFromCart/:p', (req, res) => {
     }
 });
 
-app.get('/readProduct/:productId', (req, res) => {
-    paramlist = paramsParser(req.params.productId);
+app.get('/shop/:p', (req, res) => {
+    paramlist = paramsParser(req.params.p);
     let productId = paramlist[0];
+    console.log(productId);
     if (productId == undefined) {
         console.log("Product not found");
         return res.redirect('/shop');
     }
+
     let product = shop.read(productId);
     let commentsList = comments.list(productId);
     let prod = shop.list();
@@ -364,7 +366,6 @@ app.get('/readProduct/:productId', (req, res) => {
             break;
         }
     }
-
 
     let category = product.productCategory;
     if (category == "None" || category == undefined) {
