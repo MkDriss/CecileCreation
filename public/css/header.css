@@ -66,8 +66,7 @@ body {
 #rightSide {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
-      width: 10%;
+      gap: 20px;
 }
 
 #footerLeftSide,

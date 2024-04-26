@@ -164,6 +164,10 @@
     text-decoration: underline;
 }
 
+#bg_1 {
+    width: 100%;
+}
+
 #product {
     display: flex;
     flex-direction: column;

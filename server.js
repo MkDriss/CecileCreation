@@ -108,8 +108,8 @@ function createOrder(id, email, userName, userLastName, userAdress, userCity, us
 }
 
 
-function paramsParser(params) {
-    paramlist = (String(params)).split('/');
+function paramsParser(params, separator = "/") {
+    paramlist = (String(params)).split(separator);
     return paramlist;
 }
 
@@ -204,6 +204,10 @@ app.get('/shop', (req, res) => {
     res.render('shop', { products: productsList, css: '/shop.css', categories: categories });
 });
 
+app.get('/shop/:id', (req, res) => {
+    res.redirect('/shop');
+});
+
 app.get('/addProduct', (req, res) => {
     let productMaterials = shop.getMaterials();
     res.render('addProduct', {
@@ -217,7 +221,7 @@ app.get('/updateAccount', (req, res) => {
     if (user.profilePicture === undefined || user.profilePicture === "") {
         user.profilePicture = "defaultAccountIco.png";
     }
-    res.render('updateAccount', { accountsInfos: user, admin: req.session.admin, css: '/updateAccount.css' });
+    res.render('updateAccount', { accountsInfos: user, admin: req.session.admin, authenticated : req.session.authenticated, css: '/updateAccount.css' });
 });
 
 
@@ -328,26 +332,22 @@ app.get('/cart', (req, res) => {
 });
 
 
-app.get('/removeFromCart/:p', (req, res) => {
-    let paramlist = paramsParser(req.params.p);
-    let productId = paramlist[0];
-    let callBackURL = '/' + paramlist[1];
+app.get('/removeFromCart/:productId', (req, res) => {
+    let productId = req.params.productId
     let cartId = req.session.id;
     if (productId == undefined || cartId == undefined) {
         console.log("Product or cart not found");
-        return res.redirect(callBackURL);
+        return res.redirect('/cart');
     }
     else {
         cart.removeProduct(cartId, productId);
         console.log("Product removed from cart");
-        return res.redirect(callBackURL);
+        return res.redirect('/cart');
     }
 });
 
-app.get('/shop/:p', (req, res) => {
-    paramlist = paramsParser(req.params.p);
-    let productId = paramlist[0];
-    console.log(productId);
+app.get('/items/:productId', (req, res) => {
+    let productId = req.params.productId;
     if (productId == undefined) {
         console.log("Product not found");
         return res.redirect('/shop');
@@ -359,13 +359,19 @@ app.get('/shop/:p', (req, res) => {
     let otherProducts = [];
 
     for (let i = 0; i < prod.length; i++) {
+        if (account.isInWishlist(req.session.id, prod[i].productId)) {
+            prod[i].isInWishlist = true;
+        } else { prod[i].isInWishlist = false; }
+        
         if (prod[i].productId != productId && !otherProducts.includes(prod[i])) {
             otherProducts.push(prod[i]);
         }
+
         if (otherProducts.length == 4) {
             break;
         }
     }
+
 
     let category = product.productCategory;
     if (category == "None" || category == undefined) {
@@ -378,9 +384,9 @@ app.get('/shop/:p', (req, res) => {
 
     let otherProductsList = (shop.getProductPictures(productId)).slice(1);
     let countPictures = shop.getProductPictures(productId)
-    return res.render('readProduct', {
+    return res.render('items', {
         products: product, frontPicture: shop.getProductPictures(productId)[0].pictureName,
-        countPictures: countPictures, productPictures: otherProductsList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/readProduct.css'
+        countPictures: countPictures, productPictures: otherProductsList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/items.css'
     });
 });
 
@@ -520,7 +526,7 @@ app.post('/login', (req, res) => {
         if (productId != undefined) {
 
             console.log("Adding product to cart")
-            return res.redirect('/addToCart/' + productId);
+            return res.redirect('/cart');
         }
         return res.redirect('/home');
     }
@@ -710,11 +716,9 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
 });
 
 app.post('/addToCart/:productId', (req, res) => {
-    paramlist = paramsParser(req.params.productId);
     if (req.session.authenticated === false || req.session.authenticated === undefined) {
-        return res.render('login', { msg: "You must be logged in to add a product to your cart", css: '/login.css', productId: paramlist[0] });
+        return res.render('login', { msg: "You must be logged in to add a product to your cart", css: '/login.css', productId: productId });
     }
-
     let productId = req.params.productId;
     let userId = req.session.id;
     if (productId == undefined || userId == undefined) {
@@ -729,9 +733,14 @@ app.post('/addToCart/:productId', (req, res) => {
 });
 
 app.post('/addToWishlist/:p', (req, res) => {
-    paramlist = paramsParser(req.params.p);
-    let callBackURL = '/' + paramlist[1];
-    let productId = paramlist[0];
+    paramlist = paramsParser(req.params.p, "-");
+    console.log(paramlist);
+    let callBackURL = "/" + paramlist[0];
+    for (let i = 1; i < paramlist.length; i++) {
+        console.log(paramlist[i]);
+        callBackURL += "/" + paramlist[i];
+    }
+    let productId = paramlist[1];
     let userId = req.session.id;
     account.addToWishlist(userId, productId);
     return res.redirect(callBackURL);
@@ -885,7 +894,7 @@ app.post('/addComment', (req, res) => {
 
     else {
         comments.create(user, dateComment, commentContent, productId, profilePicture);
-        return res.redirect('/readProduct/' + productId);
+        return res.redirect('/items/' + productId);
     }
 });
 
@@ -939,9 +948,14 @@ app.post('/deleteProduct/:id', (req, res) => {
 });
 
 app.post('/removeFromWishlist/:p', (req, res) => {
-    let paramlist = paramsParser(req.params.p);
-    let callBackURL = '/' + paramlist[1];
-    let productId = paramlist[0];
+    console.log("Removing from wishlist");
+    console.log(req.params.p);
+    let paramlist = paramsParser(req.params.p, "-");
+    let callBackURL = '/' + paramlist[0];
+    for (let i = 1; i < paramlist.length; i++) {
+        callBackURL += '/' + paramlist[i];
+    }
+    let productId = paramlist[1];
     let userId = req.session.id;
     account.removeFromWishlist(userId, productId);
     return res.redirect(callBackURL);

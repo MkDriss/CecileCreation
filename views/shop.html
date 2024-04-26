@@ -20,7 +20,7 @@
                   <div id="productsList">
                         {{#products}}
                         <div id="product">
-                              <a href="/shop/{{productId}}" class="productLink">
+                              <a href="/items/{{productId}}" class="productLink">
                                     <img src="{{productPicture}}" alt="ProductPicture" id="productPicture">
                                     <div class="productInfos">
                                           <div id="name">{{productName}}</div>
@@ -30,14 +30,14 @@
                                     <div id="price">{{productPrice}} €</div>
                                     {{#authenticated}}
                                           {{^isInWishlist}}
-                                          <form action="/addToWishlist/{{productId}}&shop" method="POST" id="addToWishlistForm">
+                                          <form action="/addToWishlist/shop-{{productId}}" method="POST" id="addToWishlistForm">
                                                 <input type="image" src="wishlist.svg" class="wishlistIcoProducts">
                                           </form>
                                           {{/isInWishlist}}
                                           
                                           {{#isInWishlist}}
-                                          <form action="/removeFromWishlist/{{productId}}&shop" method="POST"
-                                                id="addToWishlistForm">
+                                          <form action="/removeFromWishlist/shop-{{productId}}" method="POST" 
+                                                id="removeFromWishlistForm">
                                                 <input type="image" src="wishlistfilled.svg" class="wishlistIcoProducts">
                                           </form>
                                           {{/isInWishlist}}

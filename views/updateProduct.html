@@ -37,7 +37,7 @@
             </div>
             <div id="middlebar"></div>
             <div id="right_container">
-                <form action="/updateProduct/{{productId}}" method="POST" id="updateProductForm" enctype="multipart/form-data">
+                <form action="/updateProduct/{{productId}}" method="post" id="updateProductForm" enctype="multipart/form-data">
                     <input type="file" id="updatePicture" name="updatePicture[]"
                               accept='image/png, image/jpg, image/jpeg' multiple hidden>
                     <div id="productInfos">
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                 </form>
-                <form action="/deleteProduct/{{productId}}" method="POST" id="deleteProductForm">
+                <form action="/deleteProduct/{{productId}}" method="post" id="deleteProductForm">
                     <span id="msg">Do you really want to delete this product ?</span>
                     <div id="deleteButton">
                         <input type="submit" value="Delete" id="deleteButton" class="button">
