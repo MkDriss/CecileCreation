@@ -12,7 +12,8 @@
     "profilePicture": "",
     "admin": 1,
     "city": "Marseille",
-    "wishlist": []
+    "wishlist": [],
+    "language": "English"
   },
   {
     "id": "cf62756d6e8c9ce1642fa09b300844b7ade702bcf73bf1bca0e67c41881e1239",
@@ -27,6 +28,7 @@
     "wishlist": [],
     "zipCode": "",
     "phone": "",
+    "language": "French",
     "profilePicture": "profileExemplePicturepng_cf62756d6e8c9ce1642fa09b300844b7ade702bcf73bf1bca0e67c41881e1239.png"
   }
 ]

@@ -236,7 +236,12 @@ app.get('/updateAccount', (req, res) => {
     if (user.profilePicture === undefined || user.profilePicture === "") {
         user.profilePicture = "defaultAccountIco.png";
     }
-    res.render('updateAccount', { accountsInfos: user, admin: req.session.admin, authenticated: req.session.authenticated, css: '/updateAccount.css' });
+    let otherLanguages = ["English", "French"];
+    let currentLanguage = account.getLanguage(req.session.id);
+    console.log(currentLanguage)
+    otherLanguages.splice(otherLanguages.indexOf(currentLanguage), 1);
+
+    res.render('updateAccount', {accountsInfos: user, admin: req.session.admin, authenticated: req.session.authenticated, currentLanguage: currentLanguage, otherLanguages: otherLanguages, css: '/updateAccount.css' });
 });
 
 
@@ -649,6 +654,7 @@ app.post('/updateAccount', uploadProfilePicture.single('updateProfilePicture'), 
     let city = req.body.city;
     let zipCode = req.body.postCode;
     let phone = req.body.phoneNumber;
+    let language = req.body.languageSelect;
     let id = req.session.id;
 
     let profilePictureName;
@@ -663,7 +669,7 @@ app.post('/updateAccount', uploadProfilePicture.single('updateProfilePicture'), 
         return res.render('updateAccount', { msg: "Invalid email, username or password", css: '/updateAccount.css' });
     }
     else if (account.read(email) == undefined) {
-        account.updateAccount(id, username, userlastname, email, adress, city, zipCode, phone, profilePictureName);
+        account.updateAccount(id, username, userlastname, email, adress, city, zipCode, phone, language, profilePictureName);
 
         if (req.file == undefined) {
             console.log("No profile picture uploaded");

@@ -35,6 +35,15 @@
                         <input type="text" name="city" id="city" class="input" placeholder="City" value="{{city}}">
                         <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number"
                               value="{{phone}}">
+                        <select name="languageSelect" id="languageSelect">
+                              <option value="English" id="defaultLanguage">Select a Language</option>
+                              {{#currentLanguage}}
+                              <option value="{{currentLanguage}}" id="{{currentLanguage}}" selected>{{currentLanguage}}</option>
+                              {{/currentLanguage}}
+                              {{#otherLanguages}}
+                              <option value="{{otherLanguages}}" id="{{otherLanguages}}">{{otherLanguages}}</option>
+                              {{/otherLanguages}}
+                        </select>
                         <div id="buttons">
                               <input type="submit" name="save" class="button" value="Save">
                               <a href="/account" class="button" id="cancelButton">Cancel</a>

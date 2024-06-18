@@ -16,15 +16,15 @@ let loadAccount = function (filename) {
       db.prepare('DROP TABLE IF EXISTS wishlist').run();
       console.log('wishlist table dropped');
       db.prepare('CREATE TABLE IF NOT EXISTS user (id TEXT PRIMARY KEY,' +
-            'username TEXT, userLastName TEXT, email TEXT, password TEXT, token TEXT, admin INT, adress TEXT, city TEXT, zipCode TEXT, phone TEXT, profilePicture TEXT)').run();
+            'username TEXT, userLastName TEXT, email TEXT, password TEXT, token TEXT, admin INT, adress TEXT, city TEXT, zipCode TEXT, phone TEXT, language TEXT, profilePicture TEXT)').run();
       db.prepare('CREATE TABLE IF NOT EXISTS wishlist (userId TEXT, productId TEXT)').run();
 
-      let insertAccount = db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+      let insertAccount = db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
       let insertWishlist = db.prepare('INSERT INTO wishlist VALUES (?, ?)');
       let transaction = db.transaction((accounts) => {
             for (let i = 0; i < accounts.length; i++) {
                   let account = accounts[i];
-                  insertAccount.run(account.id, account.username, account.userLastName, account.email, account.password, account.token, account.admin, account.adress, account.city, account.zipCode, account.phone, account.profilePicture);
+                  insertAccount.run(account.id, account.username, account.userLastName, account.email, account.password, account.token, account.admin, account.adress, account.city, account.zipCode, account.phone, account.language, account.profilePicture);
                   if (account.wishlist.length > 0) {
                         for (let j = 0; j < account.wishlist.length; j++) {
                               insertWishlist.run(account.id, account.wishlist[j]);
@@ -54,6 +54,7 @@ exports.create = function (id, email, username, password, token) {
             "wishlist": [],
             "zipCode": "",
             "phone": "",
+            "language": "English",
             "profilePicture": "defaultAccountIco.png"
 
       };
@@ -67,7 +68,7 @@ exports.create = function (id, email, username, password, token) {
             });
       });
       try {
-            db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, "", email, password, token, 0, "", "", "", "", "defaultAccountIco.png");
+            db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, "", email, password, token, 0, "", "", "", "", "English", "defaultAccountIco.png");
             console.log('Account created');
       } catch (err) {
             console.log(err);
@@ -98,6 +99,10 @@ exports.getWishlist = function (id) {
 
 exports.list = function () {
       return db.prepare('SELECT * FROM user').all();
+}
+
+exports.getLanguage = function (id) {
+      return db.prepare('SELECT language FROM user WHERE id = ?').get(id).language;
 }
 
 // SET
@@ -181,7 +186,7 @@ exports.isInWishlist = function (userId, productId) {
 
 //UPDATE
 
-exports.updateAccount = function (id, username, userLastName, email, adress, city, zipCode, phone, pictureName) {
+exports.updateAccount = function (id, username, userLastName, email, adress, city, zipCode, phone, language, pictureName) {
 
       fs.readFile('json/accounts.json', function (err, data) {
             if (err) throw err;
@@ -196,6 +201,7 @@ exports.updateAccount = function (id, username, userLastName, email, adress, cit
                         account.city = city;
                         account.zipCode = zipCode;
                         account.phone = phone;
+                        account.language = language;
                         account.profilePicture = pictureName;
                   }
             }
@@ -205,7 +211,7 @@ exports.updateAccount = function (id, username, userLastName, email, adress, cit
             });
       });
 
-      db.prepare('UPDATE user SET username = ?, userLastName = ?, email = ?, adress = ?, city = ?, zipCode = ?, phone = ?, profilePicture = ? WHERE id = ?').run(username, userLastName, email, adress, city, zipCode, phone, pictureName, id);
+      db.prepare('UPDATE user SET username = ?, userLastName = ?, email = ?, adress = ?, city = ?, zipCode = ?, phone = ?, language = ?, profilePicture = ? WHERE id = ?').run(username, userLastName, email, adress, city, zipCode, phone, language, pictureName, id);
       console.log("Account updated");
 }
 
