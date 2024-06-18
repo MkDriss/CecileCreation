@@ -16,15 +16,15 @@ let loadAccount = function (filename) {
       db.prepare('DROP TABLE IF EXISTS wishlist').run();
       console.log('wishlist table dropped');
       db.prepare('CREATE TABLE IF NOT EXISTS user (id TEXT PRIMARY KEY,' +
-            'username TEXT, userLastName TEXT, email TEXT, password TEXT, admin INT, adress TEXT, city TEXT, zipCode TEXT, phone TEXT, profilePicture TEXT)').run();
+            'username TEXT, userLastName TEXT, email TEXT, password TEXT, token TEXT, admin INT, adress TEXT, city TEXT, zipCode TEXT, phone TEXT, profilePicture TEXT)').run();
       db.prepare('CREATE TABLE IF NOT EXISTS wishlist (userId TEXT, productId TEXT)').run();
 
-      let insertAccount = db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+      let insertAccount = db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
       let insertWishlist = db.prepare('INSERT INTO wishlist VALUES (?, ?)');
       let transaction = db.transaction((accounts) => {
             for (let i = 0; i < accounts.length; i++) {
                   let account = accounts[i];
-                  insertAccount.run(account.id, account.username, account.userLastName, account.email, account.password, account.admin, account.adress, account.city, account.zipCode, account.phone, account.profilePicture);
+                  insertAccount.run(account.id, account.username, account.userLastName, account.email, account.password, account.token, account.admin, account.adress, account.city, account.zipCode, account.phone, account.profilePicture);
                   if (account.wishlist.length > 0) {
                         for (let j = 0; j < account.wishlist.length; j++) {
                               insertWishlist.run(account.id, account.wishlist[j]);
@@ -40,13 +40,14 @@ loadAccount('json/accounts.json');
 
 //CREATE
 
-exports.create = function (id, email, username, password) {
+exports.create = function (id, email, username, password, token) {
       let newAccount = {
             "id": id,
             "username": username,
             "userLastName": "",
             "email": email,
             "password": password,
+            "token" : token,
             "admin": "0",
             "adress": "",
             "city": "",
@@ -66,7 +67,7 @@ exports.create = function (id, email, username, password) {
             });
       });
       try {
-            db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, "", email, password, 0, "", "", "", "", "defaultAccountIco.png");
+            db.prepare('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, "", email, password, token, 0, "", "", "", "", "defaultAccountIco.png");
             console.log('Account created');
       } catch (err) {
             console.log(err);
@@ -208,8 +209,24 @@ exports.updateAccount = function (id, username, userLastName, email, adress, cit
       console.log("Account updated");
 }
 
-exports.updateAccountPassword = function (password, email) {
-      db.prepare('UPDATE user SET password = ? WHERE email = ?').run(password, email);
+exports.updateAccountPassword = function (password, token) {
+
+      fs.readFile('json/accounts.json', function (err, data) {
+            if (err) throw err;
+            let accountsList = JSON.parse(data);
+            for (let i = 0; i < accountsList.length; i++) {
+                  let account = accountsList[i];
+                  if (account.token === token) {
+                        account.password = password;
+                  }
+            }
+            fs.writeFileSync('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
+                  if (err) throw err;
+                  console.log(err);
+            });
+      });
+
+      db.prepare('UPDATE user SET password = ? WHERE token = ?').run(password, token);
       console.log('Password updated');
 }
 

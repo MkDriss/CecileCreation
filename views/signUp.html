@@ -1,8 +1,8 @@
 {{>header}}
 
-<div id="registerBox">
-      <form action="/register" method="post" id="form">
-            <div id="title">Register</div>
+<div id="signUpBox">
+      <form action="/signUp" method="post" id="form">
+            <div id="title">signUp</div>
             <div>
                   <input type="username" id="username" name="username" placeholder="Username" required>
             </div>
@@ -17,14 +17,14 @@
                         required>
             </div>
             <div>
-                  <input type="submit" id="registerInput" value="Register">
+                  <input type="submit" id="signUpInput" value="sign Up">
             </div>
             <div>{{msg}}</div>
       </form>
 
       <div id="other">
 
-            <a href="/login">I already have an account</a>
+            <a href="/signIn">I already have an account</a>
       </div>
 </div>
 {{>footer}}

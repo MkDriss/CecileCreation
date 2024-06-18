@@ -55,10 +55,8 @@
       }
 </script>
 
-<link rel="stylesheet" href="/readProduct.css">
-
 {{#products}}
-<div id="readProduct">
+<div id="item">
       <div id="product">
             <div id="container">
                   <div id="left_container">
@@ -113,7 +111,7 @@
                                     </div>
                                     <hr>
                                     <div id="materialContainer">
-                                          <button onclick="showElement('material')" class="showButton">Material <img
+                                          <button onclick="showElement('material')" class="showButton">Materials <img
                                                       src="/right-arrow.png" alt="right_arrow" class="right-arrow"
                                                       style="rotate: 90deg;"></button>
 
@@ -130,22 +128,22 @@
                                     </form>
                                     {{#authenticated}}
                                     {{^isInWishlist}}
-                                    <form action="/addToWishlist/{{productId}}-shop-{{productId}}" method="POST"
+                                    <form action="/addToWishlist/callback=items.{{productId}}&id={{productId}}" method="POST"
                                           id="addToWishlistForm">
-                                          <input type="image" src="/wishlist.svg" class="wishlistIcoProducts">
+                                          <input type="image" src="/wishlist.svg" class="wishlistico">
                                     </form>
                                     {{/isInWishlist}}
 
                                     {{#isInWishlist}}
-                                    <form action="/removeFromWishlist/{{productId}}-shop-{{productId}}" method="POST"
+                                    <form action="/removeFromWishlist/callback=items.{{productId}}&id={{productId}}" method="POST"
                                           id="addToWishlistForm">
-                                          <input type="image" src="/wishlistfilled.svg" class="wishlistIcoProducts">
+                                          <input type="image" src="/wishlistfilled.svg" class="wishlistico">
                                     </form>
                                     {{/isInWishlist}}
                                     {{/authenticated}}
                                     {{^authenticated}}
                                     <a href="/login">
-                                          <img src="/wishlist.svg" alt="wishlist" class="wishlistIcoProducts">
+                                          <img src="/wishlist.svg" alt="wishlist" class="wishlistico">
                                     </a>
                                     {{/authenticated}}
                               </div>
@@ -154,7 +152,7 @@
             </div>
       </div>
 </div>
-
+{{/products}}
 <div id="otherProductsList">
       <div id="otherProducts">
             <a href="#otherProductsBox" id="otherProductsLink">Other Products</a>
@@ -169,25 +167,25 @@
                               </div>
                         </a>
                         <div class="otherProductInfos">
-                              <div id="price">{{productPrice}} €</div>
+                              <div class="otherProductPrice">{{productPrice}} €</div>
                               {{#authenticated}}
                               {{^isInWishlist}}
-                              <form action="/addToWishlist/items-{{productId}}" method="POST"
+                              <form action="/addToWishlist/callback=items.{{productId}}&id={{productId}}" method="POST"
                                     id="addToWishlistForm">
-                                    <input type="image" src="/wishlist.svg" class="wishlistIcoProducts">
+                                    <input type="image" src="/wishlist.svg" class="wishlistico">
                               </form>
                               {{/isInWishlist}}
 
                               {{#isInWishlist}}
-                              <form action="/removeFromWishlist/items-{{productId}}" method="POST"
+                              <form action="/removeFromWishlist/callback=items.{{productId}}&id={{productId}}" method="POST"
                                     id="addToWishlistForm">
-                                    <input type="image" src="/wishlistfilled.svg" class="wishlistIcoProducts">
+                                    <input type="image" src="/wishlistfilled.svg" class="wishlistico">
                               </form>
                               {{/isInWishlist}}
                               {{/authenticated}}
                               {{^authenticated}}
                               <a href="/login">
-                                    <img src="/wishlist.svg" alt="wishlist" class="wishlistIcoProducts">
+                                    <img src="/wishlist.svg" alt="wishlist" class="wishlistico">
                               </a>
                               {{/authenticated}}
                         </div>
@@ -196,6 +194,6 @@
             </div>
       </div>
 </div>
-{{/products}}
+
 
 {{>footer}}

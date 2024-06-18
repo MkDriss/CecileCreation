@@ -9,14 +9,14 @@
                   {{#wishlist}}
 
                   <div class="wishlistItem">
-                        <a href="/readProduct/{{productId}}" class="productLink">
+                        <a href="/items/{{productId}}" class="productLink">
                               <img src="{{productPicture}}" alt="ProductPicture" class="productPicture">
                         </a>
                         <div class="productInfos">
                               <div class="name">{{productName}}</div>
                               <div id="bottomCard">
                                     <div class="price">{{productPrice}} €</div>
-                                    <form action="/removeFromWishlist/{{productId}}-wishlist" method="post">
+                                    <form action="/removeFromWishlist/callback=wishlist&id={{productId}}" method="post">
                                           <input type="image" src="wishlistfilled.svg" class="wishlistfilled">
                                     </form>
                               </div>

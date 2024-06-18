@@ -4,6 +4,7 @@
     "username": "SuperDri",
     "email": "meskinidrisspro@gmail.com",
     "password": "marie",
+    "token": "a5410f1643507311d4a047db4830766312d4f4a51fe7f219bb86e3478765edc6272ae1a89838116b64c4c4674896b2634c1343bbade67fff727852d6320898c22b9d3782f2d4c78b9e4d6804db61651d0bb38cc1823570a8ad47f8cda5b87a2b5e4c1e83288294c3443711fdbf4437ecbf90c28c5136f1b06d259ff3e70e1ce2",
     "adress": "22 Boulevard Georges Guynemer",
     "zipCode": "13009",
     "phone": "06 52 18 73 05",
@@ -11,25 +12,21 @@
     "profilePicture": "",
     "admin": 1,
     "city": "Marseille",
-    "wishlist": [
-      "4"
-    ]
+    "wishlist": []
   },
   {
     "id": "cf62756d6e8c9ce1642fa09b300844b7ade702bcf73bf1bca0e67c41881e1239",
     "username": "mathi",
-    "userLastName": "",
+    "userLastName": "giroud",
     "email": "mathi@gmail.com",
-    "password": "m",
+    "password": "tqt",
+    "token": "7f36df2755fd3a1a6d985c26cfd6c5a7bb2a921bb88b2d4c1b165ebfa06d2447d84137e22314ce958f201de4513defaebdf194ef6089b5231e3a914a666427a68925c23559a0309bd89ae1d3c3602b9f737e4909a05b94a46624d11014fe91f66a013eaa20b5768051cfa0377f692917e6d06b9aa337adf0f90885f0e67bdc1f",
     "admin": 0,
     "adress": "",
     "city": "",
-    "wishlist": [
-      "5",
-      "4"
-    ],
+    "wishlist": [],
     "zipCode": "",
     "phone": "",
-    "profilePicture": "defaultAccountIco.png"
+    "profilePicture": "profileExemplePicturepng_cf62756d6e8c9ce1642fa09b300844b7ade702bcf73bf1bca0e67c41881e1239.png"
   }
 ]

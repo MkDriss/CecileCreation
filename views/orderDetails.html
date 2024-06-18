@@ -55,20 +55,17 @@
             </div>
             <a href="/orders" id="backButton" class="button">Back</a>
         </div>
-
-        <div id="middleBar"></div>
-
         <div id="right_container">
             <div>
                 <div id="products">
                     {{#products}}
                     <div class="items">
-                        <a href="/readProduct/{{productId}}" class="productLink">
+                        <a href="/items/{{productId}}" class="productLink">
                             <img src="/{{picture}}" alt="ProductPicture" class="productPicture">
                         </a>
                         <div class="otherProductInfos">
                             <div class="otherProductInfosContainer">
-                                <a href="/readProduct/{{productId}}" class="productLink">
+                                <a href="/items/{{productId}}" class="productLink">
                                     <div class="otherProductName">{{productName}}</div>
                                     <div class="otherProductPrice">{{productPrice}} €</div>
                                 </a>

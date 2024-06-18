@@ -59,11 +59,10 @@
     border-radius: 10px;
     padding: 30px 5px 20px 5px;
     margin: 0px 15px 30px 15px;
-    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
 }
 
 .productPicture:hover {
-    transform: scale(1.05);
+    transform: translateY(-10px);
 }
 
 .productLink {
@@ -78,7 +77,7 @@
 }
 
 .wishlistfilled:hover{
-    transform: scale(1.1);
+    transform: translateY(-10px);
     cursor: pointer;
 }
 
@@ -109,13 +108,12 @@
     border-radius: 5px;
     margin: 15px 0px;
     background-color: #a8957d;
-    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
     color: whitesmoke;
     border: none;
     text-decoration: none;
 }
 
 #goShop:hover{
-    background-color: #8e7d68;
+    background-color: --var(background-color);
     
 }

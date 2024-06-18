@@ -91,15 +91,16 @@
     margin: 0px 15px 150px 15px;
 }
 
-#product{
-    box-shadow: var(--box-shadow);
-}
+
 
 #addProductPicture{
     transition: transform .2s;
 }
 
-#productPicture:hover,
+#productPicture:hover{
+    transform: translateY(-10px);
+}
+
 #addProductPicture:hover {
     transform: scale(1.05);
 }
@@ -124,8 +125,7 @@
 
 #price {
     font-size: 20px;
-    font-weight: bold;
-    color: var(--primary-color);
+    color: var(--text-color);
 }
 
 #bottomCard{

@@ -21,6 +21,7 @@ const { setMaxIdleHTTPParsers } = require("http");
 const res = require("express/lib/response");
 const { SourceTextModule } = require("vm");
 const { off } = require("process");
+const { callbackPromise } = require("nodemailer/lib/shared");
 
 // APP
 
@@ -88,14 +89,21 @@ function createOrder(id, email, userName, userLastName, userAdress, userCity, us
     let cartuser = cart.listProducts(id);
     console.log(cartuser);
 
-    for (let i = 0 ; i < cartuser.length; i++) {
-        orderProducts += cartuser[i].productId;
-        if ( i < cartuser.length - 1) {
+    for (let i = 0; i < cartuser.length; i++) {
+        let productId = cartuser[i].productId;
+        let quantity = cart.getQuantity(id, cartuser[i].productId)
+        console.log(quantity)
+        for (let j = 0; j < quantity; j++) {
+            orderProducts += productId;
+            if (j < quantity - 1) {
+                orderProducts += ', ';
+            }
+        }
+        if (i < cartuser.length - 1) {
             orderProducts += ', ';
         }
+        console.log(orderProducts)
     }
-
-    console.log(orderProducts);
 
     let state = "In Process";
     let date = getDateOrder();
@@ -108,9 +116,16 @@ function createOrder(id, email, userName, userLastName, userAdress, userCity, us
 }
 
 
-function paramsParser(params, separator = "/") {
-    paramlist = (String(params)).split(separator);
-    return paramlist;
+function paramsParser(params) {
+    let paramlist = (String(params)).split("&");
+    let callback = paramlist[0].split("=")[1];
+    callback = callback.split(".");
+    let url = "/" + callback[0];
+    if (callback[1]) {
+        url += "/" + callback[1];
+    }
+    let id = paramlist[1].split("=")[1];
+    return [url, id];
 }
 
 
@@ -126,19 +141,19 @@ function calculateShippingCost(userCart) {
 
 
 app.get('/', (req, res) => {
-    res.render('home', {css: '/home.css'});
+    res.render('home', { css: '/home.css' });
 });
 
 app.get('/home', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/login', (req, res) => {
-    res.render('login', { css: '/login.css' });
+app.get('/signIn', (req, res) => {
+    res.render('signIn', { css: '/signIn.css' });
 });
 
-app.get('/register', (req, res) => {
-    res.render('register', { css: '/register.css' });
+app.get('/signUp', (req, res) => {
+    res.render('signUp', { css: '/signUp.css' });
 });
 
 app.get('/account', (req, res) => {
@@ -183,7 +198,7 @@ app.get('/logout', (req, res) => {
 app.get('/orders', (req, res) => {
 
     if (!req.session.authenticated) {
-        res.redirect('/login');
+        res.redirect('/signIn');
     }
 
     else {
@@ -221,7 +236,7 @@ app.get('/updateAccount', (req, res) => {
     if (user.profilePicture === undefined || user.profilePicture === "") {
         user.profilePicture = "defaultAccountIco.png";
     }
-    res.render('updateAccount', { accountsInfos: user, admin: req.session.admin, authenticated : req.session.authenticated, css: '/updateAccount.css' });
+    res.render('updateAccount', { accountsInfos: user, admin: req.session.admin, authenticated: req.session.authenticated, css: '/updateAccount.css' });
 });
 
 
@@ -297,7 +312,7 @@ app.get('/deleteProduct/:id', (req, res) => {
 
 app.get('/cart', (req, res) => {
     if (req.session.id === undefined) {
-        res.redirect('login');
+        res.redirect('signIn');
     }
     else {
         let cartuser = cart.listProducts(req.session.id);
@@ -354,6 +369,7 @@ app.get('/items/:productId', (req, res) => {
     }
 
     let product = shop.read(productId);
+    product.isInWishlist = account.isInWishlist(req.session.id, product.productId)
     let commentsList = comments.list(productId);
     let prod = shop.list();
     let otherProducts = [];
@@ -362,7 +378,7 @@ app.get('/items/:productId', (req, res) => {
         if (account.isInWishlist(req.session.id, prod[i].productId)) {
             prod[i].isInWishlist = true;
         } else { prod[i].isInWishlist = false; }
-        
+
         if (prod[i].productId != productId && !otherProducts.includes(prod[i])) {
             otherProducts.push(prod[i]);
         }
@@ -382,11 +398,11 @@ app.get('/items/:productId', (req, res) => {
         product.productMaterial = "";
     }
 
-    let otherProductsList = (shop.getProductPictures(productId)).slice(1);
+    let otherProductsPicturesList = (shop.getProductPictures(productId)).slice(1);
     let countPictures = shop.getProductPictures(productId)
     return res.render('items', {
         products: product, frontPicture: shop.getProductPictures(productId)[0].pictureName,
-        countPictures: countPictures, productPictures: otherProductsList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/items.css'
+        countPictures: countPictures, productPictures: otherProductsPicturesList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/items.css'
     });
 });
 
@@ -405,12 +421,11 @@ app.get('/deleteComment/:commentId', (req, res) => {
 
 app.get('/forgotPassword', (req, res) => {
     res.render('forgotPassword');
-    //TO DO
 });
 
-app.get('/resetPassword/:id', (req, res) => {
-    res.render('resetPassword');
-    //TO DO
+app.get('/resetPassword/:token', (req, res) => {
+    let token = req.params.token
+    res.render('resetPassword', { token: token });
 });
 
 app.get('/aboutUs', (req, res) => {
@@ -432,7 +447,7 @@ app.get('/deliveryInfos', (req, res) => {
 
     let cartuser = cart.listProducts(req.session.id);
     if (req.session.id == undefined || req.session.id == null) {
-        res.redirect('/login');
+        res.redirect('/signIn');
     }
 
     let totalPrice = cart.getTotalPrice(req.session.id);
@@ -474,10 +489,12 @@ app.get('/orderDetails/:id', (req, res) => {
     let order = orderList.getOrderFromId(orderId);
     let orderProductsId = order.products.split(', ');
     let productsList = [];
+    console.log(order)
     for (let i = 0; i < orderProductsId.length; i++) {
         let product = shop.read(orderProductsId[i])
         product.picture = shop.getProductPictures(product.productId)[0].pictureName;
         productsList.push(product);
+        console.log(productsList)
     }
     res.render('orderDetails', { order: order, css: '/orderDetails.css', products: productsList });
 });
@@ -504,13 +521,13 @@ app.get('/createOrder', (req, res) => {
 
 //POST METHODS
 
-app.post('/login', (req, res) => {
+app.post('/signIn', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
     let productId = req.body.productId;
     if (email == undefined || password == undefined) {
         console.log("email or password is undefined")
-        return res.render('login', { msg: "Invalid email or password", css: '/login.css' });
+        return res.render('signIn', { msg: "Invalid email or password", css: '/signIn.css' });
     }
     else if (account.checkPassword(email, password) == 'true') {
 
@@ -532,32 +549,33 @@ app.post('/login', (req, res) => {
     }
     else if (account.checkPassword(email, password) == 'false') {
         console.log("Invalid username or password")
-        return res.render('login', { msg: "Wrong username or password", css: '/login.css' });
+        return res.render('signIn', { msg: "Wrong username or password", css: '/signIn.css' });
     }
 });
 
-app.post('/register', (req, res) => {
+app.post('/signUp', (req, res) => {
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
     let confirmPassword = req.body.confimPassword;
     let id = crypto.randomBytes(32).toString("hex");
+    let token = crypto.randomBytes(128).toString("hex")
 
     if (email == undefined || username == undefined || password == undefined) {
         console.log("Invalid username or password")
-        return res.render('register', { msg: "Invalid email, username or password", css: '/register.css' });
+        return res.render('signUp', { msg: "Invalid email, username or password", css: '/signUp.css' });
     }
     else if (confirmPassword != password) {
         console.log("Password aren't matching")
-        return res.render('register', { msg: "Wrong password", css: '/register.css' })
+        return res.render('signUp', { msg: "Wrong password", css: '/signUp.css' })
     }
     else if (account.read(id) == undefined && account.checkEmail(email) == 'false') {
-        account.create(id, email, username, password);
-        return res.redirect('/login');
+        account.create(id, email, username, password, token);
+        return res.redirect('/signIn');
     }
     else if (account.read(email) != undefined) {
         console.log("An account already exists with this email")
-        return res.render('register', { msg: "An account already exists with this email", css: '/register.css' });
+        return res.render('signUp', { msg: "An account already exists with this email", css: '/signUp.css' });
     }
 });
 
@@ -611,7 +629,15 @@ app.post('/forgotPassword', (req, res) => {
 });
 
 app.post('/resetPassword/:token', (req, res) => {
-    //TO DO
+    let token = req.params.token
+    let password = req.body.newPassword
+    try {
+        account.updateAccountPassword(password, token)
+        res.redirect('/signIn')
+    } catch (err) {
+        res.redirect('/resetPassword/' + token)
+    }
+
 });
 
 
@@ -684,8 +710,9 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
         }
     }
 
+    let productShippingCost = req.body.shippingCost;
+
     let pictureData = req.files;
-    console.log(pictureData)
     if (name == undefined || price == undefined || description == undefined || pictureData == undefined) {
         console.log("Invalid product")
         return res.redirect('/addProduct');
@@ -699,7 +726,8 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
     else if (shop.read(name) == undefined) {
         name = convertInAlphabet(name);
         let productId = crypto.randomBytes(5).toString("hex");
-        shop.create(productId, name, productCategory, productHeight, productWidth, productDepth, productMaterial, price,
+        console.log(pictureData)
+        shop.create(productId, name, productCategory, productHeight, productWidth, productDepth, productMaterial, price, productShippingCost,
             description, pictureData);
         for (let i = 0; i < pictureData.length; i++) {
             let tmp_path = pictureData[i].path;
@@ -716,10 +744,11 @@ app.post('/addProduct', uploadProduct.any('uploadPicture'), (req, res) => {
 });
 
 app.post('/addToCart/:productId', (req, res) => {
-    if (req.session.authenticated === false || req.session.authenticated === undefined) {
-        return res.render('login', { msg: "You must be logged in to add a product to your cart", css: '/login.css', productId: productId });
-    }
     let productId = req.params.productId;
+    if (req.session.authenticated === false || req.session.authenticated === undefined) {
+        return res.render('signIn', { msg: "You must be logged in to add a product to your cart", css: '/signIn.css', productId: productId });
+    }
+
     let userId = req.session.id;
     if (productId == undefined || userId == undefined) {
         console.log("Product or User not found");
@@ -733,17 +762,10 @@ app.post('/addToCart/:productId', (req, res) => {
 });
 
 app.post('/addToWishlist/:p', (req, res) => {
-    paramlist = paramsParser(req.params.p, "-");
-    console.log(paramlist);
-    let callBackURL = "/" + paramlist[0];
-    for (let i = 1; i < paramlist.length; i++) {
-        console.log(paramlist[i]);
-        callBackURL += "/" + paramlist[i];
-    }
-    let productId = paramlist[1];
+    let params = paramsParser(req.params.p);
     let userId = req.session.id;
-    account.addToWishlist(userId, productId);
-    return res.redirect(callBackURL);
+    account.addToWishlist(userId, params[1]);
+    return res.redirect(params[0]);
 });
 
 app.post('/updateProduct/:id', uploadProduct.any('updatePicture'), (req, res) => {
@@ -806,16 +828,17 @@ app.post('/cart', (req, res) => {
     let cartuser = cart.listProducts(req.session.id);
 
     for (let i = 0; i < cartuser.length; i++) {
-        let quantity = quantities[i];
+        let quantity = quantities[i]
         if (quantity == undefined) {
             quantity = 1;
         }
-        else if (quantities[i] <= 0) {
+        else if (quantity <= 0 || quantity === "-") {
             cart.removeProduct(req.session.id, cartuser[i].productId);
-        } else if (quantities[i] != cart.getQuantity(req.session.id, cartuser[i].productId)) {
+        } else if (quantity != cart.getQuantity(req.session.id, cartuser[i].productId)) {
             cart.updateQuantity(req.session.id, cartuser[i].productId, quantity);
         }
     }
+
 
     res.redirect('/deliveryInfos');
 });
@@ -874,7 +897,7 @@ app.post('/searchProduct', (req, res) => {
 app.post('/addComment', (req, res) => {
     if (req.session.authenticated === false || req.session.authenticated === undefined) {
         console.log("You must be logged in to add a comment");
-        return res.redirect('/login');
+        return res.redirect('/signIn');
     }
 
     let productId = req.body.productId;
@@ -903,7 +926,7 @@ app.post('/addComment', (req, res) => {
 
 app.post("/create-payment-intent", async (req, res) => {
     if (req.session.id == undefined) {
-        res.redirect('/login');
+        res.redirect('/signIn');
     }
     let tolalPrice = cart.getTotalPrice(req.session.id) * 100;
 
@@ -949,16 +972,10 @@ app.post('/deleteProduct/:id', (req, res) => {
 
 app.post('/removeFromWishlist/:p', (req, res) => {
     console.log("Removing from wishlist");
-    console.log(req.params.p);
-    let paramlist = paramsParser(req.params.p, "-");
-    let callBackURL = '/' + paramlist[0];
-    for (let i = 1; i < paramlist.length; i++) {
-        callBackURL += '/' + paramlist[i];
-    }
-    let productId = paramlist[1];
+    let params = paramsParser(req.params.p);
     let userId = req.session.id;
-    account.removeFromWishlist(userId, productId);
-    return res.redirect(callBackURL);
+    account.removeFromWishlist(userId, params[1]);
+    return res.redirect(params[0]);
 });
 
 //LISTENING

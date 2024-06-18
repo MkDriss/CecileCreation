@@ -1,7 +1,7 @@
 {{>header}}
-<div id="loginBox">
-      <form action="/login" method="POST" id="form">
-            <div id="title">Login</div>
+<div id="signInBox">
+      <form action="/signin" method="POST" id="form">
+            <div id="title">Sign in</div>
             <div>{{msg}}</div>
             {{#productId}}
             <input type="hidden" value="{{productId}}" name="productId">
@@ -14,14 +14,14 @@
             </div>
 
             <div>
-                  <input type="submit" id="loginInput" value="Login">
+                  <input type="submit" id="singinInput" value="Sign In">
             </div>
       </form>
 
       <div id="other">
 
             <a href="/forgotPassword">Forgot your password ?</a>
-            <a href="/register">Register</a>
+            <a href="/signUp">Sign Up</a>
       </div>
 </div>
 

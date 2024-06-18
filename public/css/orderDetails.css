@@ -20,7 +20,7 @@
     width: 70%;
     padding: 50px;
     border-radius: 10px;
-    box-shadow: 0px 0px 5px 1px rgb(195, 195, 195);
+    gap: 20px;
 }
 
 #left_container {
@@ -91,12 +91,6 @@
     transform: scale(1.1);
 }
 
-#middleBar {
-    display: flex;
-    width: 2px;
-    height: 100%;
-    background-color: #867763;
-}
 
 .itemInfos {
     display: flex;
