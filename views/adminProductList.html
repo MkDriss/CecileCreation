@@ -1,7 +1,19 @@
 {{>header}}
 {{#admin}}
 <div id="adminProductList">
+      <img src="adminProductList.jpg" alt="" id="adminProductListPicture">
       <span id="title">All of your Products</span>
+      <form action="/searchProductFromAdminProductList" method="POST" id="searchProductForm">
+            <input type="text" name="search" id="search" placeholder="Search">
+            <select name="productCategory" id="productCategory">
+                  <option name="productCategory" id="defaultCategory" value="None">Select a Category</option>
+                  {{#categories}}
+                  <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">
+                        {{productCategory}}</option>
+                  {{/categories}}
+            </select>
+            <input type="submit" value="Search" id="submit">
+      </form>
       <div id="adminProductListContent">
             <div id="productsList">
                   {{#products}}

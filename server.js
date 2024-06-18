@@ -137,6 +137,38 @@ function calculateShippingCost(userCart) {
     return shippingCost;
 }
 
+function researchProduct(search, category) {
+    let productsList = shop.list();
+    let productsFoundbyCategory = [];
+    let productsFoundbySearch = [];
+    if (category != undefined && category != "None") {
+        for (let i = 0; i < productsList.length; i++) {
+            if (productsList[i].productCategory === category) {
+                productsFoundbyCategory.push(productsList[i]);
+                if (search != undefined && search != "") {
+                    if ((productsList[i].productName).toLowerCase().includes(search.toLowerCase())) {
+                        productsFoundbySearch.push(productsList[i]);
+                    }
+                }
+            }
+        }
+
+        if (search == undefined || search === "") {
+            return productsFoundbyCategory;
+        }
+        return productsFoundbySearch;
+    }
+
+    else if (search != undefined) {
+        for (let i = 0; i < productsList.length; i++) {
+            if ((productsList[i].productName).toLowerCase().includes(search.toLowerCase())) {
+                productsFoundbySearch.push(productsList[i]);
+            }
+        }
+        return productsFoundbySearch
+    }
+}
+
 //GET METHODS
 
 
@@ -219,10 +251,6 @@ app.get('/shop', (req, res) => {
     res.render('shop', { products: productsList, css: '/shop.css', categories: categories });
 });
 
-app.get('/shop/:id', (req, res) => {
-    res.redirect('/shop');
-});
-
 app.get('/addProduct', (req, res) => {
     let productMaterials = shop.getMaterials();
     res.render('addProduct', {
@@ -241,7 +269,7 @@ app.get('/updateAccount', (req, res) => {
     console.log(currentLanguage)
     otherLanguages.splice(otherLanguages.indexOf(currentLanguage), 1);
 
-    res.render('updateAccount', {accountsInfos: user, admin: req.session.admin, authenticated: req.session.authenticated, currentLanguage: currentLanguage, otherLanguages: otherLanguages, css: '/updateAccount.css' });
+    res.render('updateAccount', { accountsInfos: user, admin: req.session.admin, authenticated: req.session.authenticated, currentLanguage: currentLanguage, otherLanguages: otherLanguages, css: '/updateAccount.css' });
 });
 
 
@@ -434,8 +462,15 @@ app.get('/resetPassword/:token', (req, res) => {
 });
 
 app.get('/aboutUs', (req, res) => {
-    //TO DO
-    res.render('aboutUs', { css: '/aboutUs.css' });
+    let language = account.getLanguage(req.session.id);
+    if (language === "French") {
+        res.render('aboutUs', { French: true, css: '/aboutUs.css' });
+    } else if (language === "English") {
+        res.render('aboutUs', { English: true, css: '/aboutUs.css' });
+    }
+    else {
+        res.render('aboutUs', { English: true, css: '/aboutUs.css' });
+    }
 });
 
 app.get('/checkout', (req, res) => {
@@ -489,17 +524,15 @@ app.get('/deliveryInfos', (req, res) => {
 });
 
 
-app.get('/orderDetails/:id', (req, res) => {
-    let orderId = req.params.id;
+app.get('/orderDetails/:params', (req, res) => {
+    let orderId = req.params.params;
     let order = orderList.getOrderFromId(orderId);
     let orderProductsId = order.products.split(', ');
     let productsList = [];
-    console.log(order)
     for (let i = 0; i < orderProductsId.length; i++) {
         let product = shop.read(orderProductsId[i])
         product.picture = shop.getProductPictures(product.productId)[0].pictureName;
         productsList.push(product);
-        console.log(productsList)
     }
     res.render('orderDetails', { order: order, css: '/orderDetails.css', products: productsList });
 });
@@ -513,7 +546,8 @@ app.get('/allOrders', (req, res) => {
 
 app.get('/adminProductList', (req, res) => {
     if (req.session.admin === true) {
-        res.render('adminProductList', { products: shop.list(), css: '/adminProductList.css', admin: req.session.admin })
+        let categories = shop.getCategories();
+        res.render('adminProductList', { products: shop.list(), css: '/adminProductList.css', categories: categories, admin: req.session.admin })
     }
 });
 
@@ -865,38 +899,22 @@ app.post('/deliveryInfos', (req, res) => {
 });
 
 
-app.post('/searchProduct', (req, res) => {
+app.post('/searchProductFromShop', (req, res) => {
     let search = req.body.search;
-    let productsList = shop.list();
-    let productsFoundbyCategory = [];
-    let productsFoundbySearch = [];
     let category = req.body.productCategory;
+    let research = researchProduct(search, category);
+    return res.render('shop', { products: research, css: '/shop.css', categories: shop.getCategories() });
+});
 
-    if (category != undefined && category != "None") {
-        for (let i = 0; i < productsList.length; i++) {
-            if (productsList[i].productCategory == category) {
-                productsFoundbyCategory.push(productsList[i]);
-                if (search != undefined && search != "") {
-                    if ((productsList[i].productName).toLowerCase().includes(search.toLowerCase())) {
-                        productsFoundbySearch.push(productsList[i]);
-                    }
-                }
-            }
-        }
-        if (productsFoundbySearch.length > 0) {
-            return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: shop.getCategories() });
-        }
-        return res.render('shop', { products: productsFoundbyCategory, css: '/shop.css', categories: shop.getCategories() });
+app.post('/searchProductFromAdminProductList', (req, res) => {
+    if (account.read(req.session.id).admin === 0 || req.session.admin === false || req.session.authenticated === false) {
+        console.log("You must be an admin to access this page");
+        return res.redirect('/shop');
     }
-
-    else if (search != undefined) {
-        for (let i = 0; i < productsList.length; i++) {
-            if ((productsList[i].productName).toLowerCase().includes(search.toLowerCase())) {
-                productsFoundbySearch.push(productsList[i]);
-            }
-        }
-        return res.render('shop', { products: productsFoundbySearch, css: '/shop.css', categories: shop.getCategories() });
-    }
+    let search = req.body.search;
+    let category = req.body.productCategory;
+    let research = researchProduct(search, category);
+    return res.render('adminProductList', { products: research, css: '/adminProductList.css', admin: req.session.admin, categories: shop.getCategories() });
 });
 
 

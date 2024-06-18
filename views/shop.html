@@ -4,10 +4,10 @@
       <span id="title">Shop</span>
 
       <div id="shopContent">
-            <form action="/searchProduct" method="POST" id="searchProductForm">
+            <form action="/searchProductFromShop" method="POST" id="searchProductForm">
                   <input type="text" name="search" id="search" placeholder="Search">
                   <select name="productCategory" id="productCategory">
-                        <option name="productCategory" id="defaultCategory" value="default">Select a Category</option>
+                        <option name="productCategory" id="defaultCategory" value="None">Select a Category</option>
                         {{#categories}}
                         <option name="productCategory" id="{{productCategory}}" value="{{productCategory}}">
                               {{productCategory}}</option>

@@ -130,7 +130,8 @@
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+select {
     font-family: "Raleway";
     width: 300px;
     height: 35px;
