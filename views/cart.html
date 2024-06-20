@@ -1,5 +1,14 @@
 {{>header}}
 
+<script>
+      function checkQuantity(element) {
+            if (element.value < 0) {
+                  alert("You can't have a negative quantity")
+                  element.value = 0;
+            }
+      }
+</script>
+
 <span id="title">Cart</span>
 <div id="cart">
       {{#passOrder}}
@@ -21,7 +30,7 @@
                                                 <div class="quantityContainer">
                                                       <label for="quantity" class="quantityLabel">Qty:</label>
                                                       <input type="number" name="quantity" id="quantity"
-                                                            value="{{quantity}}">
+                                                            value="{{quantity}}" onchange="checkQuantity(this)">
                                                 </div>
                                           </div>
                                     </div>
@@ -49,7 +58,7 @@
                         </div>
                   </div>
             </div>
- 
+
       </form>
       {{/passOrder}}
 </div>
