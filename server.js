@@ -169,11 +169,20 @@ function researchProduct(search, category) {
     }
 }
 
+function getCartCount(id) {
+    let cartuser = cart.listProducts(id);
+    let count = 0;
+    for (let i = 0; i < cartuser.length; i++) {
+        count += cart.getQuantity(id, cartuser[i].productId);
+    }
+    return count;
+}
+
 //GET METHODS
 
 
 app.get('/', (req, res) => {
-    res.render('home', { css: '/home.css' });
+    res.render('home', { css: '/home.css', cartCount: getCartCount(req.session.id) });
 });
 
 app.get('/home', (req, res) => {
@@ -181,11 +190,11 @@ app.get('/home', (req, res) => {
 });
 
 app.get('/signIn', (req, res) => {
-    res.render('signIn', { css: '/signIn.css' });
+    res.render('signIn', { css: '/signIn.css', cartCount: getCartCount(req.session.id) });
 });
 
 app.get('/signUp', (req, res) => {
-    res.render('signUp', { css: '/signUp.css' });
+    res.render('signUp', { css: '/signUp.css', cartCount: getCartCount(req.session.id) });
 });
 
 app.get('/account', (req, res) => {
@@ -193,7 +202,7 @@ app.get('/account', (req, res) => {
     if (user.profilePicture === undefined || user.profilePicture === "") {
         user.profilePicture = "defaultAccountIco.png";
     }
-    res.render('account', { accountsInfos: user, admin: req.session.admin, css: '/account.css' });
+    res.render('account', { accountsInfos: user, admin: req.session.admin, css: '/account.css', cartCount: getCartCount(req.session.id) });
 });
 
 app.get('/wishlist', (req, res) => {
@@ -206,12 +215,12 @@ app.get('/wishlist', (req, res) => {
     }
     let isEmpty = whishList.length === 0;
 
-    res.render('wishlist', { wishlist: whishList, isEmpty: isEmpty, css: '/wishlist.css' });
+    res.render('wishlist', { wishlist: whishList, isEmpty: isEmpty, css: '/wishlist.css', cartCount: getCartCount(req.session.id) });
 })
 
 app.get('/adminPanel', (req, res) => {
     if (req.session.admin === true) {
-        res.render('adminPanel', { admin: req.session.admin, css: '/adminPanel.css' });
+        res.render('adminPanel', { admin: req.session.admin, css: '/adminPanel.css', cartCount: getCartCount(req.session.id) });
     } else {
         res.redirect('/account');
     }
@@ -234,7 +243,7 @@ app.get('/orders', (req, res) => {
     }
 
     else {
-        res.render('orders', { orders: orderList.getOrdersFromUserId(req.session.id), css: '/orders.css' });
+        res.render('orders', { orders: orderList.getOrdersFromUserId(req.session.id), css: '/orders.css', cartCount: getCartCount(req.session.id) });
     }
 });
 
@@ -248,14 +257,14 @@ app.get('/shop', (req, res) => {
             product.isInWishlist = true;
         }
     }
-    res.render('shop', { products: productsList, css: '/shop.css', categories: categories });
+    res.render('shop', { products: productsList, css: '/shop.css', categories: categories, cartCount: getCartCount(req.session.id) });
 });
 
 app.get('/addProduct', (req, res) => {
     let productMaterials = shop.getMaterials();
     res.render('addProduct', {
         admin: req.session.admin, css: '/addProduct.css', categories: shop.getCategories(),
-        materials: productMaterials
+        materials: productMaterials, cartCount: getCartCount(req.session.id)
     });
 });
 
@@ -269,7 +278,7 @@ app.get('/updateAccount', (req, res) => {
     console.log(currentLanguage)
     otherLanguages.splice(otherLanguages.indexOf(currentLanguage), 1);
 
-    res.render('updateAccount', { accountsInfos: user, admin: req.session.admin, authenticated: req.session.authenticated, currentLanguage: currentLanguage, otherLanguages: otherLanguages, css: '/updateAccount.css' });
+    res.render('updateAccount', { accountsInfos: user, admin: req.session.admin, authenticated: req.session.authenticated, currentLanguage: currentLanguage, otherLanguages: otherLanguages, css: '/updateAccount.css', cartCount: getCartCount(req.session.id) });
 });
 
 
@@ -303,7 +312,7 @@ app.get('/updateProduct/:id', (req, res) => {
 
     res.render('updateProduct', {
         products: product, css: '/updateProduct.css', productPictures: shop.getProductPictures(req.params.id),
-        admin: req.session.admin, categories: productCategories, materials: productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial
+        admin: req.session.admin, categories: productCategories, materials: productMaterials, currentCategory: currentCategory, currentMaterial: currentMaterial, cartCount: getCartCount(req.session.id)
     });
 });
 
@@ -331,7 +340,7 @@ app.get('/updateOrder/:id', (req, res) => {
 
     res.render('updateOrder', {
         admin: req.session.admin, products: productIdList, order: order,
-        css: '/updateOrder.css', otherStates: otherStates, currentState: currentState
+        css: '/updateOrder.css', otherStates: otherStates, currentState: currentState, cartCount: getCartCount(req.session.id)
     });
 
 });
@@ -340,7 +349,7 @@ app.get('/updateOrder/:id', (req, res) => {
 app.get('/deleteProduct/:id', (req, res) => {
     let productId = req.params.id;
     let product = shop.read(productId);
-    res.render('deleteProduct', { products: product, css: '/deleteProduct.css', admin: req.session.admin });
+    res.render('deleteProduct', { products: product, css: '/deleteProduct.css', admin: req.session.admin, cartCount: getCartCount(req.session.id) });
 });
 
 app.get('/cart', (req, res) => {
@@ -355,7 +364,7 @@ app.get('/cart', (req, res) => {
         if (cartuser == undefined || cartuser.length == 0) {
             console.log("Cart is empty");
             randomIndex = Math.floor(Math.random() * 2);
-            res.render('cart', { cartId: req.session.id, emptyCartPicture: emptyCartPictures[randomIndex], css: '/cart.css' });
+            res.render('cart', { cartId: req.session.id, emptyCartPicture: emptyCartPictures[randomIndex], css: '/cart.css', cartCount: getCartCount(req.session.id) });
         }
         else {
             let cartProductsInfos = []
@@ -372,7 +381,7 @@ app.get('/cart', (req, res) => {
 
             res.render('cart', {
                 css: '/cart.css', numberOfItems: numberOfItems, cartId: req.session.id, cartProducts: cartProductsInfos,
-                totalPrice: totalPrice, passOrder: passOrder
+                totalPrice: totalPrice, passOrder: passOrder, cartCount: getCartCount(req.session.id)
             });
         }
     }
@@ -435,7 +444,7 @@ app.get('/items/:productId', (req, res) => {
     let countPictures = shop.getProductPictures(productId)
     return res.render('items', {
         products: product, frontPicture: shop.getProductPictures(productId)[0].pictureName,
-        countPictures: countPictures, productPictures: otherProductsPicturesList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/items.css'
+        countPictures: countPictures, productPictures: otherProductsPicturesList, category: category, comments: commentsList, otherProducts: otherProducts, admin: req.session.admin, css: '/items.css', cartCount: getCartCount(req.session.id)
     });
 });
 
@@ -453,29 +462,29 @@ app.get('/deleteComment/:commentId', (req, res) => {
 });
 
 app.get('/forgotPassword', (req, res) => {
-    res.render('forgotPassword');
+    res.render('forgotPassword', { css: '/forgotPassword.css'});
 });
 
 app.get('/resetPassword/:token', (req, res) => {
     let token = req.params.token
-    res.render('resetPassword', { token: token });
+    res.render('resetPassword', { token: token, cartCount: getCartCount(req.session.id) });
 });
 
 app.get('/aboutUs', (req, res) => {
     let language = account.getLanguage(req.session.id);
     if (language === "French") {
-        res.render('aboutUs', { French: true, css: '/aboutUs.css' });
+        res.render('aboutUs', { French: true, css: '/aboutUs.css', cartCount: getCartCount(req.session.id) });
     } else if (language === "English") {
-        res.render('aboutUs', { English: true, css: '/aboutUs.css' });
+        res.render('aboutUs', { English: true, css: '/aboutUs.css', cartCount: getCartCount(req.session.id) });
     }
     else {
-        res.render('aboutUs', { English: true, css: '/aboutUs.css' });
+        res.render('aboutUs', { English: true, css: '/aboutUs.css', cartCount: getCartCount(req.session.id) });
     }
 });
 
 app.get('/checkout', (req, res) => {
     try {
-        res.render('checkout', { css: '/checkout.css', authenticated: req.session.authenticated });
+        res.render('checkout', { css: '/checkout.css', authenticated: req.session.authenticated, cartCount: getCartCount(req.session.id) });
     }
     catch (err) {
         res.redirect('/cart');
@@ -519,7 +528,7 @@ app.get('/deliveryInfos', (req, res) => {
 
     res.render('deliveryInfos', {
         cartItems: cartProductsInfos, userAccountInfos: userAccountInfos, totalPrice: totalPrice,
-        shippingCost: shippingCost, totalPriceWithShippingCost: totalPriceWithShippingCost, css: '/deliveryInfos.css'
+        shippingCost: shippingCost, totalPriceWithShippingCost: totalPriceWithShippingCost, css: '/deliveryInfos.css', cartCount: getCartCount(req.session.id)
     });
 });
 
@@ -534,12 +543,12 @@ app.get('/orderDetails/:params', (req, res) => {
         product.picture = shop.getProductPictures(product.productId)[0].pictureName;
         productsList.push(product);
     }
-    res.render('orderDetails', { order: order, css: '/orderDetails.css', products: productsList });
+    res.render('orderDetails', { order: order, css: '/orderDetails.css', products: productsList, cartCount: getCartCount(req.session.id) });
 });
 
 app.get('/allOrders', (req, res) => {
     if (req.session.admin === true) {
-        res.render('allOrders', { admin: req.session.admin, orders: orderList.listOrders(), css: '/allOrders.css' });
+        res.render('allOrders', { admin: req.session.admin, orders: orderList.listOrders(), css: '/allOrders.css', cartCount: getCartCount(req.session.id) });
     }
 });
 
@@ -547,7 +556,7 @@ app.get('/allOrders', (req, res) => {
 app.get('/adminProductList', (req, res) => {
     if (req.session.admin === true) {
         let categories = shop.getCategories();
-        res.render('adminProductList', { products: shop.list(), css: '/adminProductList.css', categories: categories, admin: req.session.admin })
+        res.render('adminProductList', { products: shop.list(), css: '/adminProductList.css', categories: categories, admin: req.session.admin, cartCount: getCartCount(req.session.id) })
     }
 });
 
@@ -555,7 +564,7 @@ app.get('/adminProductList', (req, res) => {
 app.get('/createOrder', (req, res) => {
     createOrder(req.session.id, req.session.email, req.session.username, req.session.userLastName, req.session.userAdress,
         req.session.userCity, req.session.userPostCode, req.session.userPhoneNumber, req.session.orderCommentary);
-    res.redirect('/orders');
+    res.redirect('/orders',{cartCount: getCartCount(req.session.id)});
 });
 
 //POST METHODS
@@ -700,7 +709,7 @@ app.post('/updateAccount', uploadProfilePicture.single('updateProfilePicture'), 
 
     if (email == undefined || username == undefined) {
         console.log("Invalid username or password")
-        return res.render('updateAccount', { msg: "Invalid email, username or password", css: '/updateAccount.css' });
+        return res.render('updateAccount', { msg: "Invalid email, username or password", css: '/updateAccount.css', cartCount: getCartCount(req.session.id) });
     }
     else if (account.read(email) == undefined) {
         account.updateAccount(id, username, userlastname, email, adress, city, zipCode, phone, language, profilePictureName);

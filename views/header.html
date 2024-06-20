@@ -27,9 +27,12 @@
                   <a href="/login"><img src="/wishlist.svg" class="icoHeader" id="wishlistIco" alt="wishlistimg"></a>
                   {{/authenticated}}
 
-
-                  <a href="/cart"><img class="icoHeader" src="/shopping-bag.svg" id="shoppingCartImg"
-                              alt="shopping-bag"></a>
+                  <a href="/cart" id="cartPicto"><img src="/shopping-bag.svg" id="shoppingCartImg" alt="shopping-bag">
+                        {{#authenticated}}
+                        {{#cartCount}}
+                        <span id="cartCount">{{cartCount}}</span>
+                        {{/cartCount}}
+                        {{/authenticated}}</a>
 
                   {{#authenticated}}
                   <a href="/account"><img class="icoHeader" src="/account.svg" id="accountimg" alt="accountimg"></a>

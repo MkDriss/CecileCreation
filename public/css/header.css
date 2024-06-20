@@ -79,13 +79,17 @@ body {
       font-size: 50px;
 }
 
-.icoHeader {
+.icoHeader, #cartPicto {
       width: 35px;
       height: 35px;
       transition: .2s;
 }
+#shoppingCartImg{
+      width: 35px;
+      height: 35px;
+}
 
-.icoHeader:hover {
+.icoHeader:hover, #cartPicto:hover {
       transform: translateY(-5px);
 }
 
@@ -110,4 +114,15 @@ footer {
 footer a {
       text-decoration: none;
       color: var(--secondary-color);
+}
+
+#cartCount{
+      background-color: var(--primary-color);
+      padding: 0px 5px;
+      color: var(--background-color);
+      border-radius: 50px;
+      position: relative;
+      top: -20px;
+      left: 20px;
+      transition: .2s;
 }

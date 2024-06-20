@@ -12,7 +12,10 @@
     "profilePicture": "",
     "admin": 1,
     "city": "Marseille",
-    "wishlist": [],
+    "wishlist": [
+      "1",
+      "4"
+    ],
     "language": "French"
   },
   {

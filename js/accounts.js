@@ -128,6 +128,7 @@ exports.setAdmin = function (id) {
 // ADD
 
 exports.addToWishlist = function (userId, productId) {
+      console.log(productId, "added to wishlist of", userId)
       if (userId == undefined || productId == undefined) {
             return;
       }
@@ -143,6 +144,7 @@ exports.addToWishlist = function (userId, productId) {
                         }
                   }
             }
+
             fs.writeFileSync('json/accounts.json', JSON.stringify(accountsList, null, 2), function (err) {
                   if (err) throw err;
                   console.log(err);
