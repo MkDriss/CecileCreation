@@ -46,7 +46,7 @@ input[type="submit"] {
     border-radius: 5px;
     color: var(--background-color);
     text-decoration: none;
-    background-color: var(--secondary-color);
+    background-color: var(--text-color);
     font-weight: 400;
     border: none;
     text-decoration: none;

@@ -13,33 +13,40 @@
 </head>
 
 <body>
-      <nav id="navBar">
-            <div id="leftSide">
-                  <a href="/home" id="home">Cecile Creation</a>
-                  <a href="/shop" id="shop">Shop</a>
-            </div>
-            <div id="rightSide">
+      <header>
+            <nav id="navBar">
+                  <div id="leftSide">
+                        <a href="/home" id="home">Cecile Creation</a>
+                        <a href="/shop" id="shop">Shop</a>
+                  </div>
+                  <div id="rightSide">
 
-                  {{#authenticated}}
-                  <a href="/wishlist"><img src="/wishlist.svg" class="icoHeader" id="wishlistIco" alt="wishlistimg"></a>
-                  {{/authenticated}}
-                  {{^authenticated}}
-                  <a href="/login"><img src="/wishlist.svg" class="icoHeader" id="wishlistIco" alt="wishlistimg"></a>
-                  {{/authenticated}}
-
-                  <a href="/cart" id="cartPicto"><img src="/shopping-bag.svg" id="shoppingCartImg" alt="shopping-bag">
                         {{#authenticated}}
-                        {{#cartCount}}
-                        <span id="cartCount">{{cartCount}}</span>
-                        {{/cartCount}}
-                        {{/authenticated}}</a>
+                        <a href="/wishlist"><img src="/wishlist.svg" class="icoHeader" id="wishlistIco"
+                                    alt="wishlistimg"></a>
+                        {{/authenticated}}
+                        {{^authenticated}}
+                        <a href="/login"><img src="/wishlist.svg" class="icoHeader" id="wishlistIco"
+                                    alt="wishlistimg"></a>
+                        {{/authenticated}}
 
-                  {{#authenticated}}
-                  <a href="/account"><img class="icoHeader" src="/account.svg" id="accountimg" alt="accountimg"></a>
-                  {{/authenticated}}
+                        <a href="/cart" id="cartPicto"><img src="/shopping-bag.svg" id="shoppingCartImg"
+                                    alt="shopping-bag">
+                              {{#authenticated}}
+                              {{#cartCount}}
+                              <span id="cartCount">{{cartCount}}</span>
+                              {{/cartCount}}
+                              {{/authenticated}}</a>
 
-                  {{^authenticated}}
-                  <a href="/signIn"><img class="icoHeader" src="/account.svg" id="accountimg" alt="accountimg"></a>
-                  {{/authenticated}}
-            </div>
-      </nav>
+                        {{#authenticated}}
+                        <a href="/account"><img class="icoHeader" src="/account.svg" id="accountimg"
+                                    alt="accountimg"></a>
+                        {{/authenticated}}
+
+                        {{^authenticated}}
+                        <a href="/signIn"><img class="icoHeader" src="/account.svg" id="accountimg"
+                                    alt="accountimg"></a>
+                        {{/authenticated}}
+                  </div>
+            </nav>
+      </header>

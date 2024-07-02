@@ -93,7 +93,7 @@ input[type="submit"]:hover {
     height: 35px;
     border-radius: 5px;
     margin: 15px 0px;
-    background-color: var(--secondary-color);
+    background-color: var(--text-color);
     box-shadow: var(--box-shadow);
     color: var(--background-color);
     border: none;

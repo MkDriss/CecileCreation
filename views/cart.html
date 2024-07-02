@@ -6,7 +6,20 @@
                   alert("You can't have a negative quantity")
                   element.value = 0;
             }
+            updateTotalPrice();
       }
+
+      function updateTotalPrice() {
+            
+            var totalPrice = 0;
+            var quantity = document.getElementsByClassName("quantity");
+            var price = document.getElementsByClassName("price");
+            for (var i = 0; i < quantity.length; i++) {
+                  totalPrice += quantity[i].value * parseFloat(price[i].innerHTML);
+            }
+            document.getElementById("totalPrice").innerHTML = "Total Price : " + totalPrice + " €";
+      }
+
 </script>
 
 <span id="title">Cart</span>
@@ -28,8 +41,8 @@
                                           <div class="bottomCard">
                                                 <div class="price">{{productPrice}} €</div>
                                                 <div class="quantityContainer">
-                                                      <label for="quantity" class="quantityLabel">Qty:</label>
-                                                      <input type="number" name="quantity" id="quantity"
+                                                      <label for="quantity-{{productId}}" class="quantityLabel">Qty:</label>
+                                                      <input type="number" name="quantity-{{productId}}" class="quantity"
                                                             value="{{quantity}}" onchange="checkQuantity(this)">
                                                 </div>
                                           </div>

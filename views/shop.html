@@ -5,7 +5,7 @@
 
       <div id="shopContent">
             <form action="/searchProductFromShop" method="POST" id="searchProductForm">
-                  <input type="text" name="search" id="search" placeholder="Search">
+                  <input type="text" name="search" id="search" placeholder="Search" value="{{search}}">
                   <select name="productCategory" id="productCategory">
                         <option name="productCategory" id="defaultCategory" value="None">Select a Category</option>
                         {{#categories}}

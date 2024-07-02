@@ -79,7 +79,7 @@ function getDateOrder() {
         month = "0" + month;
     }
 
-    let dateOrder = day + "/" + month + "/" + year;
+    let dateOrder = day + "-" + month + "-" + year;
     return dateOrder;
 }
 
@@ -462,7 +462,7 @@ app.get('/deleteComment/:commentId', (req, res) => {
 });
 
 app.get('/forgotPassword', (req, res) => {
-    res.render('forgotPassword', { css: '/forgotPassword.css'});
+    res.render('forgotPassword', { css: '/forgotPassword.css' });
 });
 
 app.get('/resetPassword/:token', (req, res) => {
@@ -564,7 +564,7 @@ app.get('/adminProductList', (req, res) => {
 app.get('/createOrder', (req, res) => {
     createOrder(req.session.id, req.session.email, req.session.username, req.session.userLastName, req.session.userAdress,
         req.session.userCity, req.session.userPostCode, req.session.userPhoneNumber, req.session.orderCommentary);
-    res.redirect('/orders',{cartCount: getCartCount(req.session.id)});
+    res.redirect('/orders');
 });
 
 //POST METHODS
@@ -912,7 +912,14 @@ app.post('/searchProductFromShop', (req, res) => {
     let search = req.body.search;
     let category = req.body.productCategory;
     let research = researchProduct(search, category);
-    return res.render('shop', { products: research, css: '/shop.css', categories: shop.getCategories() });
+    let categories = shop.getCategories();
+    for (let i = 0; i < categories.length; i++) {
+        if (categories[i].productCategory === category) {
+            categories.splice(i, 1);
+            break;
+        }
+    }
+    return res.render('shop', { products: research, css: '/shop.css', search: search, categories: categories });
 });
 
 app.post('/searchProductFromAdminProductList', (req, res) => {

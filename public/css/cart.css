@@ -171,7 +171,7 @@ input[type="number"] {
     border-radius: 5px;
     margin: 25px 0px;
     box-shadow: var(--box-shadow);
-    background-color: var(--secondary-color);
+    background-color: var(--text-color);
     color: var(--background-color);
     border: none;
     font-family: var(--font-family);

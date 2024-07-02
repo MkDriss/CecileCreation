@@ -29,9 +29,6 @@
     align-items: center;
 }
 
-#height, #width, #depth {
-}
-
 #height, #width{
     margin-right: 10px;
 }
@@ -88,7 +85,7 @@ input[type="submit"]:hover {
 
 
 ::placeholder {
-    color: var(--secondary-color);
+    color: var(--text-color);
     font-family: var(--font-family);
 }
 
@@ -119,7 +116,7 @@ input[type="submit"]:hover {
 }
 
 #cancelButton {
-    background-color: var(--secondary-color);
+    background-color: var(--text-color);
     color: var(--background-color);
 }
 

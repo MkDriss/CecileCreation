@@ -27,7 +27,7 @@ form {
 
 /* Buttons and links */
 button {
-  background: var(--secondary-color);
+  background: var(--text-color);
   color: var(--background-color);
   font-family: var(--font-family);
   border-radius: 4px;
@@ -52,7 +52,7 @@ button {
   font-size: 16px;
   font-weight: 600;
   margin: 15px 0px;
-  background-color: var(--secondary-color);
+  background-color: var(--text-color);
   box-shadow: var(--box-shadow);
   color: var(--background-color);
   border: none;

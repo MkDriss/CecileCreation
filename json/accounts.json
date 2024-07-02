@@ -9,29 +9,26 @@
     "zipCode": "13009",
     "phone": "06 52 18 73 05",
     "userLastName": "MESKINI",
-    "profilePicture": "",
+    "profilePicture": "profileExemplePicturepng_88da387777280b6e67d7085899a0b26689caf1af41d6df96f427bc3ba4ecd614.png",
     "admin": 1,
     "city": "Marseille",
-    "wishlist": [
-      "1",
-      "4"
-    ],
+    "wishlist": [],
     "language": "French"
   },
   {
-    "id": "cf62756d6e8c9ce1642fa09b300844b7ade702bcf73bf1bca0e67c41881e1239",
-    "username": "mathi",
-    "userLastName": "giroud",
-    "email": "mathi@gmail.com",
-    "password": "tqt",
-    "token": "7f36df2755fd3a1a6d985c26cfd6c5a7bb2a921bb88b2d4c1b165ebfa06d2447d84137e22314ce958f201de4513defaebdf194ef6089b5231e3a914a666427a68925c23559a0309bd89ae1d3c3602b9f737e4909a05b94a46624d11014fe91f66a013eaa20b5768051cfa0377f692917e6d06b9aa337adf0f90885f0e67bdc1f",
-    "admin": 0,
+    "id": "2ecfc9b541adf238d48002f9fa2e57a2397ca3c7d76a6ccae88f3030d22450c3",
+    "username": "Clement",
+    "userLastName": "",
+    "email": "miko@gmail.com",
+    "password": "miko",
+    "token": "3100997684d8b85cbce4e5bc213addd67165ac8d871c429dd11691b89d4b7ea505c258ec2917af4489908567b4717bf4949a9edf0d0b4e97a61dcf9b16ff396aa90251949871d9dd498728af44617e4f9cf741543a271332169131a8b2d92ea9f4a95f3a49a4074a4400cc3efb68f1e056b9be85fe5713e4c37a4b0392d3483b",
+    "admin": "0",
     "adress": "",
     "city": "",
     "wishlist": [],
     "zipCode": "",
     "phone": "",
-    "language": "French",
-    "profilePicture": "profileExemplePicturepng_cf62756d6e8c9ce1642fa09b300844b7ade702bcf73bf1bca0e67c41881e1239.png"
+    "language": "English",
+    "profilePicture": "defaultAccountIco.png"
   }
 ]

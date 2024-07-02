@@ -4,34 +4,41 @@
 <div class="container">
       <div id="box">
             <div id="title">Account</div>
-            <div id="content">
-                  <div id="userInfos">
-                        {{#accountsInfos}}
-                        {{#profilePicture}}
-                        <img src="{{profilePicture}}" id="profilePicture" alt="accountImg">
-                        {{/profilePicture}}
-                        {{^profilePicture}}
-                        <img src="/icons/account.png" id="profilePicture" alt="accountImg">
-                        {{/profilePicture}}
-                        <div id="nameInfos">
-                              <input type="text" name="name" id="name" class="nameInput" placeholder="Name"
-                                    value="{{username}}" readonly>
-                              <input type="text" name="lastName" id="lastName" class="nameInput" placeholder="Last Name"
-                                    value="{{userLastName}}" readonly>
-                        </div>
-                        <input type="text" id="email" name="email" class="input" placeholder="Email" value="{{email}}"
-                              readonly>
-                        <div id="addressInfos">
-                              <input type="text" name="adress" id="adress" class="input" placeholder="Adress"
-                                    value="{{adress}}" readonly>
-                              <input type="text" name="postCode" id="postCode" class="input" placeholder="Zip Code"
-                                    value="{{zipCode}}" readonly>
-                        </div>
-                        <input type="text" name="city" id="city" class="input" placeholder="City" value="{{city}}"
-                              readonly>
-                        <input type="text" name="phoneNumber" id="phoneNumber" class="input" placeholder="Phone Number"
-                              value="{{phone}}" readonly>
-                        <div>
+            <div id="contentContainer">
+                  <div id="content">
+                        <div id="userInfos">
+                              <div id="nameSection">
+                                    {{#accountsInfos}}
+                                    {{#profilePicture}}
+                                    <img src="{{profilePicture}}" id="profilePicture" alt="accountImg">
+                                    {{/profilePicture}}
+                                    {{^profilePicture}}
+                                    <img src="/icons/account.png" id="profilePicture" alt="accountImg">
+                                    {{/profilePicture}}
+                                    <div id="nameInfos">
+                                          <input type="text" name="name" id="name" class="nameInput" placeholder="Name"
+                                                value="{{username}}" readonly>
+                                          <input type="text" name="lastName" id="lastName" class="nameInput"
+                                                placeholder="Last Name" value="{{userLastName}}" readonly>
+                                    </div>
+                              </div>
+                              <div id="contactSection">
+                                    <input type="text" id="email" name="email" class="input" placeholder="Email"
+                                          value="{{email}}" readonly>
+                                    <input type="text" name="phoneNumber" id="phoneNumber" class="input"
+                                          placeholder="Phone Number" value="{{phone}}" readonly>
+                              </div>
+                              <div id="addressSection">
+                                    <input type="text" name="adress" id="adress" class="input" placeholder="Adress"
+                                          value="{{adress}}" readonly>
+                                    <div id="citySection">
+                                          <input type="text" name="city" id="city" class="input" placeholder="City"
+                                                value="{{city}}" readonly>
+                                          <input type="text" name="postCode" id="postCode" class="input"
+                                                placeholder="Zip Code" value="{{zipCode}}" readonly>
+                                    </div>
+                              </div>
+
                               <a href="/updateAccount" class="button">Edit</a>
                         </div>
                         {{/accountsInfos}}
@@ -46,6 +53,7 @@
                   </div>
             </div>
       </div>
+</div>
 </div>
 
 

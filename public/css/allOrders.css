@@ -42,7 +42,7 @@
     border-radius: 5px;
     margin: 20px 0px;
     font-weight: 600;
-    background-color: var(--secondary-color);
+    background-color: var(--text-color);
     box-shadow: var(--box-shadow);
     color: var(--background-color);
     border: none;
