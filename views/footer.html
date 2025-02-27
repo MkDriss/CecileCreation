@@ -11,12 +11,12 @@
             {{#authenticated}}
             <div id="footerMiddle">
                   <a href="/account" class="text">Account</a>
-                  <a href="/logout" class="text">Logout</a>
+                  <a href="/signOut" class="text">Sign Out</a>
             </div>
             {{/authenticated}}
 
             {{^authenticated}}
-            <a href="/login" class="text">Login</a>
+            <a href="/signIn" class="text">Sign In</a>
             {{/authenticated}}
       </div>
       <div>

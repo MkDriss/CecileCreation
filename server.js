@@ -227,7 +227,7 @@ app.get('/adminPanel', (req, res) => {
     }
 });
 
-app.get('/logout', (req, res) => {
+app.get('/signOut', (req, res) => {
     console.log(req.session.username + " logged out");
     req.session.username = null;
     req.session.email = null;
