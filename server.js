@@ -11,6 +11,7 @@ const uploadProduct = multer({ dest: 'public/products_pictures/' });
 const uploadProfilePicture = multer({ dest: 'public/profiles_pictures/' });
 const fs = require('fs');
 const app = express();
+const port = process.env.PORT || 3000
 
 var account = require('./js/accounts');
 var shop = require('./js/shop');
@@ -1020,7 +1021,6 @@ app.post('/removeFromWishlist/:p', (req, res) => {
 
 //LISTENING
 
-app.listen(3000, () => {
-    console.log("Server listening ");
-    console.log("http://localhost:3000");
+app.listen(port, () => {
+    console.log("Server listening");
 });
