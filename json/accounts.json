@@ -18,7 +18,7 @@
   {
     "id": "2ecfc9b541adf238d48002f9fa2e57a2397ca3c7d76a6ccae88f3030d22450c3",
     "username": "Clement",
-    "userLastName": "",
+    "userLastName": "Miko",
     "email": "miko@gmail.com",
     "password": "miko",
     "token": "3100997684d8b85cbce4e5bc213addd67165ac8d871c429dd11691b89d4b7ea505c258ec2917af4489908567b4717bf4949a9edf0d0b4e97a61dcf9b16ff396aa90251949871d9dd498728af44617e4f9cf741543a271332169131a8b2d92ea9f4a95f3a49a4074a4400cc3efb68f1e056b9be85fe5713e4c37a4b0392d3483b",
@@ -28,7 +28,7 @@
     "wishlist": [],
     "zipCode": "",
     "phone": "",
-    "language": "English",
-    "profilePicture": "defaultAccountIco.png"
+    "language": "French",
+    "profilePicture": "imagesjpg_2ecfc9b541adf238d48002f9fa2e57a2397ca3c7d76a6ccae88f3030d22450c3.png"
   }
 ]

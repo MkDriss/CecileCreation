@@ -88,12 +88,10 @@ function createOrder(id, email, userName, userLastName, userAdress, userCity, us
 
     let orderProducts = "";
     let cartuser = cart.listProducts(id);
-    console.log(cartuser);
 
     for (let i = 0; i < cartuser.length; i++) {
         let productId = cartuser[i].productId;
         let quantity = cart.getQuantity(id, cartuser[i].productId)
-        console.log(quantity)
         for (let j = 0; j < quantity; j++) {
             orderProducts += productId;
             if (j < quantity - 1) {
@@ -874,8 +872,21 @@ app.post('/updateProduct/:id', uploadProduct.any('updatePicture'), (req, res) =>
 
 
 app.post('/cart', (req, res) => {
-    let quantities = req.body.quantity;
+    const quantities = []
+    
+    for (const key in req.body) {
+        if (key.startsWith('quantity-')) {
+            // Extraire l'ID du produit à partir de la clé
+            const productId = key.split('-')[1];
+            // Stocker la quantité dans l'objet quantities
+            quantities[productId] = req.body[key.value];
+        }
+    }
+
+
     let cartuser = cart.listProducts(req.session.id);
+    console.log("quantities " + quantities)
+    console.log("cart User" + cartuser)
 
     for (let i = 0; i < cartuser.length; i++) {
         let quantity = quantities[i]

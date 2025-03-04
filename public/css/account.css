@@ -13,6 +13,8 @@
     align-items: center;
     justify-content: center;
     gap: 20px;
+    border-radius: 10px;
+    padding: 20px;
 }
 
 #contentContainer{
@@ -25,7 +27,9 @@
 #userInfos{
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
+    padding: 20px;
 }
 
 #content {
@@ -58,4 +62,32 @@ input[type="email"] {
     color: var(--text-color);
     padding-left: 10px;
     box-shadow: var(--box-shadow);
+}
+
+#containerButtons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    margin: 25px 0px;
+    box-shadow: var(--box-shadow);
+    color: var(--primary-color);
+    border: none;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+#signOut{
+    background-color: #a8957d;
+    font-weight: 600;
+    color: whitesmoke;
 }
